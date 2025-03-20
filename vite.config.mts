@@ -50,6 +50,18 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    proxy: {
+      "/api": {
+        target: "http://localhost:8888",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+      "/dispatchApi": {
+        target: "http://localhost:7777",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/dispatchApi/, ""),
+      },
+    },
   },
   css: {
     preprocessorOptions: {
