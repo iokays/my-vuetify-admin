@@ -1,20 +1,18 @@
 <template>
   <v-app>
     <v-main>
-
       <v-navigation-drawer :width="80">
-
         <template v-for="(item, index) in items" :key="index">
           <v-row justify="center" class="mt-1">
             <v-col class="text-center">
-                <v-btn
-                  color="deep-purple-lighten-1"
-                  :icon="item.icon"
-                  @click="() => item.link && redirect(item.link)"
-                  :disabled="!item.link"
-                  size="large"
-                >
-                </v-btn>
+              <v-btn
+                color="deep-purple-lighten-1"
+                :icon="item.icon"
+                @click="item.action ? item.action() : (item.link && redirect(item.link))"
+                :disabled="!item.link && !item.action"
+                size="large"
+              >
+              </v-btn>
             </v-col>
           </v-row>
         </template>
@@ -26,22 +24,24 @@
 </template>
 
 <script lang="ts" setup>
-  //
-  import {ref} from 'vue'
-  import { useRouter } from 'vue-router';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router';
 
-  const router = useRouter();
+const router = useRouter();
 
-  const redirect = (url: string) => {
-    router.push(url);
-  };
+const redirect = (url: string) => {
+  router.push(url);
+};
 
-  const items = ref([
-    { icon: "mdi-security", link: "authorization" },
-    { icon: "mdi-calendar-clock", link: "dispatch" },
-    { icon: "mdi-database-eye", link: "" },
-    { icon: "mdi-post", link: "" },
-    { icon: "mdi-archive-search", link: "" },
-    { icon: "mdi-tools", link: "tools" }
-  ]);
+const openGithub = () => {
+  window.open('https://github.com', '_blank');
+};
+
+const items = ref([
+  { icon: "mdi-security", link: "authorization" },
+  { icon: "mdi-calendar-clock", link: "dispatch" },
+  { icon: "mdi-book-multiple", link: "" },
+  { icon: "mdi-tools", link: "tools" },
+  { icon: "mdi-github", action: openGithub }
+]);
 </script>

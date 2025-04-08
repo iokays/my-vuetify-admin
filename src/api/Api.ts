@@ -59,3 +59,18 @@ export const getJobDetails = (query?: Query) => {
   return apiInstance.get("/dispatchApi/schedule/jobs", {params: query});
 };
 
+export const delJobDetails = (jobName: string, jobGroup: string) => {
+  return apiInstance.delete ( ` /dispatchApi/schedule/jobs/${jobGroup}/${jobName}/delete ` ) ;
+};
+
+interface CreateJobs {
+  name: string;
+  group: string;
+  jobClass: string;
+  cronExpression: string;
+  startAt: string;
+  endAt: string;
+}
+export const createJobs = (data: CreateJobs) => {
+  return apiInstance.post( ` /dispatchApi/schedule/jobs ` , data ) ;
+};

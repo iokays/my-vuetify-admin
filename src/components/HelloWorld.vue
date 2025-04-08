@@ -23,6 +23,8 @@
           <v-card
             class="py-4"
             color="surface-variant"
+            href="https://www.iokays.com/hexagonal-architecture-with-java/index.html"
+            target="_blank"
             image="https://cdn.vuetifyjs.com/docs/images/one/create/feature.png"
             prepend-icon="mdi-rocket-launch-outline"
             rounded="lg"
@@ -33,12 +35,12 @@
             </template>
 
             <template #title>
-              <h2 class="text-h5 font-weight-bold">Get started</h2>
+              <h2 class="text-h5 font-weight-bold">公共服务聚合平台</h2>
             </template>
 
             <template #subtitle>
               <div class="text-subtitle-1">
-                Replace this page by removing <v-kbd>{{ `<HelloWorld />` }}</v-kbd> in <v-kbd>pages/index.vue</v-kbd>.
+                这是一个基于Java 23 的 六边形架构与领域驱动设计的一个通用项目, 并整理了本系列的文档。
               </div>
             </template>
 
@@ -57,13 +59,13 @@
             append-icon="mdi-open-in-new"
             class="py-4"
             color="surface-variant"
-            href="https://vuetifyjs.com/"
+            href="/authorization/"
+            target="_blank"
             prepend-icon="mdi-text-box-outline"
             rel="noopener noreferrer"
             rounded="lg"
-            subtitle="Learn about all things Vuetify in our documentation."
-            target="_blank"
-            title="Documentation"
+            subtitle="基于Spring Security&Server实现了表单, Oauth2登录，并提供了Oauth2认证服务"
+            title="统一授权&鉴权平台"
             variant="text"
           >
             <v-overlay
@@ -81,13 +83,13 @@
             append-icon="mdi-open-in-new"
             class="py-4"
             color="surface-variant"
-            href="https://vuetifyjs.com/introduction/why-vuetify/#feature-guides"
+            href="/dispatch/"
+            target="_blank"
             prepend-icon="mdi-star-circle-outline"
             rel="noopener noreferrer"
             rounded="lg"
-            subtitle="Explore available framework Features."
-            target="_blank"
-            title="Features"
+            subtitle="基于Quartz实现了任务的查询，删除等行为"
+            title="消息与事件调度平台"
             variant="text"
           >
             <v-overlay
@@ -100,58 +102,11 @@
           </v-card>
         </v-col>
 
-        <v-col cols="6">
-          <v-card
-            append-icon="mdi-open-in-new"
-            class="py-4"
-            color="surface-variant"
-            href="https://vuetifyjs.com/components/all"
-            prepend-icon="mdi-widgets-outline"
-            rel="noopener noreferrer"
-            rounded="lg"
-            subtitle="Discover components in the API Explorer."
-            target="_blank"
-            title="Components"
-            variant="text"
-          >
-            <v-overlay
-              opacity=".06"
-              scrim="primary"
-              contained
-              model-value
-              persistent
-            />
-          </v-card>
-        </v-col>
-
-        <v-col cols="6">
-          <v-card
-            append-icon="mdi-open-in-new"
-            class="py-4"
-            color="surface-variant"
-            href="https://discord.vuetifyjs.com"
-            prepend-icon="mdi-account-group-outline"
-            rel="noopener noreferrer"
-            rounded="lg"
-            subtitle="Connect with Vuetify developers."
-            target="_blank"
-            title="Community"
-            variant="text"
-          >
-            <v-overlay
-              opacity=".06"
-              scrim="primary"
-              contained
-              model-value
-              persistent
-            />
-          </v-card>
-        </v-col>
       </v-row>
     </v-responsive>
   </v-container>
 </template>
 
 <script setup lang="ts">
-  //
+//
 </script>

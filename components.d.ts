@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ClientRegistration: typeof import('./src/components/authorization/client_registration/ClientRegistration.vue')['default']
+    ConfirmDialog: typeof import('./src/components/ConfirmDialog.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Job: typeof import('./src/components/dispatch/schedule/Job.vue')['default']
     JobDetails: typeof import('./src/components/dispatch/schedule/JobDetails.vue')['default']
