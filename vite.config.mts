@@ -9,6 +9,8 @@ import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
 
+const authTargetUrl = "http://localhost:8888"
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -26,10 +28,12 @@ export default defineConfig({
     Components(),
     ViteFonts({
       google: {
-        families: [ {
-          name: 'Roboto',
-          styles: 'wght@100;300;400;500;700;900',
-        }],
+        families: [
+          {
+            name: 'Roboto',
+            styles: 'wght@100;300;400;500;700;900',
+          },
+        ],
       },
     }),
   ],
@@ -51,8 +55,17 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
+      // 监听 /login 请求并进行重定向处理
+      "/login": {
+        target: authTargetUrl,
+        changeOrigin: true,
+      },
+      "/assets": {
+        target: authTargetUrl,
+        changeOrigin: true,
+      },
       "/api": {
-        target: "http://localhost:8888",
+        target: authTargetUrl,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },

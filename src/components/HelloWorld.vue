@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fill-height">
+  <v-container>
     <v-responsive
       class="align-centerfill-height mx-auto"
       max-width="900"
@@ -23,7 +23,7 @@
           <v-card
             class="py-4"
             color="surface-variant"
-            href="https://www.iokays.com/hexagonal-architecture-with-java/index.html"
+            href="https://www.iokays.com/docs/hexagonal-architecture-with-java/index.html"
             target="_blank"
             image="https://cdn.vuetifyjs.com/docs/images/one/create/feature.png"
             prepend-icon="mdi-rocket-launch-outline"
@@ -31,7 +31,10 @@
             variant="outlined"
           >
             <template #image>
-              <v-img position="top right" />
+              <v-img
+                position="top right"
+                class="d-none d-md-block"
+              />
             </template>
 
             <template #title>
@@ -59,7 +62,7 @@
             append-icon="mdi-open-in-new"
             class="py-4"
             color="surface-variant"
-            href="/authorization/"
+            href="/authorization"
             target="_blank"
             prepend-icon="mdi-text-box-outline"
             rel="noopener noreferrer"
@@ -83,7 +86,7 @@
             append-icon="mdi-open-in-new"
             class="py-4"
             color="surface-variant"
-            href="/dispatch/"
+            href="/dispatch"
             target="_blank"
             prepend-icon="mdi-star-circle-outline"
             rel="noopener noreferrer"

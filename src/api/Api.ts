@@ -23,7 +23,7 @@ apiInstance.interceptors.response.use(
         // 获取当前页面的 URL
         const currentUrl = window.location.href;
         console.warn('currentUrl: ' + currentUrl);
-        window.location.href = 'http://localhost:8888/login?targetUrl=' + encodeURIComponent(currentUrl);
+        window.location.href = '/login?targetUrl=' + encodeURIComponent(currentUrl);
       }
     } else {
       console.error('⚠️ 没有响应，可能是网络问题或者跨域:', error);
