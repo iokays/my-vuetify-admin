@@ -16,7 +16,7 @@
         <h1 class="text-h2 font-weight-bold">Iokays</h1>
       </div>
 
-      <div class="py-4" />
+      <div class="py-4"/>
 
       <v-row>
         <v-col cols="12">
@@ -24,16 +24,16 @@
             class="py-4"
             color="surface-variant"
             href="https://www.iokays.com/docs/hexagonal-architecture-with-java/index.html"
-            target="_blank"
             image="https://cdn.vuetifyjs.com/docs/images/one/create/feature.png"
             prepend-icon="mdi-rocket-launch-outline"
             rounded="lg"
+            target="_blank"
             variant="outlined"
           >
             <template #image>
               <v-img
-                position="top right"
                 class="d-none d-md-block"
+                position="top right"
               />
             </template>
 
@@ -48,11 +48,11 @@
             </template>
 
             <v-overlay
-              opacity=".12"
-              scrim="primary"
               contained
               model-value
+              opacity=".12"
               persistent
+              scrim="primary"
             />
           </v-card>
         </v-col>
@@ -63,20 +63,20 @@
             class="py-4"
             color="surface-variant"
             href="/authorization"
-            target="_blank"
             prepend-icon="mdi-text-box-outline"
             rel="noopener noreferrer"
             rounded="lg"
             subtitle="基于Spring Security&Server实现了表单, Oauth2登录，并提供了Oauth2认证服务"
+            target="_blank"
             title="统一授权&鉴权平台"
             variant="text"
           >
             <v-overlay
-              opacity=".06"
-              scrim="primary"
               contained
               model-value
+              opacity=".06"
               persistent
+              scrim="primary"
             />
           </v-card>
         </v-col>
@@ -87,20 +87,20 @@
             class="py-4"
             color="surface-variant"
             href="/dispatch"
-            target="_blank"
             prepend-icon="mdi-star-circle-outline"
             rel="noopener noreferrer"
             rounded="lg"
             subtitle="基于Quartz实现了任务的查询，删除等行为"
+            target="_blank"
             title="消息与事件调度平台"
             variant="text"
           >
             <v-overlay
-              opacity=".06"
-              scrim="primary"
               contained
               model-value
+              opacity=".06"
               persistent
+              scrim="primary"
             />
           </v-card>
         </v-col>
@@ -110,6 +110,6 @@
   </v-container>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 //
 </script>

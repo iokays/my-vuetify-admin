@@ -17,11 +17,11 @@
           <v-toolbar-title></v-toolbar-title>
 
           <v-btn
+            border
             class="me-2"
             prepend-icon="mdi-plus"
             rounded="lg"
             text="添加任务"
-            border
             @click="editJobDetails.open"
           >
           </v-btn>
@@ -30,7 +30,8 @@
 
       <template #[`item.actions`]="{ item }: {item: {jobName: string; jobGroup: string, actions: string[]}}">
         <div class="d-flex ga-2 justify-end">
-          <v-icon v-if="item.actions.includes('delete')" color="medium-emphasis" icon="mdi-delete" size="small" @click="removeJobDetails.confirm(item.jobName, item.jobGroup)" />
+          <v-icon v-if="item.actions.includes('delete')" color="medium-emphasis" icon="mdi-delete" size="small"
+                  @click="removeJobDetails.confirm(item.jobName, item.jobGroup)"/>
         </div>
       </template>
     </v-data-table-server>
@@ -38,12 +39,12 @@
 
   <v-dialog v-model="actionDialog.visible" max-width="400px">
     <v-card
-      :title="actionDialog.title"
       :text="actionDialog.text"
+      :title="actionDialog.title"
     >
       <v-card-actions>
-        <v-btn @click="actionDialog.leftAction" text="确定"/>
-        <v-btn @click="actionDialog.rightAction" text="取消"/>
+        <v-btn text="确定" @click="actionDialog.leftAction"/>
+        <v-btn text="取消" @click="actionDialog.rightAction"/>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -51,14 +52,14 @@
   <v-snackbar v-model="snackbar.visible" :timeout="snackbar.timeout">
     {{ snackbar.text }}
     <template #actions>
-      <v-btn color="blue" variant="text" @click="snackbar.close" text="关闭"/>
+      <v-btn color="blue" text="关闭" variant="text" @click="snackbar.close"/>
     </template>
   </v-snackbar>
 
   <v-dialog v-model="editJobDetails.dialog" max-width="500" persistent>
     <v-card subtitle="创建你想要的任务"
             title="添加任务"
-            >
+    >
       <template v-slot:text>
         <v-row>
 
@@ -111,14 +112,14 @@ import {snackbar} from "@/stores/Snackbar";
 
 const searchJobDetails = reactive({
   headers: ref([
-    { title: '任务名称', key: 'jobName', align: 'end' },
-    { title: '任务组名', key: 'jobGroup', align: 'end' },
-    { title: '任务类别', key: 'jobClassName', align: 'end' },
-    { title: 'cron表达式', key: 'cronExpression', align: 'end' },
-    { title: '开始时间', key: 'startTime', align: 'end' },
-    { title: '结束时间', key: 'endTime', align: 'end' },
-    { title: '需要恢复', key: 'requestsRecovery', align: 'end' },
-    { title: '操作', key: 'actions', align: 'end' }
+    {title: '任务名称', key: 'jobName', align: 'end'},
+    {title: '任务组名', key: 'jobGroup', align: 'end'},
+    {title: '任务类别', key: 'jobClassName', align: 'end'},
+    {title: 'cron表达式', key: 'cronExpression', align: 'end'},
+    {title: '开始时间', key: 'startTime', align: 'end'},
+    {title: '结束时间', key: 'endTime', align: 'end'},
+    {title: '需要恢复', key: 'requestsRecovery', align: 'end'},
+    {title: '操作', key: 'actions', align: 'end'}
   ] as const),
 
   itemsPerPage: 5,
@@ -127,9 +128,9 @@ const searchJobDetails = reactive({
   loading: true,
   totalItems: 0,
 
-  loadItems: async ({ page, itemsPerPage, sortBy }: {page: number, itemsPerPage: number, sortBy: never[]}) => {
+  loadItems: async ({page, itemsPerPage, sortBy}: { page: number, itemsPerPage: number, sortBy: never[] }) => {
     searchJobDetails.loading = true;
-    const { items, total } = await searchJobDetails._RealAPI();
+    const {items, total} = await searchJobDetails._RealAPI();
     searchJobDetails.serverItems = items;
     searchJobDetails.totalItems = total;
     searchJobDetails.loading = false;
@@ -138,7 +139,7 @@ const searchJobDetails = reactive({
   _RealAPI: async () => {
     const response = await getJobDetails()
     console.log('response: ' + response)
-    return { items: response.data.content, total: response.data.size };
+    return {items: response.data.content, total: response.data.size};
   }
 });
 
@@ -164,8 +165,12 @@ const editJobDetails = reactive({
   endAt: formatDate(new Date(new Date().getTime() + 60000)),
   cronExpression: '0 0/1 * * * ?',
   dialog: false,
-  open: () => {editJobDetails.dialog = true},
-  close: () => {editJobDetails.dialog = false},
+  open: () => {
+    editJobDetails.dialog = true
+  },
+  close: () => {
+    editJobDetails.dialog = false
+  },
   save: () => {
     createJobs({
       name: editJobDetails.jobName,
@@ -200,7 +205,9 @@ const removeJobDetails = reactive({
     removeJobDetails._name = name;
     removeJobDetails._group = group;
 
-    actionDialog.leftAction = () => {removeJobDetails._remove()};
+    actionDialog.leftAction = () => {
+      removeJobDetails._remove()
+    };
     actionDialog.title = '删除任务';  // 用于设置对话框标题
     actionDialog.text = '是否删除任务 ' + name + '?';  // 用于设置对话框内容
     actionDialog.open()

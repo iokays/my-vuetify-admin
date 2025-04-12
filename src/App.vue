@@ -6,14 +6,14 @@
           <!-- 主要按钮 -->
           <div>
             <template v-for="(item, index) in items" :key="index">
-              <v-row justify="center" class="mt-1">
+              <v-row class="mt-1" justify="center">
                 <v-col class="text-center">
                   <v-btn
-                    color="deep-purple-lighten-1"
-                    :icon="item.icon"
-                    @click="item.action ? item.action() : (item.link && redirect(item.link))"
                     :disabled="!item.link && !item.action"
+                    :icon="item.icon"
+                    color="deep-purple-lighten-1"
                     size="large"
+                    @click="item.action ? item.action() : (item.link && redirect(item.link))"
                   ></v-btn>
                 </v-col>
               </v-row>
@@ -27,8 +27,8 @@
                 <v-btn
                   color="deep-black-lighten-1"
                   icon="mdi-home"
-                  @click="redirect('/')"
                   size="large"
+                  @click="redirect('/')"
                 ></v-btn>
               </v-col>
             </v-row>
@@ -36,14 +36,14 @@
         </div>
       </v-navigation-drawer>
 
-      <router-view />
+      <router-view/>
     </v-main>
   </v-app>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router';
+import {ref} from 'vue'
+import {useRouter} from 'vue-router';
 
 const router = useRouter();
 
@@ -60,11 +60,11 @@ const openDocs = () => {
 };
 
 const items = ref([
-  { icon: "mdi-security", link: "authorization" },
-  { icon: "mdi-calendar-clock", link: "dispatch" },
-  { icon: "mdi-book-multiple", action: openDocs },
-  { icon: "mdi-tools", link: "tools" },
-  { icon: "mdi-github", action: openGithub },
+  {icon: "mdi-security", link: "authorization"},
+  {icon: "mdi-calendar-clock", link: "dispatch"},
+  {icon: "mdi-book-multiple", action: openDocs},
+  {icon: "mdi-tools", link: "tools"},
+  {icon: "mdi-github", action: openGithub},
   // 已移除 mdi-home
 ]);
 </script>

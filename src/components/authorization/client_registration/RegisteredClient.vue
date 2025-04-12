@@ -16,11 +16,11 @@
         <v-toolbar flat>
           <v-toolbar-title></v-toolbar-title>
           <v-btn
+            border
             class="me-2"
             prepend-icon="mdi-plus"
             rounded="lg"
             text="添加客户端"
-            border
             @click="editRegisteredClientDetails.open()"
           >
           </v-btn>
@@ -28,9 +28,11 @@
       </template>
 
 
-      <template #[`item.actions`]="{ item }: {item: {registeredClientId: string, clientName: string, actions: string[]}}">
+      <template
+        #[`item.actions`]="{ item }: {item: {registeredClientId: string, clientName: string, actions: string[]}}">
         <div class="d-flex ga-2 justify-end">
-          <v-icon v-if="item.actions.includes('delete')" color="medium-emphasis" icon="mdi-delete" size="small" @click="removeRegisteredClient.confirm(item.registeredClientId, item.clientName)" />
+          <v-icon v-if="item.actions.includes('delete')" color="medium-emphasis" icon="mdi-delete" size="small"
+                  @click="removeRegisteredClient.confirm(item.registeredClientId, item.clientName)"/>
         </div>
       </template>
 
@@ -76,9 +78,9 @@
             <v-combobox
               v-model="editRegisteredClientDetails.clientAuthenticationMethods"
               :items="['client_secret_basic', 'client_secret_post', 'private_key_jwt', 'none']"
+              chips
               label="认证方法"
               multiple
-              chips
               outlined
             ></v-combobox>
           </v-col>
@@ -87,9 +89,9 @@
             <v-combobox
               v-model="editRegisteredClientDetails.authorizationGrantTypes"
               :items="['authorization_code', 'client_credentials', 'refresh_token', 'password']"
+              chips
               label="授权类型"
               multiple
-              chips
               outlined
             ></v-combobox>
           </v-col>
@@ -99,9 +101,9 @@
             <v-combobox
               v-model="editRegisteredClientDetails.scopes"
               :items="['openid', 'profile', 'email', 'offline_access']"
+              chips
               label="权限范围"
               multiple
-              chips
               outlined
             ></v-combobox>
           </v-col>
@@ -109,21 +111,21 @@
           <v-col cols="12" md="6">
             <v-combobox
               v-model="editRegisteredClientDetails.redirectUris"
-              label="重定向URI"
-              multiple
               chips
               hint="多个URI用回车分隔"
-              persistent-hint
+              label="重定向URI"
+              multiple
               outlined
+              persistent-hint
             ></v-combobox>
           </v-col>
 
           <v-col cols="12" md="6">
             <v-combobox
               v-model="editRegisteredClientDetails.postLogoutRedirectUris"
+              chips
               label="登出重定向URI"
               multiple
-              chips
               outlined
             ></v-combobox>
           </v-col>
@@ -144,12 +146,12 @@
 
   <v-dialog v-model="actionDialog.visible" max-width="400px">
     <v-card
-      :title="actionDialog.title"
       :text="actionDialog.text"
+      :title="actionDialog.title"
     >
       <v-card-actions>
-        <v-btn @click="actionDialog.leftAction" text="确定"/>
-        <v-btn @click="actionDialog.rightAction" text="取消"/>
+        <v-btn text="确定" @click="actionDialog.leftAction"/>
+        <v-btn text="取消" @click="actionDialog.rightAction"/>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -157,7 +159,7 @@
   <v-snackbar v-model="snackbar.visible" :timeout="snackbar.timeout">
     {{ snackbar.text }}
     <template #actions>
-      <v-btn color="blue" variant="text" @click="snackbar.close" text="关闭"/>
+      <v-btn color="blue" text="关闭" variant="text" @click="snackbar.close"/>
     </template>
   </v-snackbar>
 
@@ -166,22 +168,19 @@
 
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
-import {
-  createRegisteredClientApi,
-  getRegisteredClientsApi, removeRegisteredClientApi,
-} from '@/api/Api'
+import {createRegisteredClientApi, getRegisteredClientsApi, removeRegisteredClientApi,} from '@/api/Api'
 import {actionDialog} from "@/stores/Dialog";
 import {snackbar} from "@/stores/Snackbar";
 
 const searchRegisteredClientDetails = reactive({
   headers: ref([
-    { title: '客户端ID', key: 'clientId', align: 'start' },
-    { title: '名称', key: 'clientName', align: 'start' },
-    { title: '授权类型', key: 'authorizationGrantTypes', align: 'start' },
-    { title: '权限', key: 'scopes', align: 'start' },
-    { title: '创建时间', key: 'createdDate', align: 'start' },
-    { title: '更新时间', key: 'lastModifiedDate', align: 'start' },
-    { title: '操作', key: 'actions', align: 'end' },
+    {title: '客户端ID', key: 'clientId', align: 'start'},
+    {title: '名称', key: 'clientName', align: 'start'},
+    {title: '授权类型', key: 'authorizationGrantTypes', align: 'start'},
+    {title: '权限', key: 'scopes', align: 'start'},
+    {title: '创建时间', key: 'createdDate', align: 'start'},
+    {title: '更新时间', key: 'lastModifiedDate', align: 'start'},
+    {title: '操作', key: 'actions', align: 'end'},
   ] as const),
 
   itemsPerPage: 5,
@@ -190,9 +189,9 @@ const searchRegisteredClientDetails = reactive({
   loading: true,
   totalItems: 0,
 
-  loadItems: async ({ page, itemsPerPage, sortBy }: {page: number, itemsPerPage: number, sortBy: never[]}) => {
+  loadItems: async ({page, itemsPerPage, sortBy}: { page: number, itemsPerPage: number, sortBy: never[] }) => {
     searchRegisteredClientDetails.loading = true;
-    const { items, total } = await searchRegisteredClientDetails._RealAPI();
+    const {items, total} = await searchRegisteredClientDetails._RealAPI();
     searchRegisteredClientDetails.serverItems = items;
     searchRegisteredClientDetails.totalItems = total;
     searchRegisteredClientDetails.loading = false;
@@ -201,7 +200,7 @@ const searchRegisteredClientDetails = reactive({
   _RealAPI: async () => {
     const response = await getRegisteredClientsApi();
     console.log('response: ' + response)
-    return { items: response.data.content, total: response.data.size };
+    return {items: response.data.content, total: response.data.size};
   }
 });
 
@@ -226,8 +225,12 @@ const editRegisteredClientDetails = reactive({
     accessTokenTimeToLive: 3600
   }),
   dialog: false,
-  open: () => {editRegisteredClientDetails.dialog = true},
-  close: () => {editRegisteredClientDetails.dialog = false},
+  open: () => {
+    editRegisteredClientDetails.dialog = true
+  },
+  close: () => {
+    editRegisteredClientDetails.dialog = false
+  },
   save: () => {
     createRegisteredClientApi({
       clientId: editRegisteredClientDetails.clientId,
@@ -268,9 +271,11 @@ const removeRegisteredClient = reactive({
   confirm: (registeredClientId: string, clientName: string) => {
     removeRegisteredClient._registeredClientId = registeredClientId;
     removeRegisteredClient._clientName = clientName;
-    actionDialog.leftAction = () => {removeRegisteredClient._remove()};
+    actionDialog.leftAction = () => {
+      removeRegisteredClient._remove()
+    };
     actionDialog.title = '删除客户端';  // 用于设置对话框标题
-    actionDialog.text = '是否删除客户端 ' +removeRegisteredClient._clientName + '?';  // 用于设置对话框内容
+    actionDialog.text = '是否删除客户端 ' + removeRegisteredClient._clientName + '?';  // 用于设置对话框内容
     actionDialog.open()
   },
   _remove: () => {

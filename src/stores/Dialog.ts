@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import {reactive} from 'vue';
 
 export const alertDialog = reactive({
   visible: false,
@@ -11,9 +11,13 @@ export const alertDialog = reactive({
     alertDialog.visible = false
     // alertDialog.title = ''
     // alertDialog.text = ''
-    alertDialog.action = () => {alertDialog.close() }
+    alertDialog.action = () => {
+      alertDialog.close()
+    }
   },
-  action: () => { alertDialog.close() },
+  action: () => {
+    alertDialog.close()
+  },
 });
 
 export const actionDialog = reactive({
@@ -27,10 +31,18 @@ export const actionDialog = reactive({
     actionDialog.visible = false
     // actionDialog.title = ''
     // actionDialog.text = ''
-    actionDialog.leftAction = () => {actionDialog.close()}
-    actionDialog.rightAction = () => {actionDialog.close()}
+    actionDialog.leftAction = () => {
+      actionDialog.close()
+    }
+    actionDialog.rightAction = () => {
+      actionDialog.close()
+    }
 
   },
-  leftAction: () => { actionDialog.close() },
-  rightAction: () => { actionDialog.close() },
+  leftAction: () => {
+    actionDialog.close()
+  },
+  rightAction: () => {
+    actionDialog.close()
+  },
 });

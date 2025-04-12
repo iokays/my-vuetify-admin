@@ -15,14 +15,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { getOauthUsersApi } from '@/api/Api'
+import {ref} from 'vue';
+import {getOauthUsersApi} from '@/api/Api'
 
 const RealAPI = {
-  async fetch({ page, itemsPerPage, sortBy }) {
+  async fetch({page, itemsPerPage, sortBy}) {
     const response = await getOauthUsersApi()
     console.log('response: ' + response)
-    return { items: response.data.content, total: response.data.size };
+    return {items: response.data.content, total: response.data.size};
     return
   }
 }
@@ -53,7 +53,7 @@ const desserts = [
     "address": "中国北京市朝阳区78号",
     "updatedAt": "2023年07月20日",
     "claim": "{\"customField\":\"value-42\"}"
-  },{
+  }, {
     "oauthUserId": "oauth-5678",
     "clientRegistrationId": "client-123",
     "subject": "sub-54321",
@@ -82,7 +82,7 @@ const desserts = [
 
 // 模拟 API
 const FakeAPI = {
-  async fetch({ page, itemsPerPage, sortBy }) {
+  async fetch({page, itemsPerPage, sortBy}) {
     return new Promise((resolve) => {
       setTimeout(() => {
         const start = (page - 1) * itemsPerPage;
@@ -100,7 +100,7 @@ const FakeAPI = {
         }
 
         const paginated = items.slice(start, end);
-        resolve({ items: paginated, total: items.length });
+        resolve({items: paginated, total: items.length});
       }, 500);
     });
   },
@@ -109,16 +109,16 @@ const FakeAPI = {
 // 定义响应式变量
 const itemsPerPage = ref(5);
 const headers = [
-  { title: 'ID', key: 'oauthUserId', align: 'start' },
-  { title: '客户端', key: 'clientRegistrationId', align: 'start' },
-  { title: '用户标识', key: 'subject', align: 'start' },
-  { title: '全名', key: 'name', align: 'start' },
+  {title: 'ID', key: 'oauthUserId', align: 'start'},
+  {title: '客户端', key: 'clientRegistrationId', align: 'start'},
+  {title: '用户标识', key: 'subject', align: 'start'},
+  {title: '全名', key: 'name', align: 'start'},
   // { title: '名字', key: 'givenName', align: 'start' },
   // { title: '姓氏', key: 'familyName', align: 'start' },
   // { title: '中间名', key: 'middleName', align: 'start' },
-  { title: '昵称', key: 'nickname', align: 'start' },
+  {title: '昵称', key: 'nickname', align: 'start'},
   // { title: '首选用户名', key: 'preferredUsername', align: 'start' },
-  { title: '个人主页 URL', key: 'profile', align: 'start' },
+  {title: '个人主页 URL', key: 'profile', align: 'start'},
   // { title: '头像 URL', key: 'picture', align: 'start' },
   // { title: '个人网站 URL', key: 'website', align: 'start' },
   // { title: '电子邮件地址', key: 'email', align: 'start' },
@@ -127,10 +127,10 @@ const headers = [
   // { title: '出生日期', key: 'birthdate', align: 'start' },
   // { title: '时区信息', key: 'zoneinfo', align: 'start' },
   // { title: '区域设置', key: 'locale', align: 'start' },
-  { title: '电话号码', key: 'phoneNumber', align: 'start' },
-  { title: '电话号码验证状态', key: 'phoneNumberVerified', align: 'start' },
-  { title: '地址', key: 'address', align: 'start' },
-  { title: '最后更新时间', key: 'updatedAt', align: 'start' },
+  {title: '电话号码', key: 'phoneNumber', align: 'start'},
+  {title: '电话号码验证状态', key: 'phoneNumberVerified', align: 'start'},
+  {title: '地址', key: 'address', align: 'start'},
+  {title: '最后更新时间', key: 'updatedAt', align: 'start'},
   // { title: '自定义声明字段', key: 'claim', align: 'start' }
 ];
 const search = ref('');
@@ -139,9 +139,9 @@ const loading = ref(true);
 const totalItems = ref(0);
 
 // 定义方法
-const loadItems = async ({ page, itemsPerPage, sortBy }) => {
+const loadItems = async ({page, itemsPerPage, sortBy}) => {
   loading.value = true;
-  const { items, total } = await RealAPI.fetch({ page, itemsPerPage, sortBy });
+  const {items, total} = await RealAPI.fetch({page, itemsPerPage, sortBy});
   serverItems.value = items;
   totalItems.value = total;
   loading.value = false;

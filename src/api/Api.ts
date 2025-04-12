@@ -11,7 +11,7 @@ apiInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    const { response, config } = error;
+    const {response, config} = error;
 
     console.warn('❌ 请求失败');
     console.log('请求地址:', config?.url);
@@ -60,7 +60,7 @@ export const getJobDetails = (query?: Query) => {
 };
 
 export const delJobDetails = (jobName: string, jobGroup: string) => {
-  return apiInstance.delete ( ` /dispatchApi/schedule/jobs/${jobGroup}/${jobName}/delete ` ) ;
+  return apiInstance.delete(` /dispatchApi/schedule/jobs/${jobGroup}/${jobName}/delete `);
 };
 
 interface CreateJobs {
@@ -71,8 +71,9 @@ interface CreateJobs {
   startAt: string;
   endAt: string;
 }
+
 export const createJobs = (data: CreateJobs) => {
-  return apiInstance.post( ` /dispatchApi/schedule/jobs ` , data ) ;
+  return apiInstance.post(` /dispatchApi/schedule/jobs `, data);
 };
 
 // src/types/oauth/CreateRegisteredClientModel.ts
@@ -109,11 +110,11 @@ export interface TokenSettings {
 }
 
 export const createRegisteredClientApi = (data: CreateRegisteredClientModel) => {
-  return apiInstance.post( ` /api/registered/clients` , data ) ;
+  return apiInstance.post(` /api/registered/clients`, data);
 };
 
 export const removeRegisteredClientApi = (clientRegistrationId: string) => {
-  return apiInstance.delete ( `/api/registered/clients/${clientRegistrationId}` ) ;
+  return apiInstance.delete(`/api/registered/clients/${clientRegistrationId}`);
 };
 
 export interface CreateClientRegistrationModel {
@@ -133,9 +134,9 @@ export interface CreateClientRegistrationModel {
 }
 
 export const createClientRegistrationApi = (data: CreateClientRegistrationModel) => {
-  return apiInstance.post( `/api/client/registrations` , data ) ;
+  return apiInstance.post(`/api/client/registrations`, data);
 };
 
 export const deleteClientRegistrationApi = (clientRegistrationId: string) => {
-  return apiInstance.delete ( `/api/client/registrations/${clientRegistrationId}` ) ;
+  return apiInstance.delete(`/api/client/registrations/${clientRegistrationId}`);
 };

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-breadcrumbs :items="['授权管理', '服务端']" />
+    <v-breadcrumbs :items="['授权管理', '服务端']"/>
     <v-data-table-server
       v-model:items-per-page="searchClientRegistrationDetails.itemsPerPage"
       :headers="searchClientRegistrationDetails.headers"
@@ -15,11 +15,11 @@
         <v-toolbar flat>
           <v-toolbar-title></v-toolbar-title>
           <v-btn
+            border
             class="me-2"
             prepend-icon="mdi-plus"
             rounded="lg"
             text="添加服务方"
-            border
             @click="editRegisteredClientDetails.open()"
           />
         </v-toolbar>
@@ -27,7 +27,8 @@
 
       <template #[`item.actions`]="{ item }: {item: {registrationId: string, clientName: string, actions: string[]}}">
         <div class="d-flex ga-2 justify-end">
-          <v-icon v-if="item.actions.includes('delete')" color="medium-emphasis" icon="mdi-delete" size="small" @click="removeClientRegistration.confirm(item.registrationId, item.clientName)" />
+          <v-icon v-if="item.actions.includes('delete')" color="medium-emphasis" icon="mdi-delete" size="small"
+                  @click="removeClientRegistration.confirm(item.registrationId, item.clientName)"/>
         </div>
       </template>
 
@@ -35,7 +36,7 @@
   </v-container>
 
   <v-dialog v-model="editRegisteredClientDetails.dialog" max-width="800" persistent>
-    <v-card subtitle="创建你想要的客户端" title="添加客户端" >
+    <v-card subtitle="创建你想要的客户端" title="添加客户端">
       <template v-slot:text>
 
 
@@ -111,9 +112,9 @@
             <v-combobox
               v-model="editRegisteredClientDetails.scopes"
               :items="['openid', 'profile', 'email', 'offline_access']"
+              chips
               label="权限范围"
               multiple
-              chips
               outlined
             ></v-combobox>
           </v-col>
@@ -173,12 +174,12 @@
 
   <v-dialog v-model="actionDialog.visible" max-width="400px">
     <v-card
-      :title="actionDialog.title"
       :text="actionDialog.text"
+      :title="actionDialog.title"
     >
       <v-card-actions>
-        <v-btn @click="actionDialog.leftAction" text="确定"/>
-        <v-btn @click="actionDialog.rightAction" text="取消"/>
+        <v-btn text="确定" @click="actionDialog.leftAction"/>
+        <v-btn text="取消" @click="actionDialog.rightAction"/>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -186,7 +187,7 @@
   <v-snackbar v-model="snackbar.visible" :timeout="snackbar.timeout">
     {{ snackbar.text }}
     <template #actions>
-      <v-btn color="blue" variant="text" @click="snackbar.close" text="关闭"/>
+      <v-btn color="blue" text="关闭" variant="text" @click="snackbar.close"/>
     </template>
   </v-snackbar>
 
@@ -194,25 +195,19 @@
 
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
-import {
-  createClientRegistrationApi,
-  createJobs,
-  createRegisterClient, deleteClientRegistrationApi,
-  delJobDetails,
-  getClientRegistrationsApi
-} from '@/api/Api'
+import {createClientRegistrationApi, deleteClientRegistrationApi, getClientRegistrationsApi} from '@/api/Api'
 import {snackbar} from "@/stores/Snackbar";
 import {actionDialog} from "@/stores/Dialog";
 
 const searchClientRegistrationDetails = reactive({
   headers: ref([
-    { title: '客户端ID', key: 'clientId', align: 'start' },
-    { title: '名称', key: 'clientName', align: 'start' },
-    { title: '类型', key: 'clientRegistrationType', align: 'start' },
-    { title: '授权类型', key: 'authorizationGrantType', align: 'start' },
-    { title: '权限范围', key: 'scopes', align: 'start' },
-    { title: '更新时间', key: 'lastModifiedDate', align: 'start' },
-    { title: '操作', key: 'actions', align: 'end' },
+    {title: '客户端ID', key: 'clientId', align: 'start'},
+    {title: '名称', key: 'clientName', align: 'start'},
+    {title: '类型', key: 'clientRegistrationType', align: 'start'},
+    {title: '授权类型', key: 'authorizationGrantType', align: 'start'},
+    {title: '权限范围', key: 'scopes', align: 'start'},
+    {title: '更新时间', key: 'lastModifiedDate', align: 'start'},
+    {title: '操作', key: 'actions', align: 'end'},
   ] as const),
 
   itemsPerPage: 5,
@@ -221,9 +216,9 @@ const searchClientRegistrationDetails = reactive({
   loading: true,
   totalItems: 0,
 
-  loadItems: async ({ page, itemsPerPage, sortBy }: {page: number, itemsPerPage: number, sortBy: never[]}) => {
+  loadItems: async ({page, itemsPerPage, sortBy}: { page: number, itemsPerPage: number, sortBy: never[] }) => {
     searchClientRegistrationDetails.loading = true;
-    const { items, total } = await searchClientRegistrationDetails._RealAPI();
+    const {items, total} = await searchClientRegistrationDetails._RealAPI();
     searchClientRegistrationDetails.serverItems = items;
     searchClientRegistrationDetails.totalItems = total;
     searchClientRegistrationDetails.loading = false;
@@ -232,7 +227,7 @@ const searchClientRegistrationDetails = reactive({
   _RealAPI: async () => {
     const response = await getClientRegistrationsApi();
     console.log('response: ' + response)
-    return { items: response.data.content, total: response.data.size };
+    return {items: response.data.content, total: response.data.size};
   }
 });
 
@@ -255,8 +250,12 @@ const editRegisteredClientDetails = reactive({
 
   // Dialog control
   dialog: false,
-  open: () => { editRegisteredClientDetails.dialog = true },
-  close: () => { editRegisteredClientDetails.dialog = false },
+  open: () => {
+    editRegisteredClientDetails.dialog = true
+  },
+  close: () => {
+    editRegisteredClientDetails.dialog = false
+  },
   save: () => {
     createClientRegistrationApi({
       registrationId: editRegisteredClientDetails.registrationId,
@@ -298,9 +297,11 @@ const removeClientRegistration = reactive({
   confirm: (clientRegistrationId: string, clientName: string) => {
     removeClientRegistration._registrationId = clientRegistrationId;
     removeClientRegistration._clientName = clientName;
-    actionDialog.leftAction = () => {removeClientRegistration._remove()};
+    actionDialog.leftAction = () => {
+      removeClientRegistration._remove()
+    };
     actionDialog.title = '删除客户端';  // 用于设置对话框标题
-    actionDialog.text = '是否删除客户端 ' +removeClientRegistration._clientName + '?';  // 用于设置对话框内容
+    actionDialog.text = '是否删除客户端 ' + removeClientRegistration._clientName + '?';  // 用于设置对话框内容
     actionDialog.open()
   },
   _remove: () => {
