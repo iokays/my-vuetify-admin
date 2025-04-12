@@ -1,93 +1,326 @@
 <template>
   <v-container>
-    <v-breadcrumbs :items="['授权管理', '服务端']"></v-breadcrumbs>
+    <v-breadcrumbs :items="['授权管理', '服务端']" />
     <v-data-table-server
-      v-model:items-per-page="itemsPerPage"
-      :headers="headers"
-      :items="serverItems"
-      :items-length="totalItems"
-      :loading="loading"
-      :search="search"
+      v-model:items-per-page="searchClientRegistrationDetails.itemsPerPage"
+      :headers="searchClientRegistrationDetails.headers"
+      :items="searchClientRegistrationDetails.serverItems"
+      :items-length="searchClientRegistrationDetails.totalItems"
+      :loading="searchClientRegistrationDetails.loading"
+      :search="searchClientRegistrationDetails.search"
       item-value="name"
-      @update:options="loadItems"
-    ></v-data-table-server>
+      @update:options="searchClientRegistrationDetails.loadItems"
+    >
+      <template #top>
+        <v-toolbar flat>
+          <v-toolbar-title></v-toolbar-title>
+          <v-btn
+            class="me-2"
+            prepend-icon="mdi-plus"
+            rounded="lg"
+            text="添加服务方"
+            border
+            @click="editRegisteredClientDetails.open()"
+          />
+        </v-toolbar>
+      </template>
+
+      <template #[`item.actions`]="{ item }: {item: {registrationId: string, clientName: string, actions: string[]}}">
+        <div class="d-flex ga-2 justify-end">
+          <v-icon v-if="item.actions.includes('delete')" color="medium-emphasis" icon="mdi-delete" size="small" @click="removeClientRegistration.confirm(item.registrationId, item.clientName)" />
+        </div>
+      </template>
+
+    </v-data-table-server>
   </v-container>
+
+  <v-dialog v-model="editRegisteredClientDetails.dialog" max-width="800" persistent>
+    <v-card subtitle="创建你想要的客户端" title="添加客户端" >
+      <template v-slot:text>
+
+
+        <v-row>
+
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="editRegisteredClientDetails.registrationId"
+              label="客户端标识"
+              outlined
+            ></v-text-field>
+          </v-col>
+
+          <!-- 注册类型 -->
+          <v-col cols="12" md="6">
+            <v-select
+              v-model="editRegisteredClientDetails.clientRegistrationType"
+              :items="['GOOGLE', 'IOKAYS']"
+              label="客户端注册类型"
+              outlined
+            ></v-select>
+          </v-col>
+
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="editRegisteredClientDetails.clientName"
+              label="客户端名称"
+              outlined
+            ></v-text-field>
+          </v-col>
+
+          <!-- 基础信息 -->
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="editRegisteredClientDetails.clientId"
+              label="客户端ID"
+              outlined
+            ></v-text-field>
+          </v-col>
+
+
+          <!-- 安全信息 -->
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="editRegisteredClientDetails.clientSecret"
+              label="客户端密钥"
+              outlined
+            ></v-text-field>
+          </v-col>
+
+          <!-- 认证与授权 -->
+          <v-col cols="12" md="6">
+            <v-select
+              v-model="editRegisteredClientDetails.clientAuthenticationMethod"
+              :items="['client_secret_basic', 'client_secret_post', 'private_key_jwt', 'none']"
+              label="认证方法"
+              outlined
+            ></v-select>
+          </v-col>
+
+          <v-col cols="12" md="12">
+            <v-select
+              v-model="editRegisteredClientDetails.authorizationGrantType"
+              :items="['authorization_code', 'client_credentials', 'refresh_token', 'password']"
+              label="授权类型"
+              outlined
+            ></v-select>
+          </v-col>
+
+
+          <!-- 范围与URI -->
+          <v-col cols="12">
+            <v-combobox
+              v-model="editRegisteredClientDetails.scopes"
+              :items="['openid', 'profile', 'email', 'offline_access']"
+              label="权限范围"
+              multiple
+              chips
+              outlined
+            ></v-combobox>
+          </v-col>
+
+          <!-- OAuth2/OIDC 端点 -->
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="editRegisteredClientDetails.authorizationUri"
+              label="授权端点"
+              outlined
+            ></v-text-field>
+          </v-col>
+
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="editRegisteredClientDetails.tokenUri"
+              label="令牌端点"
+              outlined
+            ></v-text-field>
+          </v-col>
+
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="editRegisteredClientDetails.userInfoUri"
+              label="用户信息端点"
+              outlined
+            ></v-text-field>
+          </v-col>
+
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="editRegisteredClientDetails.userNameAttributeName"
+              label="用户名属性名"
+              outlined
+            ></v-text-field>
+          </v-col>
+
+          <v-col cols="12">
+            <v-text-field
+              v-model="editRegisteredClientDetails.jwkSetUri"
+              label="JWKS端点"
+              outlined
+            ></v-text-field>
+          </v-col>
+        </v-row>
+      </template>
+
+      <v-divider></v-divider>
+
+      <v-card-actions class="bg-surface-light">
+        <v-btn text="取消" variant="plain" @click="editRegisteredClientDetails.close()"></v-btn>
+        <v-spacer></v-spacer>
+        <v-btn text="保存" @click="editRegisteredClientDetails.save()"></v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <v-dialog v-model="actionDialog.visible" max-width="400px">
+    <v-card
+      :title="actionDialog.title"
+      :text="actionDialog.text"
+    >
+      <v-card-actions>
+        <v-btn @click="actionDialog.leftAction" text="确定"/>
+        <v-btn @click="actionDialog.rightAction" text="取消"/>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <v-snackbar v-model="snackbar.visible" :timeout="snackbar.timeout">
+    {{ snackbar.text }}
+    <template #actions>
+      <v-btn color="blue" variant="text" @click="snackbar.close" text="关闭"/>
+    </template>
+  </v-snackbar>
+
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import {getClientRegistrationsApi} from '@/api/Api'
+import {reactive, ref} from 'vue';
+import {
+  createClientRegistrationApi,
+  createJobs,
+  createRegisterClient, deleteClientRegistrationApi,
+  delJobDetails,
+  getClientRegistrationsApi
+} from '@/api/Api'
+import {snackbar} from "@/stores/Snackbar";
+import {actionDialog} from "@/stores/Dialog";
 
-const RealAPI = {
-  async fetch({ page, itemsPerPage, sortBy }) {
+const searchClientRegistrationDetails = reactive({
+  headers: ref([
+    { title: '客户端ID', key: 'clientId', align: 'start' },
+    { title: '名称', key: 'clientName', align: 'start' },
+    { title: '类型', key: 'clientRegistrationType', align: 'start' },
+    { title: '授权类型', key: 'authorizationGrantType', align: 'start' },
+    { title: '权限范围', key: 'scopes', align: 'start' },
+    { title: '更新时间', key: 'lastModifiedDate', align: 'start' },
+    { title: '操作', key: 'actions', align: 'end' },
+  ] as const),
+
+  itemsPerPage: 5,
+  search: '',
+  serverItems: [],
+  loading: true,
+  totalItems: 0,
+
+  loadItems: async ({ page, itemsPerPage, sortBy }: {page: number, itemsPerPage: number, sortBy: never[]}) => {
+    searchClientRegistrationDetails.loading = true;
+    const { items, total } = await searchClientRegistrationDetails._RealAPI();
+    searchClientRegistrationDetails.serverItems = items;
+    searchClientRegistrationDetails.totalItems = total;
+    searchClientRegistrationDetails.loading = false;
+  },
+
+  _RealAPI: async () => {
     const response = await getClientRegistrationsApi();
     console.log('response: ' + response)
     return { items: response.data.content, total: response.data.size };
   }
-}
+});
 
-// 定义模拟数据
-const desserts = [
-  { clientRegistrationId: 'reg-001', clientRegistrationType: 'OAuth2', clientId: 'client-001', clientName: 'Test Client 1', authorizationGrantType: 'authorization_code', scopes: ['read', 'write'], lastModifiedDate: '2023-10-01T12:00:00Z' },
-  { clientRegistrationId: 'reg-002', clientRegistrationType: 'OpenID Connect', clientId: 'client-002', clientName: 'Test Client 2', authorizationGrantType: 'implicit', scopes: ['openid', 'profile'], lastModifiedDate: '2023-10-02T13:30:00Z' },
-  { clientRegistrationId: 'reg-003', clientRegistrationType: 'OAuth2', clientId: 'client-003', clientName: 'Test Client 3', authorizationGrantType: 'client_credentials', scopes: ['read'], lastModifiedDate: '2023-10-03T14:45:00Z' },
-  { clientRegistrationId: 'reg-004', clientRegistrationType: 'OAuth2', clientId: 'client-004', clientName: 'Test Client 4', authorizationGrantType: 'password', scopes: ['read', 'write'], lastModifiedDate: '2023-10-04T15:15:00Z' },
-  { clientRegistrationId: 'reg-005', clientRegistrationType: 'OpenID Connect', clientId: 'client-005', clientName: 'Test Client 5', authorizationGrantType: 'authorization_code', scopes: ['openid', 'email'], lastModifiedDate: '2023-10-05T16:30:00Z' },
-  { clientRegistrationId: 'reg-006', clientRegistrationType: 'OAuth2', clientId: 'client-006', clientName: 'Test Client 6', authorizationGrantType: 'implicit', scopes: ['read'], lastModifiedDate: '2023-10-06T17:00:00Z' },
-  { clientRegistrationId: 'reg-007', clientRegistrationType: 'OAuth2', clientId: 'client-007', clientName: 'Test Client 7', authorizationGrantType: 'client_credentials', scopes: ['write'], lastModifiedDate: '2023-10-07T18:20:00Z' },
-  { clientRegistrationId: 'reg-008', clientRegistrationType: 'OpenID Connect', clientId: 'client-008', clientName: 'Test Client 8', authorizationGrantType: 'authorization_code', scopes: ['openid', 'profile', 'email'], lastModifiedDate: '2023-10-08T19:45:00Z' },
-  { clientRegistrationId: 'reg-009', clientRegistrationType: 'OAuth2', clientId: 'client-009', clientName: 'Test Client 9', authorizationGrantType: 'password', scopes: ['read', 'write'], lastModifiedDate: '2023-10-09T20:10:00Z' },
-  { clientRegistrationId: 'reg-010', clientRegistrationType: 'OpenID Connect', clientId: 'client-010', clientName: 'Test Client 10', authorizationGrantType: 'implicit', scopes: ['openid'], lastModifiedDate: '2023-10-10T21:00:00Z' }
-];
+const editRegisteredClientDetails = reactive({
+  // Client registration info
+  registrationId: 'GOOGLE-2',
+  clientRegistrationType: 'GOOGLE', // 客户端注册类型
+  clientId: '297202495616-54ij9h7ta0e426tktjipltkbg4auiean.apps.googleusercontent.com', // 客户端ID
+  clientName: 'Google客户端', // 客户端名称
+  clientSecret: 'GOCSPX-HQDuQ9El4k7qWFiKMXtIUa_7yPk', // 客户端密钥
+  clientAuthenticationMethod: 'client_secret_basic', // 认证方法
+  authorizationGrantType: 'authorization_code', // 授权类型
+  scopes: ["openid", "profile", "email", "address", "phone"], // 权限范围
+  authorizationUri: 'https://accounts.google.com/o/oauth2/v2/auth', // 授权端点
+  tokenUri: 'https://www.googleapis.com/oauth2/v4/token', // 令牌端点
+  // Optional OIDC fields
+  userInfoUri: 'https://www.googleapis.com/oauth2/v3/userinfo', // 用户信息端点(OIDC可选)
+  userNameAttributeName: 'sub', // 用户名属性名(OIDC)
+  jwkSetUri: 'https://www.googleapis.com/oauth2/v3/certs', // JWKS端点(OIDC)
 
-// 模拟 API
-const FakeAPI = {
-  async fetch({ page, itemsPerPage, sortBy }) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const start = (page - 1) * itemsPerPage;
-        const end = start + itemsPerPage;
-        const items = [...desserts];
+  // Dialog control
+  dialog: false,
+  open: () => { editRegisteredClientDetails.dialog = true },
+  close: () => { editRegisteredClientDetails.dialog = false },
+  save: () => {
+    createClientRegistrationApi({
+      registrationId: editRegisteredClientDetails.registrationId,
+      clientRegistrationType: editRegisteredClientDetails.clientRegistrationType,
+      clientId: editRegisteredClientDetails.clientId,
+      clientName: editRegisteredClientDetails.clientName,
+      clientSecret: editRegisteredClientDetails.clientSecret,
+      clientAuthenticationMethod: editRegisteredClientDetails.clientAuthenticationMethod,
+      authorizationGrantType: editRegisteredClientDetails.authorizationGrantType,
+      scopes: editRegisteredClientDetails.scopes,
+      authorizationUri: editRegisteredClientDetails.authorizationUri,
+      tokenUri: editRegisteredClientDetails.tokenUri,
+      userInfoUri: editRegisteredClientDetails.userInfoUri,
+      userNameAttributeName: editRegisteredClientDetails.userNameAttributeName,
+      jwkSetUri: editRegisteredClientDetails.jwkSetUri
+    }).then(() => {
+      editRegisteredClientDetails.close()
+      snackbar.text = editRegisteredClientDetails.clientName + ': 已被成功添加';
+      snackbar.open()
 
-        if (sortBy.length) {
-          const sortKey = sortBy[0].key;
-          const sortOrder = sortBy[0].order;
-          items.sort((a, b) => {
-            const aValue = a[sortKey];
-            const bValue = b[sortKey];
-            return sortOrder === 'desc' ? bValue - aValue : aValue - bValue;
-          });
-        }
+      //添加后成功刷新数据
+      searchClientRegistrationDetails.loadItems({
+        page: 1,  // 你可以选择保持当前页数，或者从第一页开始
+        itemsPerPage: searchClientRegistrationDetails.itemsPerPage,
+        sortBy: []  // 根据需要可以传递排序参数
+      });
+    }).catch(e => {
+      snackbar.text = editRegisteredClientDetails.clientName + ': 添加失败: ' + e;
+      snackbar.open()
+    })
 
-        const paginated = items.slice(start, end);
-        resolve({ items: paginated, total: items.length });
-      }, 500);
-    });
+    editRegisteredClientDetails.dialog = false
+  }
+})
+
+const removeClientRegistration = reactive({
+  _registrationId: '',
+  _clientName: '',
+  confirm: (clientRegistrationId: string, clientName: string) => {
+    removeClientRegistration._registrationId = clientRegistrationId;
+    removeClientRegistration._clientName = clientName;
+    actionDialog.leftAction = () => {removeClientRegistration._remove()};
+    actionDialog.title = '删除客户端';  // 用于设置对话框标题
+    actionDialog.text = '是否删除客户端 ' +removeClientRegistration._clientName + '?';  // 用于设置对话框内容
+    actionDialog.open()
   },
-};
+  _remove: () => {
+    actionDialog.close()
+    deleteClientRegistrationApi(removeClientRegistration._registrationId).then(() => {
+      snackbar.text = removeClientRegistration._clientName + ': 已被您成功删除.';
+      snackbar.open()
 
-// 定义响应式变量
-const itemsPerPage = ref(5);
-const headers = [
-  { title: '注册ID', key: 'clientRegistrationId', align: 'start' },
-  { title: '类型', key: 'clientRegistrationType', align: 'start' },
-  { title: '客户端ID', key: 'clientId', align: 'start' },
-  { title: '名称', key: 'clientName', align: 'start' },
-  { title: '授权类型', key: 'authorizationGrantType', align: 'start' },
-  { title: '权限范围', key: 'scopes', align: 'start' },
-  { title: '更新时间', key: 'lastModifiedDate', align: 'start' }
-];
-const search = ref('');
-const serverItems = ref([]);
-const loading = ref(true);
-const totalItems = ref(0);
+      searchClientRegistrationDetails.loadItems({
+        page: 1,  // 你可以选择保持当前页数，或者从第一页开始
+        itemsPerPage: searchClientRegistrationDetails.itemsPerPage,
+        sortBy: []  // 根据需要可以传递排序参数
+      });
 
-// 定义方法
-const loadItems = async ({ page, itemsPerPage, sortBy }) => {
-  loading.value = true;
-  const { items, total } = await RealAPI.fetch({ page, itemsPerPage, sortBy });
-  serverItems.value = items;
-  totalItems.value = total;
-  loading.value = false;
-};
+    }).catch(e => {
+      console.log('error', e)
+      snackbar.text = removeClientRegistration._clientName + ': 删除失败.';
+      snackbar.open()
+    })
+  }
+})
+
 </script>

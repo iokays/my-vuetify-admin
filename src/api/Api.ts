@@ -74,3 +74,64 @@ interface CreateJobs {
 export const createJobs = (data: CreateJobs) => {
   return apiInstance.post( ` /dispatchApi/schedule/jobs ` , data ) ;
 };
+
+// src/types/oauth/CreateRegisteredClientModel.ts
+export interface CreateRegisteredClientModel {
+  clientId: string;
+  clientIdIssuedAt: string; // ISO8601格式时间字符串
+  clientSecret: string;
+  clientSecretExpiresAt: string | null; // ISO8601格式时间字符串，null表示永不过期
+  clientName: string;
+  clientAuthenticationMethods: string[];
+  authorizationGrantTypes: string[];
+  redirectUris: string[];
+  postLogoutRedirectUris: string[];
+  scopes: string[];
+  clientSettings: ClientSettings; // 解析后的客户端设置对象
+  tokenSettings: TokenSettings; // 解析后的令牌设置对象
+}
+
+// 客户端设置类型
+export interface ClientSettings {
+  requireProofKey?: boolean; // 是否要求PKCE
+  requireAuthorizationConsent?: boolean; // 是否需要授权确认
+  jwkSetUrl?: string; // JWK Set URL
+  tokenEndpointAuthenticationSigningAlgorithm?: string; // 令牌端点认证签名算法
+}
+
+// 令牌设置类型
+export interface TokenSettings {
+  authorizationCodeTimeToLive?: number; // 授权码有效期(秒)
+  accessTokenTimeToLive?: number; // 访问令牌有效期(秒)
+  refreshTokenTimeToLive?: number; // 刷新令牌有效期(秒)
+  reuseRefreshTokens?: boolean; // 是否重用刷新令牌
+  idTokenSignatureAlgorithm?: string; // ID Token签名算法
+}
+
+export const createRegisterClient = (data: CreateRegisteredClientModel) => {
+  return apiInstance.post( ` /api/client/registrations` , data ) ;
+};
+
+export interface CreateClientRegistrationModel {
+  registrationId: string, //客户端标识符
+  clientRegistrationType: string; // 客户端注册类型
+  clientId: string; // 客户端ID
+  clientName: string; // 客户端名称
+  clientSecret: string; // 客户端密钥
+  clientAuthenticationMethod: string; // 认证方法
+  authorizationGrantType: string; // 授权类型
+  scopes: Set<string>; // 权限范围
+  authorizationUri: string; // 授权端点
+  tokenUri: string; // 令牌端点
+  userInfoUri?: string; // 用户信息端点(OIDC可选)
+  userNameAttributeName?: string; // 用户名属性名(OIDC)
+  jwkSetUri?: string; // JWKS端点(OIDC)
+}
+
+export const createClientRegistrationApi = (data: CreateClientRegistrationModel) => {
+  return apiInstance.post( `/api/client/registrations` , data ) ;
+};
+
+export const deleteClientRegistrationApi = (clientRegistrationId: string) => {
+  return apiInstance.delete ( `/api/client/registrations/${clientRegistrationId}` ) ;
+};
