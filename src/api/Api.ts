@@ -108,8 +108,12 @@ export interface TokenSettings {
   idTokenSignatureAlgorithm?: string; // ID Token签名算法
 }
 
-export const createRegisterClient = (data: CreateRegisteredClientModel) => {
-  return apiInstance.post( ` /api/client/registrations` , data ) ;
+export const createRegisteredClientApi = (data: CreateRegisteredClientModel) => {
+  return apiInstance.post( ` /api/registered/clients` , data ) ;
+};
+
+export const removeRegisteredClientApi = (clientRegistrationId: string) => {
+  return apiInstance.delete ( `/api/registered/clients/${clientRegistrationId}` ) ;
 };
 
 export interface CreateClientRegistrationModel {

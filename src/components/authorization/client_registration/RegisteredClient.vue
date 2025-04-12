@@ -28,9 +28,9 @@
       </template>
 
 
-      <template #[`item.actions`]="{ item }: {item: {clientRegistrationId: string, actions: string[]}}">
+      <template #[`item.actions`]="{ item }: {item: {registeredClientId: string, clientName: string, actions: string[]}}">
         <div class="d-flex ga-2 justify-end">
-          <v-icon v-if="item.actions.includes('delete')" color="medium-emphasis" icon="mdi-delete" size="small" />
+          <v-icon v-if="item.actions.includes('delete')" color="medium-emphasis" icon="mdi-delete" size="small" @click="removeRegisteredClient.confirm(item.registeredClientId, item.clientName)" />
         </div>
       </template>
 
@@ -106,7 +106,7 @@
             ></v-combobox>
           </v-col>
 
-          <v-col cols="12">
+          <v-col cols="12" md="6">
             <v-combobox
               v-model="editRegisteredClientDetails.redirectUris"
               label="重定向URI"
@@ -118,7 +118,7 @@
             ></v-combobox>
           </v-col>
 
-          <v-col cols="12">
+          <v-col cols="12" md="6">
             <v-combobox
               v-model="editRegisteredClientDetails.postLogoutRedirectUris"
               label="登出重定向URI"
@@ -141,11 +141,37 @@
     </v-card>
   </v-dialog>
 
+
+  <v-dialog v-model="actionDialog.visible" max-width="400px">
+    <v-card
+      :title="actionDialog.title"
+      :text="actionDialog.text"
+    >
+      <v-card-actions>
+        <v-btn @click="actionDialog.leftAction" text="确定"/>
+        <v-btn @click="actionDialog.rightAction" text="取消"/>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <v-snackbar v-model="snackbar.visible" :timeout="snackbar.timeout">
+    {{ snackbar.text }}
+    <template #actions>
+      <v-btn color="blue" variant="text" @click="snackbar.close" text="关闭"/>
+    </template>
+  </v-snackbar>
+
+
 </template>
 
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
-import {getRegisteredClientsApi} from '@/api/Api'
+import {
+  createRegisteredClientApi,
+  getRegisteredClientsApi, removeRegisteredClientApi,
+} from '@/api/Api'
+import {actionDialog} from "@/stores/Dialog";
+import {snackbar} from "@/stores/Snackbar";
 
 const searchRegisteredClientDetails = reactive({
   headers: ref([
@@ -181,16 +207,16 @@ const searchRegisteredClientDetails = reactive({
 
 
 const editRegisteredClientDetails = reactive({
-  clientId: '', // 客户端ID
+  clientId: 'login-client', // 客户端ID
   clientIdIssuedAt: new Date().toISOString(), // 默认当前时间
-  clientSecret: '', // 客户端密钥
-  clientSecretExpiresAt: null as string | null, // 默认永不过期
-  clientName: '', // 客户端名称
-  clientAuthenticationMethods: [] as string[], // 认证方法数组
-  authorizationGrantTypes: [] as string[], // 授权类型数组
-  redirectUris: [] as string[], // 重定向URI数组
-  postLogoutRedirectUris: [] as string[], // 登出重定向URI数组
-  scopes: [] as string[], // 权限范围数组
+  clientSecret: '{noop}secret', // 客户端密钥
+  clientSecretExpiresAt: new Date(8640000000000000).toISOString(), // 默认永不过期 (对应Java的Instant.MAX)
+  clientName: '内部微服务之间认证', // 客户端名称
+  clientAuthenticationMethods: ['client_secret_basic', 'none'], // 认证方法数组
+  authorizationGrantTypes: ['client_credentials', 'refresh_token'], // 授权类型数组
+  redirectUris: [] as string[], // 重定向URI数组 (空数组)
+  postLogoutRedirectUris: [] as string[], // 登出重定向URI数组 (空数组)
+  scopes: ['read', 'write'], // 权限范围数组
   clientSettings: JSON.stringify({ // 默认客户端设置(JSON字符串)
     requireProofKey: false,
     requireAuthorizationConsent: true
@@ -202,7 +228,69 @@ const editRegisteredClientDetails = reactive({
   dialog: false,
   open: () => {editRegisteredClientDetails.dialog = true},
   close: () => {editRegisteredClientDetails.dialog = false},
-  save: () => {editRegisteredClientDetails.dialog = false},
+  save: () => {
+    createRegisteredClientApi({
+      clientId: editRegisteredClientDetails.clientId,
+      clientIdIssuedAt: editRegisteredClientDetails.clientIdIssuedAt, // ISO8601格式时间字符串
+      clientSecret: editRegisteredClientDetails.clientSecret,
+      clientSecretExpiresAt: editRegisteredClientDetails.clientSecretExpiresAt, // ISO8601格式时间字符串，null表示永不过期
+      clientName: editRegisteredClientDetails.clientName,
+      clientAuthenticationMethods: editRegisteredClientDetails.clientAuthenticationMethods,
+      authorizationGrantTypes: editRegisteredClientDetails.authorizationGrantTypes,
+      redirectUris: editRegisteredClientDetails.redirectUris,
+      postLogoutRedirectUris: editRegisteredClientDetails.postLogoutRedirectUris,
+      scopes: editRegisteredClientDetails.scopes,
+      clientSettings: editRegisteredClientDetails.clientSettings,
+      tokenSettings: editRegisteredClientDetails.tokenSettings
+    }).then(() => {
+      editRegisteredClientDetails.close()
+      snackbar.text = editRegisteredClientDetails.clientName + ': 已被成功添加';
+      snackbar.open()
+
+      //添加后成功刷新数据
+      searchRegisteredClientDetails.loadItems({
+        page: 1,  // 你可以选择保持当前页数，或者从第一页开始
+        itemsPerPage: searchRegisteredClientDetails.itemsPerPage,
+        sortBy: []  // 根据需要可以传递排序参数
+      });
+    }).catch(e => {
+      snackbar.text = editRegisteredClientDetails.clientName + ': 添加失败: ' + e;
+      snackbar.open()
+    })
+
+    editRegisteredClientDetails.dialog = false
+  }
+})
+
+const removeRegisteredClient = reactive({
+  _registeredClientId: '',
+  _clientName: '',
+  confirm: (registeredClientId: string, clientName: string) => {
+    removeRegisteredClient._registeredClientId = registeredClientId;
+    removeRegisteredClient._clientName = clientName;
+    actionDialog.leftAction = () => {removeRegisteredClient._remove()};
+    actionDialog.title = '删除客户端';  // 用于设置对话框标题
+    actionDialog.text = '是否删除客户端 ' +removeRegisteredClient._clientName + '?';  // 用于设置对话框内容
+    actionDialog.open()
+  },
+  _remove: () => {
+    actionDialog.close()
+    removeRegisteredClientApi(removeRegisteredClient._registeredClientId).then(() => {
+      snackbar.text = removeRegisteredClient._clientName + ': 已被您成功删除.';
+      snackbar.open()
+
+      searchRegisteredClientDetails.loadItems({
+        page: 1,  // 你可以选择保持当前页数，或者从第一页开始
+        itemsPerPage: searchRegisteredClientDetails.itemsPerPage,
+        sortBy: []  // 根据需要可以传递排序参数
+      });
+
+    }).catch(e => {
+      console.log('error', e)
+      snackbar.text = removeRegisteredClient._clientName + ': 删除失败.';
+      snackbar.open()
+    })
+  }
 })
 
 </script>
