@@ -9,7 +9,7 @@ import VueRouter from 'unplugin-vue-router/vite'
 import {defineConfig} from 'vite'
 import {fileURLToPath, URL} from 'node:url'
 
-const authTargetUrl = "http://localhost:8888"
+const authTargetUrl = "http://127.0.0.1:8888"
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -74,7 +74,7 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
       "/dispatchApi": {
-        target: "http://localhost:7777",
+        target: "http://127.0.0.1:7777",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/dispatchApi/, ""),
       },
