@@ -117,7 +117,7 @@ export const removeRegisteredClientApi = (clientRegistrationId: string) => {
   return apiInstance.delete(`/api/registered/clients/${clientRegistrationId}`);
 };
 
-export interface CreateClientRegistrationModel {
+export const createClientRegistrationApi = (data: {
   registrationId: string, //客户端标识符
   clientRegistrationType: string; // 客户端注册类型
   clientId: string; // 客户端ID
@@ -131,9 +131,7 @@ export interface CreateClientRegistrationModel {
   userInfoUri?: string; // 用户信息端点(OIDC可选)
   userNameAttributeName?: string; // 用户名属性名(OIDC)
   jwkSetUri?: string; // JWKS端点(OIDC)
-}
-
-export const createClientRegistrationApi = (data: CreateClientRegistrationModel) => {
+}) => {
   return apiInstance.post(`/api/client/registrations`, data);
 };
 
@@ -145,7 +143,13 @@ export interface QueryMessageModel {
   category: string | null;
 }
 
-
 export const getMessagesApi = (query?: QueryMessageModel) => {
   return apiInstance.get("/dispatchApi/schedule/messages", {params: query});
+};
+
+export const aiConversationApi = (model?: {
+  conversationId: string,
+  message: string
+}) => {
+  return apiInstance.get("/aiApi/conversation", {params: model});
 };

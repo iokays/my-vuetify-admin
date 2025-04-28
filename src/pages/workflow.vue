@@ -43,7 +43,7 @@
 <script lang="ts" setup>
 import { type Component, onMounted, ref, shallowRef } from 'vue';
 import BpmnModeler from 'bpmn-js/lib/Modeler';
-import { xmlStr } from '@/assets/data/xmlStr.js';
+import { xmlStr } from '@/assets/data/workflow/xmlStr.js';
 
 
 interface NavItem {

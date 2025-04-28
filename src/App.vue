@@ -61,7 +61,8 @@ const items = ref([
   {icon: "mdi-robot-happy", link: "ai"},
   {icon: "mdi-security", link: "authorization"},
   {icon: "mdi-calendar-clock", link: "dispatch"},
-  {icon: "mdi-book-multiple", action: openDocs},
+  {icon: "mdi-sitemap", link: "workflow"},
+  {icon: "mdi-image-album", action: openDocs},
   {icon: "mdi-tools", link: "tools"},
   {icon: "mdi-github", action: openGithub},
   // 已移除 mdi-home
