@@ -71,8 +71,8 @@ const FakeAPI = {
 const itemsPerPage = ref(5);
 const headers = ref([
   {title: '用户ID', align: 'start', key: 'userId'},
-  {title: '用户名', key: 'username', align: 'end'},
-  {title: '状态', key: 'enabled', sortable: false, align: 'end'},
+  {title: '用户名', key: 'username', align: 'start'},
+  {title: '状态', key: 'enabled', sortable: false, align: 'start'},
   {title: '创建时间', key: 'createdDate', align: 'end'}
 ]);
 const search = ref('');

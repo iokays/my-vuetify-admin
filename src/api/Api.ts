@@ -55,7 +55,7 @@ export const getRegisteredClientsApi = (query?: Query) => {
   return apiInstance.get("/api/registered/clients", {params: query});
 };
 
-export const getJobDetails = (query?: Query) => {
+export const getJobDetailsApi = (query?: Query) => {
   return apiInstance.get("/dispatchApi/schedule/jobs", {params: query});
 };
 
@@ -139,4 +139,13 @@ export const createClientRegistrationApi = (data: CreateClientRegistrationModel)
 
 export const deleteClientRegistrationApi = (clientRegistrationId: string) => {
   return apiInstance.delete(`/api/client/registrations/${clientRegistrationId}`);
+};
+
+export interface QueryMessageModel {
+  category: string | null;
+}
+
+
+export const getMessagesApi = (query?: QueryMessageModel) => {
+  return apiInstance.get("/dispatchApi/schedule/messages", {params: query});
 };

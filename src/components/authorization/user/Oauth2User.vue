@@ -130,7 +130,7 @@ const headers = [
   {title: '电话号码', key: 'phoneNumber', align: 'start'},
   {title: '电话号码验证状态', key: 'phoneNumberVerified', align: 'start'},
   {title: '地址', key: 'address', align: 'start'},
-  {title: '最后更新时间', key: 'updatedAt', align: 'start'},
+  {title: '最后更新时间', key: 'updatedAt', align: 'end'},
   // { title: '自定义声明字段', key: 'claim', align: 'start' }
 ];
 const search = ref('');

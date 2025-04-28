@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <v-navigation-drawer :width="80">
+      <v-navigation-drawer :width="70">
         <div class="d-flex flex-column" style="height: 100%;">
           <!-- 主要按钮 -->
           <div>
@@ -12,7 +12,6 @@
                     :disabled="!item.link && !item.action"
                     :icon="item.icon"
                     color="deep-purple-lighten-1"
-                    size="large"
                     @click="item.action ? item.action() : (item.link && redirect(item.link))"
                   ></v-btn>
                 </v-col>
@@ -27,7 +26,6 @@
                 <v-btn
                   color="deep-black-lighten-1"
                   icon="mdi-home"
-                  size="large"
                   @click="redirect('/')"
                 ></v-btn>
               </v-col>
@@ -60,6 +58,7 @@ const openDocs = () => {
 };
 
 const items = ref([
+  {icon: "mdi-robot-happy", link: "ai"},
   {icon: "mdi-security", link: "authorization"},
   {icon: "mdi-calendar-clock", link: "dispatch"},
   {icon: "mdi-book-multiple", action: openDocs},

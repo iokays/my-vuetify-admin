@@ -57,7 +57,8 @@
 <script lang="ts" setup>
 //
 import {type Component, ref, shallowRef} from 'vue';
-import JobDetails from "@/components/dispatch/schedule/JobDetails.vue"; // 导入模块组件
+import JobDetails from "@/components/dispatch/schedule/JobDetails.vue";
+import DomainEvents from "@/components/dispatch/message/DomainEvents.vue"; // 导入模块组件
 
 // 定义导航栏数据结构
 interface NavItem {
@@ -72,18 +73,17 @@ interface NavGroup {
 
 // 导航栏数据
 const navItems = ref<NavGroup[]>([
-  // {
-  //   title: '事件消息',
-  //   items: [
-  //     { title: '领域事件', component: undefined },
-  //     { title: '应用事件', component: undefined },
-  //   ],
-  // },
   {
     title: '任务调度',
     items: [
       {title: '任务', component: JobDetails}, // 如果没有关联组件，可以设为 null
       // { title: '触发器', component: ClientRegistration }, // 如果没有关联组件，可以设为 null
+    ],
+  },
+  {
+    title: '事件消息',
+    items: [
+      { title: '领域事件', component: DomainEvents },
     ],
   },
   // 可以添加更多导航组

@@ -7,7 +7,9 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ChatBot: typeof import('./src/components/ai/ChatBot.vue')['default']
     ClientRegistration: typeof import('./src/components/authorization/client_registration/ClientRegistration.vue')['default']
+    DomainEvents: typeof import('./src/components/dispatch/message/DomainEvents.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     JobDetails: typeof import('./src/components/dispatch/schedule/JobDetails.vue')['default']
     LocalUser: typeof import('./src/components/authorization/user/LocalUser.vue')['default']

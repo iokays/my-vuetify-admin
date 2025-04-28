@@ -106,19 +106,19 @@
 
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
-import {createJobs, delJobDetails, getJobDetails} from '@/api/Api'
+import {createJobs, delJobDetails, getJobDetailsApi} from '@/api/Api'
 import {actionDialog} from '@/stores/Dialog'
 import {snackbar} from "@/stores/Snackbar";
 
 const searchJobDetails = reactive({
   headers: ref([
-    {title: '任务名称', key: 'jobName', align: 'end'},
-    {title: '任务组名', key: 'jobGroup', align: 'end'},
-    {title: '任务类别', key: 'jobClassName', align: 'end'},
-    {title: 'cron表达式', key: 'cronExpression', align: 'end'},
-    {title: '开始时间', key: 'startTime', align: 'end'},
-    {title: '结束时间', key: 'endTime', align: 'end'},
-    {title: '需要恢复', key: 'requestsRecovery', align: 'end'},
+    {title: '任务名称', key: 'jobName', align: 'start'},
+    {title: '任务组名', key: 'jobGroup', align: 'start'},
+    {title: '任务类别', key: 'jobClassName', align: 'start'},
+    {title: 'cron表达式', key: 'cronExpression', align: 'start'},
+    {title: '开始时间', key: 'startTime', align: 'start'},
+    {title: '结束时间', key: 'endTime', align: 'start'},
+    {title: '需要恢复', key: 'requestsRecovery', align: 'start'},
     {title: '操作', key: 'actions', align: 'end'}
   ] as const),
 
@@ -137,7 +137,7 @@ const searchJobDetails = reactive({
   },
 
   _RealAPI: async () => {
-    const response = await getJobDetails()
+    const response = await getJobDetailsApi()
     console.log('response: ' + response)
     return {items: response.data.content, total: response.data.size};
   }
