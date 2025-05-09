@@ -14,14 +14,13 @@
             :class="msg.from === 'bot' ? 'bg-blue-lighten-5 text-blue-darken-4' : 'bg-green-lighten-5 text-green-darken-4'"
             class="pa-3 rounded-lg"
             style="max-width: 70%; white-space: pre-wrap;"
-          >
-            {{ msg.text }}
-          </div>
+            v-html="renderMarkdown(msg.text)"
+          ></div>
 
-          <!-- 用户图标 -->
-          <v-avatar v-if="msg.from === 'user'" class="mb-2">
-            <v-icon>mdi-account</v-icon>
-          </v-avatar>
+        <!-- 用户图标 -->
+        <v-avatar v-if="msg.from === 'user'" class="mb-2">
+          <v-icon>mdi-account</v-icon>
+        </v-avatar>
 
         </div>
       </v-card-text>
@@ -54,7 +53,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import {aiConversationApi} from "@/api/Api";
+import { aiConversationApi } from "@/api/Api";
+import { marked } from 'marked'  // 导入 marked 库
 
 const messages = ref([
   { from: 'bot', text: '你好！开始我们新的对话吧!' },
@@ -62,6 +62,11 @@ const messages = ref([
 
 const newMessage = ref('')
 const conversationId = ref(typeof crypto !== 'undefined' ? crypto.randomUUID() : '');
+
+// 使用 marked 库解析 markdown
+function renderMarkdown(text: string) {
+  return marked(text); // 将消息文本解析为 HTML
+}
 
 function sendMessage() {
   if (newMessage.value.trim() !== '') {
@@ -77,7 +82,6 @@ function sendMessage() {
       conversationId: conversationId.value,
       message: text
     }).then(stream => {
-
 
       const reader = stream?.getReader();
       const decoder = new TextDecoder();
