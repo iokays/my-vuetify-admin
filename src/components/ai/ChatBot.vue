@@ -54,55 +54,62 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import {aiConversationApi} from "@/api/Api";
 
 const messages = ref([
-  { from: 'bot', text: '你好！有什么可以帮你的？' },
+  { from: 'bot', text: '你好！开始我们新的对话吧!' },
 ])
 
 const newMessage = ref('')
+const conversationId = ref(typeof crypto !== 'undefined' ? crypto.randomUUID() : '');
 
 function sendMessage() {
   if (newMessage.value.trim() !== '') {
-    messages.value.push({ from: 'user', text: newMessage.value.trim() })
-    // 模拟机器人回复
-    setTimeout(() => {
-      messages.value.push({ from: 'bot', text: '已收到：' + newMessage.value.trim() })
-    }, 500)
-    newMessage.value = ''
+    const text = newMessage.value.trim()
+    messages.value.push({ from: 'user', text: text })
+
+    // 创建新的bot消息对象（初始为空）
+    const botMessage = { from: 'bot', text: '' };
+    messages.value.push(botMessage);
+
+    // 调用API（假设返回Flux<String>）
+    aiConversationApi({
+      conversationId: conversationId.value,
+      message: text
+    }).then(stream => {
+
+
+      const reader = stream?.getReader();
+      const decoder = new TextDecoder();
+
+      function readChunk() {
+        reader?.read().then(({ done, value }) => {
+          if (done) return;
+
+          // 解码并处理数据块
+          const chunk = decoder.decode(value);
+          botMessage.text += chunk; // 追加到当前消息
+          messages.value = [...messages.value]; // 触发响应式更新
+
+          readChunk(); // 继续读取下一个块
+        });
+      }
+
+      readChunk();
+    });
+
+    newMessage.value = '';
   }
 }
 
-function handleKeydown(event) {
+function handleKeydown(event: KeyboardEvent) {
   if (event.key === 'Enter' && !event.shiftKey) {
-    // 只有按 Enter（没有 Shift）才发送
-    event.preventDefault() // 阻止默认换行
-    sendMessage()
+    event.preventDefault();
+    sendMessage();
   }
-  // 如果 Shift+Enter，就默认行为（换行），不拦截
 }
 </script>
 
 <style scoped>
-.fill-height {
-  height: 100vh;
-}
-
-.v-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.v-card {
-  flex-grow: 1;
-}
-
-.v-row {
-  margin-top: auto;  /* 使输入区域固定在底部 */
-}
-
-.v-avatar {
-  width: 36px;
-  height: 36px;
-  margin-bottom: 8px; /* 给图标与消息文本之间留一些空间 */
-}
+/* 样式保持不变 */
 </style>

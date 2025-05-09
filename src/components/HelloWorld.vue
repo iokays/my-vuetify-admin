@@ -86,6 +86,33 @@
             append-icon="mdi-open-in-new"
             class="py-4"
             color="surface-variant"
+            href="/ai"
+            prepend-icon="mdi-robot-happy"
+            rel="noopener noreferrer"
+            rounded="lg"
+            subtitle="基于Spring-AI和DeepSeek实现的聊天机器人"
+            target="_blank"
+            title="AI智能机器人"
+            variant="text"
+          >
+            <v-overlay
+              contained
+              model-value
+              opacity=".06"
+              persistent
+              scrim="primary"
+            />
+          </v-card>
+        </v-col>
+
+      </v-row>
+
+      <v-row>
+        <v-col cols="6">
+          <v-card
+            append-icon="mdi-open-in-new"
+            class="py-4"
+            color="surface-variant"
             href="/dispatch"
             prepend-icon="mdi-star-circle-outline"
             rel="noopener noreferrer"
@@ -105,7 +132,84 @@
           </v-card>
         </v-col>
 
+        <v-col cols="6">
+          <v-card
+            append-icon="mdi-open-in-new"
+            class="py-4"
+            color="surface-variant"
+            href="/workflow"
+            prepend-icon="mdi-clipboard-flow"
+            rel="noopener noreferrer"
+            rounded="lg"
+            subtitle="基于Flowable和JPA, 提供工作流基于Oauth2接口的调用."
+            target="_blank"
+            title="工作流平台"
+            variant="text"
+          >
+            <v-overlay
+              contained
+              model-value
+              opacity=".06"
+              persistent
+              scrim="primary"
+            />
+          </v-card>
+        </v-col>
       </v-row>
+
+      <v-row>
+
+        <v-col cols="6">
+          <v-card
+            append-icon="mdi-open-in-new"
+            class="py-4"
+            color="surface-variant"
+            href="https://www.iokays.com/docs/"
+            prepend-icon="mdi-book"
+            rel="noopener noreferrer"
+            rounded="lg"
+            subtitle="利用 Gemini-AI 对英文技术文档进行翻译。"
+            target="_blank"
+            title="计算机编程技术中文文档库"
+            variant="text"
+          >
+            <v-overlay
+              contained
+              model-value
+              opacity=".06"
+              persistent
+              scrim="primary"
+            />
+          </v-card>
+        </v-col>
+
+
+        <v-col cols="6">
+          <v-card
+            append-icon="mdi-open-in-new"
+            class="py-4"
+            color="surface-variant"
+            href="/tools"
+            prepend-icon="mdi-tools"
+            rel="noopener noreferrer"
+            rounded="lg"
+            subtitle="收集了一些实用小工具"
+            target="_blank"
+            title="工具箱"
+            variant="text"
+          >
+            <v-overlay
+              contained
+              model-value
+              opacity=".06"
+              persistent
+              scrim="primary"
+            />
+          </v-card>
+        </v-col>
+
+      </v-row>
+
     </v-responsive>
   </v-container>
 </template>

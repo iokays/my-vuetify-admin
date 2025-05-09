@@ -243,8 +243,6 @@ const editRegisteredClientDetails = reactive({
       redirectUris: editRegisteredClientDetails.redirectUris,
       postLogoutRedirectUris: editRegisteredClientDetails.postLogoutRedirectUris,
       scopes: editRegisteredClientDetails.scopes,
-      clientSettings: editRegisteredClientDetails.clientSettings,
-      tokenSettings: editRegisteredClientDetails.tokenSettings
     }).then(() => {
       editRegisteredClientDetails.close()
       snackbar.text = editRegisteredClientDetails.clientName + ': 已被成功添加';

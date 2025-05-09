@@ -103,8 +103,11 @@ const navItems = ref<NavGroup[]>([
 const currentComponent = shallowRef<Component>();
 
 // 切换显示模块
-const showComponent = (component: Component) => {
-  currentComponent.value = component;
+const showComponent = (component: Component | undefined) => {
+  if (component) {
+    currentComponent.value = component;
+  }
 };
+
 
 </script>

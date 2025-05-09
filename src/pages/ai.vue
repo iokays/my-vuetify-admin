@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { type Component, ref, shallowRef } from 'vue';
+import { type Component, ref, shallowRef, onMounted } from 'vue';
 import ChatBot from "@/components/ai/ChatBot.vue";
 
 // 定义每个导航项的数据类型
@@ -62,5 +62,15 @@ const currentComponent = shallowRef<Component | null>(null);
 const showComponent = (component: Component | undefined) => {
   currentComponent.value = component || null;
 };
-</script>
 
+// 组件挂载时，如果只有一个有效选项卡则自动打开
+onMounted(() => {
+  const validItems = navItems.value.filter((item): item is { title: string; component: Component } =>
+    item.component !== undefined
+  );
+
+  if (validItems.length === 1) {
+    currentComponent.value = validItems[0].component as Component;
+  }
+});
+</script>

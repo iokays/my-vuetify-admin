@@ -88,8 +88,8 @@ export interface CreateRegisteredClientModel {
   redirectUris: string[];
   postLogoutRedirectUris: string[];
   scopes: string[];
-  clientSettings: ClientSettings; // 解析后的客户端设置对象
-  tokenSettings: TokenSettings; // 解析后的令牌设置对象
+  clientSettings?: ClientSettings; // 解析后的客户端设置对象
+  tokenSettings?: TokenSettings; // 解析后的令牌设置对象
 }
 
 // 客户端设置类型
@@ -125,7 +125,7 @@ export const createClientRegistrationApi = (data: {
   clientSecret: string; // 客户端密钥
   clientAuthenticationMethod: string; // 认证方法
   authorizationGrantType: string; // 授权类型
-  scopes: Set<string>; // 权限范围
+  scopes: string[]; // 权限范围
   authorizationUri: string; // 授权端点
   tokenUri: string; // 令牌端点
   userInfoUri?: string; // 用户信息端点(OIDC可选)
@@ -147,9 +147,21 @@ export const getMessagesApi = (query?: QueryMessageModel) => {
   return apiInstance.get("/dispatchApi/schedule/messages", {params: query});
 };
 
-export const aiConversationApi = (model?: {
-  conversationId: string,
-  message: string
+export const aiConversationApi = async (model: {
+  conversationId?: string;
+  message: string;
 }) => {
-  return apiInstance.get("/aiApi/conversation", {params: model});
+  const response = await fetch("/aiApi/conversation", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(model),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return response.body; // 返回 ReadableStream
 };
