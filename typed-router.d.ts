@@ -22,6 +22,6 @@ declare module 'vue-router/auto-routes' {
     '/ai': RouteRecordInfo<'/ai', '/ai', Record<never, never>, Record<never, never>>,
     '/authorization': RouteRecordInfo<'/authorization', '/authorization', Record<never, never>, Record<never, never>>,
     '/dispatch': RouteRecordInfo<'/dispatch', '/dispatch', Record<never, never>, Record<never, never>>,
-    '/workflow': RouteRecordInfo<'/workflow', '/workflow', Record<never, never>, Record<never, never>>,
+    '/flowable': RouteRecordInfo<'/flowable', '/flowable', Record<never, never>, Record<never, never>>,
   }
 }
