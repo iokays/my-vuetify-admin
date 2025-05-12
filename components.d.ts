@@ -14,8 +14,12 @@ declare module 'vue' {
     JobDetails: typeof import('./src/components/dispatch/schedule/JobDetails.vue')['default']
     LocalUser: typeof import('./src/components/authorization/user/LocalUser.vue')['default']
     Oauth2User: typeof import('./src/components/authorization/user/Oauth2User.vue')['default']
+    ProcessDefinitions: typeof import('./src/components/flowable/processDefinitions.vue')['default']
+    ProcessInstances: typeof import('./src/components/flowable/ProcessInstances.vue')['default']
+    ProcessTasks: typeof import('./src/components/flowable/ProcessTasks.vue')['default']
     RegisteredClient: typeof import('./src/components/authorization/client_registration/RegisteredClient.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Tasks: typeof import('./src/components/flowable/Tasks.vue')['default']
   }
 }

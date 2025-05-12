@@ -165,3 +165,16 @@ export const aiConversationApi = async (model: {
 
   return response.body; // 返回 ReadableStream
 };
+
+
+export const pageProcessDefinitionsApi = (query?: Query) => {
+  return apiInstance.get("/flowableApi/processDefinitions", {params: query});
+};
+
+export const pageProcessInstancesApi = (query?: Query) => {
+  return apiInstance.get("/flowableApi/processInstances", {params: query});
+};
+
+export const pageProcessTasksApi = (query?: Query) => {
+  return apiInstance.get("/flowableApi/processTasks", {params: query});
+};

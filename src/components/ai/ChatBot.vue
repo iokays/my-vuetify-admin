@@ -14,13 +14,23 @@
             :class="msg.from === 'bot' ? 'bg-blue-lighten-5 text-blue-darken-4' : 'bg-green-lighten-5 text-green-darken-4'"
             class="pa-3 rounded-lg"
             style="max-width: 70%; white-space: pre-wrap;"
-            v-html="renderMarkdown(msg.text)"
+            v-html="renderMarkdown(msg.text || '回答中...')"
           ></div>
 
-        <!-- 用户图标 -->
-        <v-avatar v-if="msg.from === 'user'" class="mb-2">
-          <v-icon>mdi-account</v-icon>
-        </v-avatar>
+          <!-- 复制按钮，只有当渲染后的文本不为空时才显示 -->
+          <v-btn
+            v-if="msg.from === 'bot' && renderMarkdown(msg.text) !== ''"
+            variant="plain"
+            size="x-small"
+            icon="mdi-content-copy"
+            @click="copyText(msg.text)"
+            class="mb-2"
+          />
+
+          <!-- 用户图标 -->
+          <v-avatar v-if="msg.from === 'user'" class="mb-2">
+            <v-icon>mdi-account</v-icon>
+          </v-avatar>
 
         </div>
       </v-card-text>
@@ -66,6 +76,11 @@ const conversationId = ref(typeof crypto !== 'undefined' ? crypto.randomUUID() :
 // 使用 marked 库解析 markdown
 function renderMarkdown(text: string) {
   return marked(text); // 将消息文本解析为 HTML
+}
+
+// 复制文本到剪贴板
+function copyText(text: string) {
+  navigator.clipboard.writeText(text);
 }
 
 function sendMessage() {

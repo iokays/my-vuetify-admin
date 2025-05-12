@@ -28,15 +28,18 @@
     </v-navigation-drawer>
 
     <component :is="currentComponent" v-if="currentComponent" />
-    <v-responsive class="align-center fill-height mx-auto" max-width="900">
-      <v-img class="mb-4" height="150" src="@/assets/logo.png" />
-      <div class="text-center">
-        <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
-        <div class="py-4" />
-        <h1 class="text-h2 font-weight-bold">统一工作流平台</h1>
-      </div>
-      <div ref="canvas" style="height: 300px;"></div>
-    </v-responsive>
+    <!-- 默认内容 -->
+    <template v-else>
+      <v-responsive class="align-center fill-height mx-auto" max-width="900">
+        <v-img class="mb-4" height="150" src="@/assets/logo.png" />
+        <div class="text-center">
+          <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
+          <div class="py-4" />
+          <h1 class="text-h2 font-weight-bold">工作流平台</h1>
+        </div>
+        <div ref="canvas" style="height: 300px;"></div>
+      </v-responsive>
+    </template>
   </v-container>
 </template>
 
@@ -45,6 +48,9 @@ import { type Component, onMounted, ref, shallowRef } from 'vue';
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 
 import { xmlStr } from '@/assets/data/workflow/xmlStr';
+import ProcessDefinitions from "@/components/flowable/ProcessDefinitions.vue";
+import ProcessInstances from "@/components/flowable/ProcessInstances.vue";
+import ProcessTasks from "@/components/flowable/ProcessTasks.vue";
 
 interface NavItem {
   title: string;
@@ -60,8 +66,9 @@ const navItems = ref<NavGroup[]>([
   {
     title: '工作流管理',
     items: [
-      { title: '定义列表', component: undefined },
-      { title: '实例列表', component: undefined },
+      { title: '定义列表', component: ProcessDefinitions },
+      { title: '实例列表', component: ProcessInstances },
+      { title: '任务列表', component: ProcessTasks },
     ],
   },
 ]);
