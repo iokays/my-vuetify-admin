@@ -93,6 +93,11 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/testSession/, ""),
       },
+      "/toolsApi": {
+        target: "http://127.0.0.1:2222",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/toolsApi/, ""),
+      },
     },
   },
   css: {

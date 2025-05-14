@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const apiInstance = axios.create({
+export const apiInstance = axios.create({
   timeout: 10000,  //超时时间设置
   // maxRedirects: 0, // 全局禁止自动重定向
 });
@@ -177,4 +177,15 @@ export const pageProcessInstancesApi = (query?: Query) => {
 
 export const pageProcessTasksApi = (query?: Query) => {
   return apiInstance.get("/flowableApi/processTasks", {params: query});
+};
+
+export const uploadProcessDefinitionApi = (file: File) => {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  return apiInstance.post("/flowableApi/processDefinitions/upload", formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
 };

@@ -83,8 +83,8 @@ const navItems = ref([
   {icon: "mdi-security", link: "/authorization"},
   {icon: "mdi-calendar-clock", link: "/dispatch"},
   {icon: "mdi-sitemap", link: "/flowable"},
-  {icon: "mdi-image-album", action: openDocs},
   {icon: "mdi-tools", link: "/tools"},
+  {icon: "mdi-image-album", action: openDocs},
   {icon: "mdi-github", action: openGithub},
 ])
 

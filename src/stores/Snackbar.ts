@@ -7,6 +7,10 @@ export const snackbar = reactive({
   open: () => {
     snackbar.visible = true;
   },
+  openWithText: (text: string) => {
+    snackbar.visible = true;
+    snackbar.text = text
+  },
   close: () => {
     snackbar.visible = false
     snackbar.text = ''

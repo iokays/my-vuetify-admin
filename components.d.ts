@@ -14,6 +14,7 @@ declare module 'vue' {
     JobDetails: typeof import('./src/components/dispatch/schedule/JobDetails.vue')['default']
     LocalUser: typeof import('./src/components/authorization/user/LocalUser.vue')['default']
     Oauth2User: typeof import('./src/components/authorization/user/Oauth2User.vue')['default']
+    PortChecher: typeof import('./src/components/tools/PortChecher.vue')['default']
     ProcessDefinitions: typeof import('./src/components/flowable/ProcessDefinitions.vue')['default']
     ProcessInstances: typeof import('./src/components/flowable/ProcessInstances.vue')['default']
     ProcessTasks: typeof import('./src/components/flowable/ProcessTasks.vue')['default']
