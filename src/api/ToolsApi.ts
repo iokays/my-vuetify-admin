@@ -6,7 +6,7 @@ export const ipAddressApi = () => {
 
 export const portCheckerApi = async (model: {
   domain: string;
-  ports: string[];
+  ports: number[];
 }) => {
   // Convert ports array to comma-separated string
   const portsParam = model.ports.join(',');

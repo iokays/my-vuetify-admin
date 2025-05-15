@@ -199,8 +199,8 @@ import {ipAddressApi, portCheckerApi} from "@/api/ToolsApi";
 
 // 响应式数据
 const externalIp = ref('正在获取...')
-const remoteAddress = ref('')
-const portNumber = ref('80')
+const remoteAddress = ref('www.iokays.com')
+const portNumber = ref(80)
 const selectedPorts = ref<number[]>([])
 const resultText = ref('')
 const singleLoading = ref(false)
@@ -251,16 +251,8 @@ const checkSinglePort = async () => {
 
   singleLoading.value = true
   appendResult(`开始检查 ${remoteAddress.value}:${portNumber.value}...\n`)
-
-  try {
-    const ports = [portNumber.value]
-    const response = await portCheckerApi({domain: remoteAddress.value, ports: ports})
-    resultText.value +=  response
-  } catch (error) {
-    appendResult(`检查失败: ${error.message}\n`)
-  } finally {
-    singleLoading.value = false
-  }
+  showResult(remoteAddress.value, [portNumber.value])
+  singleLoading.value = false
 }
 
 const scanPorts = async () => {
@@ -268,19 +260,13 @@ const scanPorts = async () => {
 
   scanLoading.value = true
   appendResult(`开始扫描 ${remoteAddress.value} 的选定端口: ${selectedPorts.value.join(', ')}...\n`)
+  showResult(remoteAddress.value, selectedPorts.value)
+  scanLoading.value = false
 
-  try {
-    const response = await portCheckerApi({domain: remoteAddress.value, ports: selectedPorts.value})
-    resultText.value += response;
-  } catch (error) {
-    appendResult(`扫描失败: ${error.message}\n`)
-  } finally {
-    scanLoading.value = false
-  }
 }
 
 const checkCommonPort = (port: { number: number }) => {
-  portNumber.value = port.number.toString()
+  portNumber.value = port.number
   checkSinglePort()
 }
 
@@ -288,15 +274,8 @@ const scanCommonPorts = async () => {
   commonLoading.value = true
   const ports = commonPorts.value.map(p => p.number)
   appendResult(`开始扫描 ${remoteAddress.value} 的所有常用端口...\n`)
-
-  try {
-    const response = await portCheckerApi({domain: remoteAddress.value, ports: ports})
-    resultText.value += response;
-  } catch (error) {
-    appendResult(`扫描失败: ${error.message}\n`)
-  } finally {
-    commonLoading.value = false
-  }
+  showResult(remoteAddress.value, ports)
+  commonLoading.value = false
 }
 
 const appendResult = (text: string) => {
@@ -316,4 +295,24 @@ const copyResults = async () => {
     console.error('复制失败:', err)
   }
 }
+
+const showResult = (domain: string, ports: number[]) => {
+  portCheckerApi({domain: domain, ports: ports})
+    .then(stream => {
+      const reader = stream?.getReader();
+      const decoder = new TextDecoder();
+
+      function readChunk() {
+        reader?.read().then(({done, value}) => {
+          if ((done)) return;
+          const chunk = decoder.decode(value);
+          console.log(chunk);
+          appendResult(chunk);
+          readChunk(); // 继续读取下一个块
+        })
+      }
+      readChunk();
+    });
+}
+
 </script>
