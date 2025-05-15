@@ -24,5 +24,6 @@ declare module 'vue-router/auto-routes' {
     '/dispatch': RouteRecordInfo<'/dispatch', '/dispatch', Record<never, never>, Record<never, never>>,
     '/flowable': RouteRecordInfo<'/flowable', '/flowable', Record<never, never>, Record<never, never>>,
     '/tools': RouteRecordInfo<'/tools', '/tools', Record<never, never>, Record<never, never>>,
+    '/yellow': RouteRecordInfo<'/yellow', '/yellow', Record<never, never>, Record<never, never>>,
   }
 }

@@ -41,29 +41,69 @@
 <script lang="ts" setup>
 import { type Component, ref, shallowRef, onMounted } from 'vue';
 import PortChecher from "@/components/tools/PortChecher.vue";
+import SqlPretty from "@/components/tools/SqlPretty.vue";
+import JsonPretty from "@/components/tools/JsonPretty.vue";
 
-// 定义每个导航项的数据类型
 interface NavItem {
   title: string;
   component?: Component;
 }
 
-// 直接以一维数组存储菜单项
-const navItems = ref<NavItem[]>([
-  { title: '端口检测', component: PortChecher },
-  // { title: '语音机器人', component: undefined },
-  // { title: '图像机器人', component: undefined },
-]);
+// 从localStorage加载排序后的导航项，如果没有则使用默认顺序
+const loadNavItems = (): NavItem[] => {
+  const defaultItems: NavItem[] = [
+    { title: '端口检测', component: PortChecher },
+    { title: 'SQL格式化', component: SqlPretty },
+    { title: 'JSON格式化', component: JsonPretty },
+    // { title: '语音机器人', component: undefined },
+    // { title: '图像机器人', component: undefined },
+  ];
 
-// 当前显示的组件
-const currentComponent = shallowRef<Component | null>(null);
+  const savedOrder = localStorage.getItem('navItemsOrder');
+  if (!savedOrder) return defaultItems;
 
-// 切换组件的函数
-const showComponent = (component: Component | undefined) => {
-  currentComponent.value = component || null;
+  try {
+    const order = JSON.parse(savedOrder) as string[];
+    // 确保所有默认项都在排序中
+    const allTitles = new Set([...order, ...defaultItems.map(item => item.title)]);
+
+    return Array.from(allTitles).map(title => {
+      const item = defaultItems.find(i => i.title === title) || { title };
+      return item;
+    });
+  } catch {
+    return defaultItems;
+  }
 };
 
-// 组件挂载时，如果只有一个有效选项卡则自动打开
+const navItems = ref<NavItem[]>(loadNavItems());
+const currentComponent = shallowRef<Component | null>(null);
+
+// 切换组件并更新排序
+const showComponent = (component: Component | undefined) => {
+  if (!component) return;
+
+  currentComponent.value = component;
+
+  // 找到点击的项
+  const clickedItem = navItems.value.find(item => item.component === component);
+  if (!clickedItem) return;
+
+  // 重新排序：将点击的项移到最前面
+  const newItems = [
+    clickedItem,
+    ...navItems.value.filter(item => item !== clickedItem)
+  ];
+
+  navItems.value = newItems;
+
+  // 保存排序到localStorage
+  localStorage.setItem(
+    'navItemsOrder',
+    JSON.stringify(newItems.map(item => item.title))
+  );
+};
+
 onMounted(() => {
   const validItems = navItems.value.filter((item): item is { title: string; component: Component } =>
     item.component !== undefined

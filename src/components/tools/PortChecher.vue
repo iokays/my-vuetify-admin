@@ -137,7 +137,6 @@
                 常用端口
               </v-card-title>
               <v-card-text>
-                <v-subheader>点击端口快速检查</v-subheader>
                 <div class="d-flex flex-wrap">
                   <v-chip
                     v-for="port in commonPorts"
@@ -200,7 +199,7 @@ import {ipAddressApi, portCheckerApi} from "@/api/ToolsApi";
 // 响应式数据
 const externalIp = ref('正在获取...')
 const remoteAddress = ref('www.iokays.com')
-const portNumber = ref(80)
+const portNumber = ref(443)
 const selectedPorts = ref<number[]>([])
 const resultText = ref('')
 const singleLoading = ref(false)

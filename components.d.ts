@@ -12,6 +12,7 @@ declare module 'vue' {
     DomainEvents: typeof import('./src/components/dispatch/message/DomainEvents.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     JobDetails: typeof import('./src/components/dispatch/schedule/JobDetails.vue')['default']
+    JsonPretty: typeof import('./src/components/tools/JsonPretty.vue')['default']
     LocalUser: typeof import('./src/components/authorization/user/LocalUser.vue')['default']
     Oauth2User: typeof import('./src/components/authorization/user/Oauth2User.vue')['default']
     PortChecher: typeof import('./src/components/tools/PortChecher.vue')['default']
@@ -21,5 +22,6 @@ declare module 'vue' {
     RegisteredClient: typeof import('./src/components/authorization/client_registration/RegisteredClient.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SqlPretty: typeof import('./src/components/tools/SqlPretty.vue')['default']
   }
 }

@@ -84,6 +84,7 @@ const navItems = ref([
   {icon: "mdi-calendar-clock", link: "/dispatch"},
   {icon: "mdi-sitemap", link: "/flowable"},
   {icon: "mdi-tools", link: "/tools"},
+  {icon: "mdi-web", link: "/yellow"},
   {icon: "mdi-image-album", action: openDocs},
   {icon: "mdi-github", action: openGithub},
 ])

@@ -21,3 +21,17 @@ export const portCheckerApi = async (model: {
 
   return response.body;
 };
+
+export const sqlPrettyApi = (model: {
+  sql: string
+}) => {
+  return apiInstance.post("/toolsApi/sqlPretty", model);
+};
+
+export const jsonPrettyApi = (model: {
+  content: string
+}) => {
+  return apiInstance.post("/toolsApi/jsonPretty", model, {
+    responseType: 'text' // 关键：强制返回字符串，不自动解析
+  });
+};
