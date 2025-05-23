@@ -37,7 +37,6 @@ const headers = ref<{
   align?: 'start' | 'center' | 'end';
   sortable?: boolean;
 }[]>([
-  {title: '用户ID', key: 'userId', align: 'start' },
   {title: '用户名', key: 'username', align: 'start'},
   {title: '状态', key: 'enabled', sortable: false, align: 'start'},
   {title: '创建时间', key: 'createdDate', align: 'end'}

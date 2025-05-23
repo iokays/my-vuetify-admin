@@ -24,6 +24,11 @@ apiInstance.interceptors.response.use(
         const currentUrl = window.location.href;
         console.warn('currentUrl: ' + currentUrl);
         window.location.href = '/login?targetUrl=' + encodeURIComponent(currentUrl);
+      } else if (response.status === 403) {
+        // 全局提示（通过事件、Pinia、inject 等方式实现）
+        window.dispatchEvent(new CustomEvent('globalSnackbar', {
+          detail: '您没有权限访问该资源。',
+        }))
       }
     } else {
       console.error('⚠️ 没有响应，可能是网络问题或者跨域:', error);

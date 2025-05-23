@@ -37,16 +37,29 @@
 
       <router-view/>
     </v-main>
+
+
+    <!-- 其他内容 -->
+    <v-snackbar v-model="snackbar.show" :timeout="4000" color="error">
+      {{ snackbar.message }}
+    </v-snackbar>
+
   </v-app>
 </template>
 
 <script lang="ts" setup>
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, reactive, provide} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
 
+const snackbar = reactive({
+  show: false,
+  message: '',
+})
+
+provide('globalSnackbar', snackbar)
 
 // 检查当前路由是否匹配导航项
 const isActive = (link?: string) => {
@@ -91,7 +104,11 @@ const navItems = ref([
 
 // 初始化时检查当前路由
 onMounted(() => {
-  // 这里不需要额外处理，因为isActive是响应式的
+  window.addEventListener('globalSnackbar', (event: Event) => {
+    const customEvent = event as CustomEvent
+    snackbar.message = customEvent.detail
+    snackbar.show = true
+  })
 })
 </script>
 

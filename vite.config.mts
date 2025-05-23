@@ -68,35 +68,35 @@ export default defineConfig({
         target: authTargetUrl,
         changeOrigin: true,
       },
-      "/api/Api": {
+      "/api/authorization": {
         target: authTargetUrl,
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        rewrite: (path) => path.replace(/^\/api\/authorization/, ""),
       },
-      "/flowableApi": {
+      "/api/flowable": {
         target: "http://127.0.0.1:5555",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/flowableApi/, ""),
+        rewrite: (path) => path.replace(/^\/api\/flowable/, ""),
       },
-      "/dispatchApi": {
+      "/api/dispatch": {
         target: "http://127.0.0.1:7777",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/dispatchApi/, ""),
+        rewrite: (path) => path.replace(/^\/api\/dispatch/, ""),
       },
-      "/aiApi": {
+      "/api/ai": {
         target: "http://127.0.0.1:9999",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/aiApi/, ""),
+        rewrite: (path) => path.replace(/^\/api\/ai/, ""),
       },
       "/testSession": {
         target: "http://127.0.0.1:3333",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/testSession/, ""),
       },
-      "/toolsApi": {
+      "/api/tools": {
         target: "http://127.0.0.1:2222",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/toolsApi/, ""),
+        rewrite: (path) => path.replace(/^\/api\/tools/, ""),
       },
     },
   },
