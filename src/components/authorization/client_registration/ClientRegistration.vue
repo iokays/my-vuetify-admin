@@ -195,7 +195,7 @@
 
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
-import {createClientRegistrationApi, deleteClientRegistrationApi, getClientRegistrationsApi} from '@/api/Api'
+import {createClientRegistrationApi, deleteClientRegistrationApi, getClientRegistrationsApi} from '@/api/ApiAuthorization'
 import {snackbar} from "@/stores/Snackbar";
 import {actionDialog} from "@/stores/Dialog";
 

@@ -106,7 +106,7 @@
 
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
-import {createJobs, delJobDetails, getJobDetailsApi} from '@/api/Api'
+import {createJobs, delJobDetails, getJobDetailsApi} from '@/api/ApiDispatch'
 import {actionDialog} from '@/stores/Dialog'
 import {snackbar} from "@/stores/Snackbar";
 

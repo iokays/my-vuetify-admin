@@ -16,7 +16,7 @@
 
 <script lang="ts" setup>
 import {ref} from 'vue';
-import {getOauthUsersApi} from '@/api/Api'
+import {getOauthUsersApi} from '@/api/ApiAuthorization'
 
 const RealAPI = {
   async fetch({page, itemsPerPage, sortBy}: { page: number, itemsPerPage: number, sortBy: never[] }) {

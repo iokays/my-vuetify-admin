@@ -63,7 +63,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { aiConversationApi } from "@/api/Api";
+import { aiConversationApi } from "@/api/ApiAi";
 import { marked } from 'marked'  // 导入 marked 库
 
 const messages = ref([

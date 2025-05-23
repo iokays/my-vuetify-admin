@@ -68,7 +68,7 @@ export default defineConfig({
         target: authTargetUrl,
         changeOrigin: true,
       },
-      "/api": {
+      "/api/Api": {
         target: authTargetUrl,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),

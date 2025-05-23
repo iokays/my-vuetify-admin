@@ -40,7 +40,7 @@
 
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
-import {getMessagesApi} from '@/api/Api'
+import {getMessagesApi} from '@/api/ApiDispatch'
 
 const categories = ["users", "other"]
 

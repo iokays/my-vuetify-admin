@@ -1,7 +1,7 @@
 import {apiInstance} from "@/api/Api";
 
 export const ipAddressApi = () => {
-  return apiInstance.get("/toolsApi/ipAddress");
+  return apiInstance.get("/api/tools/ipAddress");
 };
 
 export const portCheckerApi = async (model: {
@@ -11,7 +11,7 @@ export const portCheckerApi = async (model: {
   // Convert ports array to comma-separated string
   const portsParam = model.ports.join(',');
 
-  const response = await fetch(`/toolsApi/portChecker?domain=${encodeURIComponent(model.domain)}&ports=${encodeURIComponent(portsParam)}`, {
+  const response = await fetch(`/api/tools/portChecker?domain=${encodeURIComponent(model.domain)}&ports=${encodeURIComponent(portsParam)}`, {
     method: "GET",
   });
 
@@ -25,13 +25,13 @@ export const portCheckerApi = async (model: {
 export const sqlPrettyApi = (model: {
   sql: string
 }) => {
-  return apiInstance.post("/toolsApi/sqlPretty", model);
+  return apiInstance.post("/api/tools/sqlPretty", model);
 };
 
 export const jsonPrettyApi = (model: {
   content: string
 }) => {
-  return apiInstance.post("/toolsApi/jsonPretty", model, {
+  return apiInstance.post("/api/tools/jsonPretty", model, {
     responseType: 'text' // 关键：强制返回字符串，不自动解析
   });
 };

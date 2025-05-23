@@ -1,47 +1,45 @@
 <template>
-  <v-app>
-    <v-container>
+  <v-container fluid>
 
-      <!-- 标题部分 -->
-      <v-row class="mb-4">
-        <v-col cols="12">
-          <v-card>
-            <v-card-title>
-              <v-icon>mdi-lan-connect</v-icon>
-              <span>SQL格式化工具</span>
-            </v-card-title>
-          </v-card>
-        </v-col>
-      </v-row>
+    <!-- 标题部分 -->
+    <v-row class="mb-4">
+      <v-col cols="12">
+        <v-card>
+          <v-card-title>
+            <v-icon>mdi-lan-connect</v-icon>
+            <span>SQL格式化工具</span>
+          </v-card-title>
+        </v-card>
+      </v-col>
+    </v-row>
 
-      <v-row>
-        <v-col cols="12" md="6">
-          <v-textarea
-            v-model="input"
-            label="输入"
-            auto-grow
-            :rows="18"
-            class="sql-textarea"
-            @input="formatSql" />
-        </v-col>
-        <v-col cols="12" md="6">
-          <v-textarea
-            v-model="output"
-            label="输出"
-            auto-grow
-            :rows="18"
-            class="sql-textarea output-area"
-            readonly />
-          <div v-if="error" class="error text-error mt-2">{{ error }}</div>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-app>
+    <v-row>
+      <v-col cols="12" md="6">
+        <v-textarea
+          v-model="input"
+          label="输入"
+          auto-grow
+          :rows="18"
+          class="sql-textarea"
+          @input="formatSql" />
+      </v-col>
+      <v-col cols="12" md="6">
+        <v-textarea
+          v-model="output"
+          label="输出"
+          auto-grow
+          :rows="18"
+          class="sql-textarea output-area"
+          readonly />
+        <div v-if="error" class="error text-error mt-2">{{ error }}</div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { sqlPrettyApi } from "@/api/ToolsApi";
+import { sqlPrettyApi } from "@/api/ApiTools";
 
 interface RequestModel {
   sql: string;

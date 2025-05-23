@@ -61,7 +61,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 import { snackbar } from "@/stores/Snackbar";
-import { pageProcessDefinitionsApi, uploadProcessDefinitionApi } from '@/api/Api';
+import { pageProcessDefinitionsApi, uploadProcessDefinitionApi } from '@/api/ApiFlowable';
 
 const fileInput = ref<HTMLInputElement | null>(null);
 

@@ -194,7 +194,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
-import {ipAddressApi, portCheckerApi} from "@/api/ToolsApi";
+import {ipAddressApi, portCheckerApi} from "@/api/ApiTools";
 
 // 响应式数据
 const externalIp = ref('正在获取...')

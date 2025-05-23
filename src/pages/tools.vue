@@ -105,12 +105,15 @@ const showComponent = (component: Component | undefined) => {
 };
 
 onMounted(() => {
-  const validItems = navItems.value.filter((item): item is { title: string; component: Component } =>
-    item.component !== undefined
-  );
+  // 获取所有有组件的导航项
+  const validItems = navItems.value.filter(item => item.component !== undefined);
 
-  if (validItems.length === 1) {
+  // 如果有可用的组件，默认选中第一个
+  if (validItems.length > 0) {
     currentComponent.value = validItems[0].component as Component;
+
+    // 确保第一个项目在导航栏中也被高亮显示
+    // 这里不需要额外操作，因为 currentComponent 的变化会自动更新 :class 绑定
   }
 });
 </script>

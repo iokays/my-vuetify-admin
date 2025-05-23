@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
-import {pageProcessDefinitionsApi, pageProcessTasksApi} from '@/api/Api'
+import {pageProcessTasksApi} from '@/api/ApiFlowable'
 
 const searchPage = reactive({
   category: null,
