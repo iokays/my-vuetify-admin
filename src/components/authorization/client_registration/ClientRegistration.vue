@@ -184,20 +184,15 @@
     </v-card>
   </v-dialog>
 
-  <v-snackbar v-model="snackbar.visible" :timeout="snackbar.timeout">
-    {{ snackbar.text }}
-    <template #actions>
-      <v-btn color="blue" text="关闭" variant="text" @click="snackbar.close"/>
-    </template>
-  </v-snackbar>
-
 </template>
 
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
 import {createClientRegistrationApi, deleteClientRegistrationApi, getClientRegistrationsApi} from '@/api/ApiAuthorization'
-import {snackbar} from "@/stores/Snackbar";
+import { useSnackbarStore } from '@/stores/Snackbar'
 import {actionDialog} from "@/stores/Dialog";
+
+const snackbar = useSnackbarStore()
 
 const searchClientRegistrationDetails = reactive({
   headers: ref([
@@ -273,8 +268,7 @@ const editRegisteredClientDetails = reactive({
       jwkSetUri: editRegisteredClientDetails.jwkSetUri
     }).then(() => {
       editRegisteredClientDetails.close()
-      snackbar.text = editRegisteredClientDetails.clientName + ': 已被成功添加';
-      snackbar.open()
+      snackbar.open(editRegisteredClientDetails.clientName + ': 已被成功添加')
 
       //添加后成功刷新数据
       searchClientRegistrationDetails.loadItems({
@@ -283,8 +277,7 @@ const editRegisteredClientDetails = reactive({
         sortBy: []  // 根据需要可以传递排序参数
       });
     }).catch(e => {
-      snackbar.text = editRegisteredClientDetails.clientName + ': 添加失败: ' + e;
-      snackbar.open()
+      snackbar.open(editRegisteredClientDetails.clientName + ': 添加失败: ' + e)
     })
 
     editRegisteredClientDetails.dialog = false
@@ -307,8 +300,7 @@ const removeClientRegistration = reactive({
   _remove: () => {
     actionDialog.close()
     deleteClientRegistrationApi(removeClientRegistration._registrationId).then(() => {
-      snackbar.text = removeClientRegistration._clientName + ': 已被您成功删除.';
-      snackbar.open()
+      snackbar.open(removeClientRegistration._clientName + ': 已被您成功删除.')
 
       searchClientRegistrationDetails.loadItems({
         page: 1,  // 你可以选择保持当前页数，或者从第一页开始
@@ -318,8 +310,7 @@ const removeClientRegistration = reactive({
 
     }).catch(e => {
       console.log('error', e)
-      snackbar.text = removeClientRegistration._clientName + ': 删除失败.';
-      snackbar.open()
+      snackbar.open(removeClientRegistration._clientName + ': 删除失败.')
     })
   }
 })

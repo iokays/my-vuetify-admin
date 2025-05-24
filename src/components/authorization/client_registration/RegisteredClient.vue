@@ -156,13 +156,6 @@
     </v-card>
   </v-dialog>
 
-  <v-snackbar v-model="snackbar.visible" :timeout="snackbar.timeout">
-    {{ snackbar.text }}
-    <template #actions>
-      <v-btn color="blue" text="关闭" variant="text" @click="snackbar.close"/>
-    </template>
-  </v-snackbar>
-
 
 </template>
 
@@ -170,7 +163,9 @@
 import {reactive, ref} from 'vue';
 import {createRegisteredClientApi, getRegisteredClientsApi, removeRegisteredClientApi,} from '@/api/ApiAuthorization'
 import {actionDialog} from "@/stores/Dialog";
-import {snackbar} from "@/stores/Snackbar";
+import { useSnackbarStore } from '@/stores/Snackbar'
+
+const snackbar = useSnackbarStore()
 
 const searchRegisteredClientDetails = reactive({
   headers: ref([
@@ -245,8 +240,7 @@ const editRegisteredClientDetails = reactive({
       scopes: editRegisteredClientDetails.scopes,
     }).then(() => {
       editRegisteredClientDetails.close()
-      snackbar.text = editRegisteredClientDetails.clientName + ': 已被成功添加';
-      snackbar.open()
+      snackbar.open(editRegisteredClientDetails.clientName + ': 已被成功添加')
 
       //添加后成功刷新数据
       searchRegisteredClientDetails.loadItems({
@@ -255,8 +249,7 @@ const editRegisteredClientDetails = reactive({
         sortBy: []  // 根据需要可以传递排序参数
       });
     }).catch(e => {
-      snackbar.text = editRegisteredClientDetails.clientName + ': 添加失败: ' + e;
-      snackbar.open()
+      snackbar.open(editRegisteredClientDetails.clientName + ': 添加失败: ' + e)
     })
 
     editRegisteredClientDetails.dialog = false
@@ -279,8 +272,7 @@ const removeRegisteredClient = reactive({
   _remove: () => {
     actionDialog.close()
     removeRegisteredClientApi(removeRegisteredClient._registeredClientId).then(() => {
-      snackbar.text = removeRegisteredClient._clientName + ': 已被您成功删除.';
-      snackbar.open()
+      snackbar.open(removeRegisteredClient._clientName + ': 已被您成功删除.')
 
       searchRegisteredClientDetails.loadItems({
         page: 1,  // 你可以选择保持当前页数，或者从第一页开始
@@ -290,8 +282,7 @@ const removeRegisteredClient = reactive({
 
     }).catch(e => {
       console.log('error', e)
-      snackbar.text = removeRegisteredClient._clientName + ': 删除失败.';
-      snackbar.open()
+      snackbar.open(removeRegisteredClient._clientName + ': 删除失败.')
     })
   }
 })

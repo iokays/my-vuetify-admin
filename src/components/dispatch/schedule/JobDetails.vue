@@ -49,13 +49,6 @@
     </v-card>
   </v-dialog>
 
-  <v-snackbar v-model="snackbar.visible" :timeout="snackbar.timeout">
-    {{ snackbar.text }}
-    <template #actions>
-      <v-btn color="blue" text="关闭" variant="text" @click="snackbar.close"/>
-    </template>
-  </v-snackbar>
-
   <v-dialog v-model="editJobDetails.dialog" max-width="500" persistent>
     <v-card subtitle="创建你想要的任务"
             title="添加任务"
@@ -108,7 +101,8 @@
 import {reactive, ref} from 'vue';
 import {createJobs, delJobDetails, getJobDetailsApi} from '@/api/ApiDispatch'
 import {actionDialog} from '@/stores/Dialog'
-import {snackbar} from "@/stores/Snackbar";
+import { useSnackbarStore } from '@/stores/Snackbar'
+const snackbar = useSnackbarStore()
 
 const searchJobDetails = reactive({
   headers: ref([
@@ -181,8 +175,7 @@ const editJobDetails = reactive({
       endAt: editJobDetails.endAt,
     }).then(() => {
       editJobDetails.close()
-      snackbar.text = editJobDetails.jobName + ': 已被成功添加';
-      snackbar.open()
+      snackbar.open(editJobDetails.jobName + ': 已被成功添加')
 
       //添加后成功刷新数据
       searchJobDetails.loadItems({
@@ -191,8 +184,7 @@ const editJobDetails = reactive({
         sortBy: []  // 根据需要可以传递排序参数
       });
     }).catch(e => {
-      snackbar.text = editJobDetails.jobName + ': 添加失败: ' + e;
-      snackbar.open()
+      snackbar.open(editJobDetails.jobName + ': 添加失败: ' + e)
     })
   }
 })
@@ -215,8 +207,7 @@ const removeJobDetails = reactive({
   _remove: () => {
     actionDialog.close()
     delJobDetails(removeJobDetails._name, removeJobDetails._group).then(() => {
-      snackbar.text = removeJobDetails._name + ': 已被您成功删除.';
-      snackbar.open()
+      snackbar.open(removeJobDetails._name + ': 已被您成功删除.')
 
       searchJobDetails.loadItems({
         page: 1,  // 你可以选择保持当前页数，或者从第一页开始
@@ -226,8 +217,7 @@ const removeJobDetails = reactive({
 
     }).catch(e => {
       console.log('error', e)
-      snackbar.text = removeJobDetails._name + ': 删除失败.';
-      snackbar.open()
+      snackbar.open(removeJobDetails._name + ': 删除失败.')
     })
   }
 })

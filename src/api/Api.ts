@@ -1,4 +1,10 @@
 import axios from "axios"
+import { useSnackbarStore } from '@/stores/Snackbar'
+
+// 由于 axios 不在组件中，要手动创建 pinia 实例（如果你没用 SSR）
+import { createPinia } from 'pinia'
+const pinia = createPinia()
+const snackbar = useSnackbarStore(pinia)
 
 export const apiInstance = axios.create({
   timeout: 10000,  //超时时间设置
@@ -26,9 +32,7 @@ apiInstance.interceptors.response.use(
         window.location.href = '/login?targetUrl=' + encodeURIComponent(currentUrl);
       } else if (response.status === 403) {
         // 全局提示（通过事件、Pinia、inject 等方式实现）
-        window.dispatchEvent(new CustomEvent('globalSnackbar', {
-          detail: '您没有权限访问该资源。',
-        }))
+        snackbar.open('您没有权限访问该资源')
       }
     } else {
       console.error('⚠️ 没有响应，可能是网络问题或者跨域:', error);

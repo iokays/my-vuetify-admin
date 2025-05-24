@@ -47,20 +47,13 @@
 
     </v-data-table-server>
 
-
-    <v-snackbar v-model="snackbar.visible" :timeout="snackbar.timeout">
-      {{ snackbar.text }}
-      <template #actions>
-        <v-btn color="blue" text="关闭" variant="text" @click="snackbar.close"/>
-      </template>
-    </v-snackbar>
-
   </v-container>
 </template>
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
-import { snackbar } from "@/stores/Snackbar";
+import { useSnackbarStore } from '@/stores/Snackbar'
+const snackbar = useSnackbarStore()
 import { pageProcessDefinitionsApi, uploadProcessDefinitionApi } from '@/api/ApiFlowable';
 
 const fileInput = ref<HTMLInputElement | null>(null);
@@ -109,13 +102,11 @@ const handleFileUpload = async (event: Event) => {
 
     try {
       await uploadProcessDefinitionApi(file);
-      snackbar.text = '流程定义上传成功'
-      snackbar.open()
+      snackbar.open('流程定义上传成功')
       searchPage.loadItems();
     } catch (error) {
       console.error('Upload failed:', error);
-      snackbar.text = '流程定义上传失败'
-      snackbar.open()
+      snackbar.open('流程定义上传失败')
     } finally {
       // Reset the file input
       if (input) input.value = '';
