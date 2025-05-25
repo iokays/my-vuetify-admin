@@ -60,7 +60,8 @@ import {type Component, ref, shallowRef} from 'vue';
 import LocalUser from '@/components/authorization/user/LocalUser.vue';
 import Oauth2User from "@/components/authorization/user/Oauth2User.vue";
 import ClientRegistration from "@/components/authorization/client_registration/ClientRegistration.vue";
-import RegisteredClient from "@/components/authorization/client_registration/RegisteredClient.vue"; // 导入模块组件
+import RegisteredClient from "@/components/authorization/client_registration/RegisteredClient.vue";
+import AuthGroup from "@/components/authorization/user/AuthGroup.vue"; // 导入模块组件
 
 // 定义导航栏数据结构
 interface NavItem {
@@ -80,6 +81,7 @@ const navItems = ref<NavGroup[]>([
     items: [
       {title: '本地用户', component: LocalUser},
       {title: 'Oauth2用户', component: Oauth2User},
+      {title: '权限群组', component: AuthGroup},
     ],
   },
   {

@@ -1,0 +1,56 @@
+<template>
+  <v-container>
+    <v-breadcrumbs :items="['用户', '权限群组']"></v-breadcrumbs>
+    <v-data-table-server
+      v-model:items-per-page="itemsPerPage"
+      :headers="headers"
+      :items="serverItems"
+      :items-length="totalItems"
+      :loading="loading"
+      :search="search"
+      item-value="name"
+      @update:options="loadItems"
+    ></v-data-table-server>
+  </v-container>
+</template>
+
+<script lang="ts" setup>
+import {ref} from 'vue';
+import {getGroupsApi} from '@/api/ApiAuthorization'
+
+const RealAPI = {
+  async fetch({page, itemsPerPage, sortBy}:  { page: number, itemsPerPage: number, sortBy: never[] }) {
+    const response = await getGroupsApi()
+    console.log('response: ' + response)
+    return {items: response.data.content, total: response.data.size};
+  }
+}
+
+
+// 定义响应式变量
+const itemsPerPage = ref(5);
+
+const headers = ref<{
+  title: string;
+  key: string;
+  align?: 'start' | 'center' | 'end';
+  sortable?: boolean;
+}[]>([
+  {title: '群组ID', key: 'groupId', align: 'start'},
+  {title: '群组名', key: 'groupName', sortable: false, align: 'start'},
+  {title: '创建时间', key: 'createdDate', align: 'end'}
+]);
+const search = ref('');
+const serverItems = ref([]);
+const loading = ref(true);
+const totalItems = ref(0);
+
+// 定义方法
+const loadItems = async ({page, itemsPerPage, sortBy}: { page: number, itemsPerPage: number, sortBy: never[] }) => {
+  loading.value = true;
+  const {items = [], total = 0} = await RealAPI.fetch({page, itemsPerPage, sortBy}) || {};
+  serverItems.value = items;
+  totalItems.value = total;
+  loading.value = false;
+};
+</script>

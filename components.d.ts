@@ -7,9 +7,11 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AuthGroup: typeof import('./src/components/authorization/user/AuthGroup.vue')['default']
     ChatBot: typeof import('./src/components/ai/ChatBot.vue')['default']
     ClientRegistration: typeof import('./src/components/authorization/client_registration/ClientRegistration.vue')['default']
     DomainEvents: typeof import('./src/components/dispatch/message/DomainEvents.vue')['default']
+    Group: typeof import('./src/components/authorization/user/Group.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     JobDetails: typeof import('./src/components/dispatch/schedule/JobDetails.vue')['default']
     JsonPretty: typeof import('./src/components/tools/JsonPretty.vue')['default']

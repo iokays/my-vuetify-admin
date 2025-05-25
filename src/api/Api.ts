@@ -32,7 +32,9 @@ apiInstance.interceptors.response.use(
         window.location.href = '/login?targetUrl=' + encodeURIComponent(currentUrl);
       } else if (response.status === 403) {
         // 全局提示（通过事件、Pinia、inject 等方式实现）
+        console.warn('403 未授权，您没有权限访问该资源')// 保存当前页面的 URL
         snackbar.open('您没有权限访问该资源')
+        console.log('Snackbar visibility before:', snackbar.visible); // 调试
       }
     } else {
       console.error('⚠️ 没有响应，可能是网络问题或者跨域:', error);

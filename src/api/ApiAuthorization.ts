@@ -5,6 +5,10 @@ export const getUsersApi = (query?: Query) => {
   return apiInstance.get("/api/authorization/users", {params: query});
 };
 
+export const getGroupsApi = (query?: Query) => {
+  return apiInstance.get("/api/authorization/groups", {params: query});
+};
+
 export const getOauthUsersApi = (query?: Query) => {
   return apiInstance.get("/api/authorization/oauthUsers", {params: query});
 };
