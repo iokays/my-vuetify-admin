@@ -2,9 +2,7 @@ import axios from "axios"
 import { useSnackbarStore } from '@/stores/Snackbar'
 
 // 由于 axios 不在组件中，要手动创建 pinia 实例（如果你没用 SSR）
-import { createPinia } from 'pinia'
-const pinia = createPinia()
-const snackbar = useSnackbarStore(pinia)
+const snackbar = useSnackbarStore()
 
 export const apiInstance = axios.create({
   timeout: 10000,  //超时时间设置
