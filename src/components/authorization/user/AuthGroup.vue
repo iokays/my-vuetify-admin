@@ -10,7 +10,23 @@
       :search="search"
       item-value="name"
       @update:options="loadItems"
-    ></v-data-table-server>
+    >
+
+      <template #[`item.authorities`]="{ item }: {item: {authorities: any}}">
+        <div class="authorities-container">
+          <v-chip
+            v-for="(auth, index) in item.authorities"
+            :key="index"
+            class="ma-1"
+            color="primary"
+            small
+          >
+            {{ auth }}
+          </v-chip>
+        </div>
+      </template>
+
+    </v-data-table-server>
   </v-container>
 </template>
 
@@ -38,6 +54,7 @@ const headers = ref<{
 }[]>([
   {title: '群组ID', key: 'groupId', align: 'start'},
   {title: '群组名', key: 'groupName', sortable: false, align: 'start'},
+  {title: '权限列表', key: 'authorities', sortable: false, align: 'start'},
   {title: '创建时间', key: 'createdDate', align: 'end'}
 ]);
 const search = ref('');

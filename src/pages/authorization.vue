@@ -3,6 +3,19 @@
 
     <v-app-bar :elevation="20">
       <v-app-bar-title>授权&鉴权平台</v-app-bar-title>
+
+      <!-- Add this spacer to push content to the right -->
+      <v-spacer></v-spacer>
+
+      <!-- Logout button -->
+      <v-btn
+        prepend-icon="mdi-logout"
+        variant="text"
+        @click="logout"
+      >
+        退出
+      </v-btn>
+
     </v-app-bar>
 
     <v-navigation-drawer :width="200">
@@ -61,7 +74,8 @@ import LocalUser from '@/components/authorization/user/LocalUser.vue';
 import Oauth2User from "@/components/authorization/user/Oauth2User.vue";
 import ClientRegistration from "@/components/authorization/client_registration/ClientRegistration.vue";
 import RegisteredClient from "@/components/authorization/client_registration/RegisteredClient.vue";
-import AuthGroup from "@/components/authorization/user/AuthGroup.vue"; // 导入模块组件
+import AuthGroup from "@/components/authorization/user/AuthGroup.vue";
+import {logoutApi} from "@/api/ApiAuthorization"; // 导入模块组件
 
 // 定义导航栏数据结构
 interface NavItem {
@@ -111,5 +125,12 @@ const showComponent = (component: Component | undefined) => {
   }
 };
 
+// Add logout function
+const logout = () => {
+  // Add your logout logic here
+  console.log('Logging out...');
+  logoutApi();
+  window.location.href = '/';
+};
 
 </script>

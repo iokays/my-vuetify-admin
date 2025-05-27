@@ -10,7 +10,15 @@
       :search="search"
       item-value="name"
       @update:options="loadItems"
-    ></v-data-table-server>
+    >
+
+      <template #[`item.enabled`]="{item}: {item: {enabled: boolean }}">
+        <v-chip :color="item.enabled ? 'success' : 'error'">
+          {{ item.enabled ? '启用' : '禁用' }}
+        </v-chip>
+      </template>
+
+    </v-data-table-server>
   </v-container>
 </template>
 
@@ -23,7 +31,6 @@ const RealAPI = {
     const response = await getUsersApi()
     console.log('response: ' + response)
     return {items: response.data.content, total: response.data.size};
-    return
   }
 }
 
@@ -54,4 +61,6 @@ const loadItems = async ({page, itemsPerPage, sortBy}: { page: number, itemsPerP
   totalItems.value = total;
   loading.value = false;
 };
+
+
 </script>

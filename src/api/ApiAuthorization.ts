@@ -1,6 +1,10 @@
 import {apiInstance } from "@/api/Api";
 import type { Query } from "@/api/Api";
 
+export const logoutApi = () => {
+  return apiInstance.get("/logout", {});
+};
+
 export const getUsersApi = (query?: Query) => {
   return apiInstance.get("/api/authorization/users", {params: query});
 };

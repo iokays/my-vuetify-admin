@@ -60,6 +60,10 @@ export default defineConfig({
         target: authTargetUrl,
         changeOrigin: true,
       },
+      "/logout": {
+        target: authTargetUrl,
+        changeOrigin: true,
+      },
       "/oauth2": {
         target: authTargetUrl,
         changeOrigin: true,
