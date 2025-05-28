@@ -6,19 +6,27 @@
     </v-app-bar>
 
     <!-- 导航栏 -->
-    <v-navigation-drawer :width="200">
-      <v-card class="mx-auto" width="200">
-        <v-list>
-          <!-- 动态渲染导航项 -->
-          <v-list-item
-            v-for="item in navItems"
-            :key="item.title"
-            :title="item.title"
-            @click="showComponent(item.component)"
-            :class="{ 'v-list-item--active': currentComponent === item.component }"
-          ></v-list-item>
-        </v-list>
-      </v-card>
+    <v-navigation-drawer :width="210">
+      <v-row no-gutters style="height: 100%;">
+        <v-col cols="4">
+          <app-navigation-drawer-left />
+        </v-col>
+
+        <v-col cols="8">
+          <v-card class="mx-auto">
+            <v-list>
+              <!-- 动态渲染导航项 -->
+              <v-list-item
+                v-for="item in navItems"
+                :key="item.title"
+                :title="item.title"
+                @click="showComponent(item.component)"
+                :class="{ 'v-list-item--active': currentComponent === item.component }"
+              ></v-list-item>
+            </v-list>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-navigation-drawer>
 
     <!-- 动态组件显示区域 -->
@@ -41,6 +49,7 @@
 <script lang="ts" setup>
 import { type Component, ref, shallowRef, onMounted } from 'vue';
 import ChatBot from "@/components/ai/ChatBot.vue";
+import AppNavigationDrawerLeft from "@/components/AppNavigationDrawerLeft.vue";
 
 // 定义每个导航项的数据类型
 interface NavItem {

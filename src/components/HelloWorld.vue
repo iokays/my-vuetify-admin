@@ -62,6 +62,31 @@
             append-icon="mdi-open-in-new"
             class="py-4"
             color="surface-variant"
+            href="/ai"
+            prepend-icon="mdi-robot-happy"
+            rel="noopener noreferrer"
+            rounded="lg"
+            subtitle="基于Spring-AI和DeepSeek实现的聊天机器人"
+            target="_blank"
+            title="AI智能机器人"
+            variant="text"
+          >
+            <v-overlay
+              contained
+              model-value
+              opacity=".06"
+              persistent
+              scrim="primary"
+            />
+          </v-card>
+        </v-col>
+
+
+        <v-col cols="6">
+          <v-card
+            append-icon="mdi-open-in-new"
+            class="py-4"
+            color="surface-variant"
             href="/authorization"
             prepend-icon="mdi-text-box-outline"
             rel="noopener noreferrer"
@@ -81,29 +106,6 @@
           </v-card>
         </v-col>
 
-        <v-col cols="6">
-          <v-card
-            append-icon="mdi-open-in-new"
-            class="py-4"
-            color="surface-variant"
-            href="/ai"
-            prepend-icon="mdi-robot-happy"
-            rel="noopener noreferrer"
-            rounded="lg"
-            subtitle="基于Spring-AI和DeepSeek实现的聊天机器人"
-            target="_blank"
-            title="AI智能机器人"
-            variant="text"
-          >
-            <v-overlay
-              contained
-              model-value
-              opacity=".06"
-              persistent
-              scrim="primary"
-            />
-          </v-card>
-        </v-col>
 
       </v-row>
 

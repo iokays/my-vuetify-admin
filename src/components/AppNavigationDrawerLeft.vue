@@ -1,30 +1,44 @@
+<!-- src/components/AppNavigationDrawerLeft.vue -->
 <template>
-  <v-app>
-    <v-main>
-      <router-view/>
-    </v-main>
-
-
-    <!-- 其他内容 -->
-    <v-snackbar v-model="snackbar.visible" :timeout="snackbar.timeout" :color="snackbar.color">
-      {{ snackbar.text }}
-      <template #actions>
-        <v-btn color="pink" text="关闭" variant="text" @click="snackbar.close"/>
+  <div class="d-flex flex-column" style="height: 100%;">
+    <!-- 主要按钮 -->
+    <div>
+      <template v-for="(item, index) in navItems" :key="index">
+        <v-row class="mt-1" justify="center">
+          <v-col class="text-center">
+            <v-btn
+              :icon="item.icon"
+              :active="isActive(item.link)"
+              color="deep-purple-lighten-1"
+              @click="handleNavClick(item)"
+            ></v-btn>
+          </v-col>
+        </v-row>
       </template>
-    </v-snackbar>
+    </div>
 
-  </v-app>
+    <!-- 固定在底部的首页按钮 -->
+    <div style="margin-top: auto; margin-bottom: 16px;">
+      <v-row justify="center">
+        <v-col class="text-center">
+          <v-btn
+            icon="mdi-home"
+            :active="isActive('/')"
+            color="deep-black-lighten-1"
+            @click="redirect('/')"
+          ></v-btn>
+        </v-col>
+      </v-row>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import {ref, onMounted} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
-import { useSnackbarStore } from '@/stores/Snackbar'
 
 const router = useRouter()
 const route = useRoute()
-const snackbar = useSnackbarStore()
-
 
 // 检查当前路由是否匹配导航项
 const isActive = (link?: string) => {

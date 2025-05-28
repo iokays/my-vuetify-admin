@@ -13,7 +13,7 @@
           <div
             :class="msg.from === 'bot' ? 'bg-blue-lighten-5 text-blue-darken-4' : 'bg-green-lighten-5 text-green-darken-4'"
             class="pa-3 rounded-lg"
-            style="max-width: 70%; white-space: pre-wrap;"
+            style="max-width: 50%; "
             v-html="renderMarkdown(msg.text || '回答中...')"
           ></div>
 

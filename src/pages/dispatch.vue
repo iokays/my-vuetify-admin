@@ -5,29 +5,38 @@
       <v-app-bar-title>消息与事件调度平台</v-app-bar-title>
     </v-app-bar>
 
-    <v-navigation-drawer :width="200">
-      <v-card class="mx-auto" width="200">
-        <v-list>
-          <!-- 动态渲染导航项 -->
-          <template v-for="group in navItems" :key="group.title">
-            <v-list-group :value="group.title">
-              <template v-slot:activator="{ props }">
-                <v-list-item
-                  :title="group.title"
-                  v-bind="props"
-                ></v-list-item>
+    <!-- 导航栏 -->
+    <v-navigation-drawer :width="210">
+      <v-row no-gutters style="height: 100%;">
+        <v-col cols="4">
+          <app-navigation-drawer-left />
+        </v-col>
+
+        <v-col cols="8">
+          <v-card class="mx-auto" width="200">
+            <v-list>
+              <!-- 动态渲染导航项 -->
+              <template v-for="group in navItems" :key="group.title">
+                <v-list-group :value="group.title">
+                  <template v-slot:activator="{ props }">
+                    <v-list-item
+                      :title="group.title"
+                      v-bind="props"
+                    ></v-list-item>
+                  </template>
+                  <!-- 动态渲染子菜单项 -->
+                  <v-list-item
+                    v-for="item in group.items"
+                    :key="item.title"
+                    :title="item.title"
+                    @click="showComponent(item.component)"
+                  ></v-list-item>
+                </v-list-group>
               </template>
-              <!-- 动态渲染子菜单项 -->
-              <v-list-item
-                v-for="item in group.items"
-                :key="item.title"
-                :title="item.title"
-                @click="showComponent(item.component)"
-              ></v-list-item>
-            </v-list-group>
-          </template>
-        </v-list>
-      </v-card>
+            </v-list>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-navigation-drawer>
 
     <!-- 动态组件 -->
@@ -58,7 +67,8 @@
 //
 import {type Component, ref, shallowRef} from 'vue';
 import JobDetails from "@/components/dispatch/schedule/JobDetails.vue";
-import DomainEvents from "@/components/dispatch/message/DomainEvents.vue"; // 导入模块组件
+import DomainEvents from "@/components/dispatch/message/DomainEvents.vue";
+import AppNavigationDrawerLeft from "@/components/AppNavigationDrawerLeft.vue"; // 导入模块组件
 
 // 定义导航栏数据结构
 interface NavItem {

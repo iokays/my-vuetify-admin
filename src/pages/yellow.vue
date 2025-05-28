@@ -5,6 +5,12 @@
       <v-app-bar-title>网址黄页</v-app-bar-title>
     </v-app-bar>
 
+
+    <!-- 导航栏 -->
+    <v-navigation-drawer :width="70">
+      <app-navigation-drawer-left />
+    </v-navigation-drawer>
+
     <v-card
       v-for="(category, index) in data"
       :key="index"
@@ -30,4 +36,5 @@
 
 <script lang="ts" setup>
 import { data } from '@/assets/data/yellow/urlJson';
+import AppNavigationDrawerLeft from "@/components/AppNavigationDrawerLeft.vue";
 </script>

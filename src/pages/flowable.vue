@@ -5,26 +5,39 @@
       <v-app-bar-title>工作流平台</v-app-bar-title>
     </v-app-bar>
 
-    <v-navigation-drawer :width="200">
-      <v-card class="mx-auto" width="200">
-        <v-list>
-          <!-- 动态渲染导航项 -->
-          <template v-for="group in navItems" :key="group.title">
-            <v-list-group :value="group.title">
-              <template v-slot:activator="{ props }">
-                <v-list-item :title="group.title" v-bind="props"></v-list-item>
+
+    <!-- 导航栏 -->
+    <v-navigation-drawer :width="210">
+      <v-row no-gutters style="height: 100%;">
+        <v-col cols="4">
+          <app-navigation-drawer-left />
+        </v-col>
+
+        <v-col cols="8">
+          <v-card class="mx-auto" width="200">
+            <v-list>
+              <!-- 动态渲染导航项 -->
+              <template v-for="group in navItems" :key="group.title">
+                <v-list-group :value="group.title">
+                  <template v-slot:activator="{ props }">
+                    <v-list-item
+                      :title="group.title"
+                      v-bind="props"
+                    ></v-list-item>
+                  </template>
+                  <!-- 动态渲染子菜单项 -->
+                  <v-list-item
+                    v-for="item in group.items"
+                    :key="item.title"
+                    :title="item.title"
+                    @click="showComponent(item.component)"
+                  ></v-list-item>
+                </v-list-group>
               </template>
-              <!-- 动态渲染子菜单项 -->
-              <v-list-item
-                v-for="item in group.items"
-                :key="item.title"
-                :title="item.title"
-                @click="showComponent(item.component)"
-              ></v-list-item>
-            </v-list-group>
-          </template>
-        </v-list>
-      </v-card>
+            </v-list>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-navigation-drawer>
 
     <component :is="currentComponent" v-if="currentComponent" />
@@ -51,6 +64,7 @@ import { xmlStr } from '@/assets/data/workflow/xmlStr';
 import ProcessDefinitions from "@/components/flowable/ProcessDefinitions.vue";
 import ProcessInstances from "@/components/flowable/ProcessInstances.vue";
 import ProcessTasks from "@/components/flowable/ProcessTasks.vue";
+import AppNavigationDrawerLeft from "@/components/AppNavigationDrawerLeft.vue";
 
 interface NavItem {
   title: string;
