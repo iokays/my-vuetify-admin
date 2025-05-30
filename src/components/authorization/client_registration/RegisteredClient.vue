@@ -161,7 +161,7 @@
 import {reactive, ref} from 'vue';
 import {createRegisteredClientApi, getRegisteredClientsApi, removeRegisteredClientApi,} from '@/api/ApiAuthorization'
 import {actionDialog} from "@/stores/Dialog";
-import { useSnackbarStore } from '@/stores/Snackbar'
+import {useSnackbarStore} from '@/stores/Snackbar'
 
 const snackbar = useSnackbarStore()
 

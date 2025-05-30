@@ -9,23 +9,23 @@
     <v-navigation-drawer :width="70">
       <v-row no-gutters style="height: 100%;">
         <v-col cols="12">
-          <app-navigation-drawer-left />
+          <app-navigation-drawer-left/>
         </v-col>
 
-<!--        <v-col cols="0">-->
-<!--          <v-card class="mx-auto">-->
-<!--            <v-list>-->
-<!--              &lt;!&ndash; 动态渲染导航项 &ndash;&gt;-->
-<!--              <v-list-item-->
-<!--                v-for="item in navItems"-->
-<!--                :key="item.title"-->
-<!--                :title="item.title"-->
-<!--                @click="showComponent(item.component)"-->
-<!--                :class="{ 'v-list-item&#45;&#45;active': currentComponent === item.component }"-->
-<!--              ></v-list-item>-->
-<!--            </v-list>-->
-<!--          </v-card>-->
-<!--        </v-col>-->
+        <!--        <v-col cols="0">-->
+        <!--          <v-card class="mx-auto">-->
+        <!--            <v-list>-->
+        <!--              &lt;!&ndash; 动态渲染导航项 &ndash;&gt;-->
+        <!--              <v-list-item-->
+        <!--                v-for="item in navItems"-->
+        <!--                :key="item.title"-->
+        <!--                :title="item.title"-->
+        <!--                @click="showComponent(item.component)"-->
+        <!--                :class="{ 'v-list-item&#45;&#45;active': currentComponent === item.component }"-->
+        <!--              ></v-list-item>-->
+        <!--            </v-list>-->
+        <!--          </v-card>-->
+        <!--        </v-col>-->
       </v-row>
     </v-navigation-drawer>
 
@@ -35,7 +35,7 @@
     <!-- 默认内容 -->
     <template v-else>
       <v-responsive class="align-center fill-height mx-auto" max-width="900">
-        <v-img class="mb-4" height="150" src="@/assets/logo.png" />
+        <v-img class="mb-4" height="150" src="@/assets/logo.png"/>
         <div class="text-center">
           <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
           <div class="py-4"/>
@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { type Component, ref, shallowRef, onMounted } from 'vue';
+import {type Component, onMounted, ref, shallowRef} from 'vue';
 import ChatBot from "@/components/ai/ChatBot.vue";
 import AppNavigationDrawerLeft from "@/components/AppNavigationDrawerLeft.vue";
 
@@ -59,7 +59,7 @@ interface NavItem {
 
 // 直接以一维数组存储菜单项
 const navItems = ref<NavItem[]>([
-  { title: '聊天机器人', component: ChatBot },
+  {title: '聊天机器人', component: ChatBot},
   // { title: '语音机器人', component: undefined },
   // { title: '图像机器人', component: undefined },
 ]);

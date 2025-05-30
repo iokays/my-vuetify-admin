@@ -99,7 +99,8 @@
 import {reactive, ref} from 'vue';
 import {createJobs, delJobDetails, getJobDetailsApi} from '@/api/ApiDispatch'
 import {actionDialog} from '@/stores/Dialog'
-import { useSnackbarStore } from '@/stores/Snackbar'
+import {useSnackbarStore} from '@/stores/Snackbar'
+
 const snackbar = useSnackbarStore()
 
 const searchJobDetails = reactive({

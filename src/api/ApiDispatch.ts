@@ -1,5 +1,5 @@
-import {apiInstance } from "@/api/Api";
-import type { Query } from "@/api/Api";
+import type {Query} from "@/api/Api";
+import {apiInstance} from "@/api/Api";
 
 export const getJobDetailsApi = (query?: Query) => {
   return apiInstance.get("/api/dispatch/schedule/jobs", {params: query});

@@ -9,7 +9,7 @@
     <v-navigation-drawer :width="210">
       <v-row no-gutters style="height: 100%;">
         <v-col cols="4">
-          <app-navigation-drawer-left />
+          <app-navigation-drawer-left/>
         </v-col>
 
         <v-col cols="8">
@@ -19,9 +19,9 @@
               <v-list-item
                 v-for="item in navItems"
                 :key="item.title"
+                :class="{ 'v-list-item--active': currentComponent === item.component }"
                 :title="item.title"
                 @click="showComponent(item.component)"
-                :class="{ 'v-list-item--active': currentComponent === item.component }"
               ></v-list-item>
             </v-list>
           </v-card>
@@ -35,7 +35,7 @@
     <!-- 默认内容 -->
     <template v-else>
       <v-responsive class="align-center fill-height mx-auto" max-width="900">
-        <v-img class="mb-4" height="150" src="@/assets/logo.png" />
+        <v-img class="mb-4" height="150" src="@/assets/logo.png"/>
         <div class="text-center">
           <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
           <div class="py-4"/>
@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { type Component, ref, shallowRef, onMounted } from 'vue';
+import {type Component, onMounted, ref, shallowRef} from 'vue';
 import PortChecher from "@/components/tools/PortChecher.vue";
 import SqlPretty from "@/components/tools/SqlPretty.vue";
 import JsonPretty from "@/components/tools/JsonPretty.vue";
@@ -61,9 +61,9 @@ interface NavItem {
 // 从localStorage加载排序后的导航项，如果没有则使用默认顺序
 const loadNavItems = (): NavItem[] => {
   const defaultItems: NavItem[] = [
-    { title: '端口检测', component: PortChecher },
-    { title: 'SQL格式化', component: SqlPretty },
-    { title: 'JSON格式化', component: JsonPretty },
+    {title: '端口检测', component: PortChecher},
+    {title: 'SQL格式化', component: SqlPretty},
+    {title: 'JSON格式化', component: JsonPretty},
     // { title: '语音机器人', component: undefined },
     // { title: '图像机器人', component: undefined },
   ];
@@ -77,7 +77,7 @@ const loadNavItems = (): NavItem[] => {
     const allTitles = new Set([...order, ...defaultItems.map(item => item.title)]);
 
     return Array.from(allTitles).map(title => {
-      const item = defaultItems.find(i => i.title === title) || { title };
+      const item = defaultItems.find(i => i.title === title) || {title};
       return item;
     });
   } catch {

@@ -7,8 +7,8 @@
         <v-row class="mt-1" justify="center">
           <v-col class="text-center">
             <v-btn
-              :icon="item.icon"
               :active="isActive(item.link)"
+              :icon="item.icon"
               color="deep-purple-lighten-1"
               @click="handleNavClick(item)"
             ></v-btn>
@@ -22,9 +22,9 @@
       <v-row justify="center">
         <v-col class="text-center">
           <v-btn
-            icon="mdi-home"
             :active="isActive('/')"
             color="deep-black-lighten-1"
+            icon="mdi-home"
             @click="redirect('/')"
           ></v-btn>
         </v-col>
@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, onMounted} from 'vue'
+import {onMounted, ref} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 
 const router = useRouter()

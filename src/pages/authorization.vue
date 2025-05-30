@@ -22,7 +22,7 @@
     <v-navigation-drawer :width="210">
       <v-row no-gutters style="height: 100%;">
         <v-col cols="4">
-          <app-navigation-drawer-left />
+          <app-navigation-drawer-left/>
         </v-col>
 
         <v-col cols="8">

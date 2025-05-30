@@ -8,7 +8,7 @@
 
     <!-- 导航栏 -->
     <v-navigation-drawer :width="70">
-      <app-navigation-drawer-left />
+      <app-navigation-drawer-left/>
     </v-navigation-drawer>
 
     <v-card
@@ -35,6 +35,6 @@
 </template>
 
 <script lang="ts" setup>
-import { data } from '@/assets/data/yellow/urlJson';
+import {data} from '@/assets/data/yellow/urlJson';
 import AppNavigationDrawerLeft from "@/components/AppNavigationDrawerLeft.vue";
 </script>

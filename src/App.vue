@@ -6,7 +6,7 @@
 
 
     <!-- 其他内容 -->
-    <v-snackbar v-model="snackbar.visible" :timeout="snackbar.timeout" :color="snackbar.color">
+    <v-snackbar v-model="snackbar.visible" :color="snackbar.color" :timeout="snackbar.timeout">
       {{ snackbar.text }}
       <template #actions>
         <v-btn color="pink" text="关闭" variant="text" @click="snackbar.close"/>
@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import {onMounted} from 'vue'
-import { useSnackbarStore } from '@/stores/Snackbar'
+import {useSnackbarStore} from '@/stores/Snackbar'
 
 const snackbar = useSnackbarStore()
 

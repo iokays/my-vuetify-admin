@@ -10,7 +10,7 @@
     <v-navigation-drawer :width="210">
       <v-row no-gutters style="height: 100%;">
         <v-col cols="4">
-          <app-navigation-drawer-left />
+          <app-navigation-drawer-left/>
         </v-col>
 
         <v-col cols="8">
@@ -40,14 +40,14 @@
       </v-row>
     </v-navigation-drawer>
 
-    <component :is="currentComponent" v-if="currentComponent" />
+    <component :is="currentComponent" v-if="currentComponent"/>
     <!-- 默认内容 -->
     <template v-else>
       <v-responsive class="align-center fill-height mx-auto" max-width="900">
-        <v-img class="mb-4" height="150" src="@/assets/logo.png" />
+        <v-img class="mb-4" height="150" src="@/assets/logo.png"/>
         <div class="text-center">
           <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
-          <div class="py-4" />
+          <div class="py-4"/>
           <h1 class="text-h2 font-weight-bold">工作流平台</h1>
         </div>
         <div ref="canvas" style="height: 300px;"></div>
@@ -57,10 +57,10 @@
 </template>
 
 <script lang="ts" setup>
-import { type Component, onMounted, ref, shallowRef } from 'vue';
+import {type Component, onMounted, ref, shallowRef} from 'vue';
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 
-import { xmlStr } from '@/assets/data/workflow/xmlStr';
+import {xmlStr} from '@/assets/data/workflow/xmlStr';
 import ProcessDefinitions from "@/components/flowable/ProcessDefinitions.vue";
 import ProcessInstances from "@/components/flowable/ProcessInstances.vue";
 import ProcessTasks from "@/components/flowable/ProcessTasks.vue";
@@ -80,9 +80,9 @@ const navItems = ref<NavGroup[]>([
   {
     title: '工作流管理',
     items: [
-      { title: '定义列表', component: ProcessDefinitions },
-      { title: '实例列表', component: ProcessInstances },
-      { title: '任务列表', component: ProcessTasks },
+      {title: '定义列表', component: ProcessDefinitions},
+      {title: '实例列表', component: ProcessInstances},
+      {title: '任务列表', component: ProcessTasks},
     ],
   },
 ]);
@@ -98,7 +98,7 @@ onMounted(async () => {
   if (canvas.value) {
     const bpmnModeler = new BpmnModeler({
       container: canvas.value,
-      keyboard: { bindTo: document },
+      keyboard: {bindTo: document},
     });
     try {
       await bpmnModeler.importXML(xmlStr);

@@ -1,23 +1,23 @@
 <template>
-    <v-breadcrumbs :items="['用户', '本地用户']"></v-breadcrumbs>
-    <v-data-table-server
-      v-model:items-per-page="itemsPerPage"
-      :headers="headers"
-      :items="serverItems"
-      :items-length="totalItems"
-      :loading="loading"
-      :search="search"
-      item-value="name"
-      @update:options="loadItems"
-    >
+  <v-breadcrumbs :items="['用户', '本地用户']"></v-breadcrumbs>
+  <v-data-table-server
+    v-model:items-per-page="itemsPerPage"
+    :headers="headers"
+    :items="serverItems"
+    :items-length="totalItems"
+    :loading="loading"
+    :search="search"
+    item-value="name"
+    @update:options="loadItems"
+  >
 
-      <template #[`item.enabled`]="{item}: {item: {enabled: boolean }}">
-        <v-chip :color="item.enabled ? 'success' : 'error'">
-          {{ item.enabled ? '启用' : '禁用' }}
-        </v-chip>
-      </template>
+    <template #[`item.enabled`]="{item}: {item: {enabled: boolean }}">
+      <v-chip :color="item.enabled ? 'success' : 'error'">
+        {{ item.enabled ? '启用' : '禁用' }}
+      </v-chip>
+    </template>
 
-    </v-data-table-server>
+  </v-data-table-server>
 </template>
 
 <script lang="ts" setup>
@@ -25,7 +25,7 @@ import {ref} from 'vue';
 import {getUsersApi} from '@/api/ApiAuthorization'
 
 const RealAPI = {
-  async fetch({page, itemsPerPage, sortBy}:  { page: number, itemsPerPage: number, sortBy: never[] }) {
+  async fetch({page, itemsPerPage, sortBy}: { page: number, itemsPerPage: number, sortBy: never[] }) {
     const response = await getUsersApi()
     console.log('response: ' + response)
     return {items: response.data.content, total: response.data.size};

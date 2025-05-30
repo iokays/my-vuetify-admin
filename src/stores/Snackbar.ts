@@ -1,5 +1,5 @@
 // src/stores/snackbar.ts
-import { defineStore } from 'pinia'
+import {defineStore} from 'pinia'
 
 export const useSnackbarStore = defineStore('snackbar', {
   state: () => ({

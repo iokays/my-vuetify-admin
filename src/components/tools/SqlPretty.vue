@@ -15,28 +15,28 @@
     <v-col cols="12" md="6">
       <v-textarea
         v-model="input"
-        label="输入"
-        auto-grow
         :rows="18"
+        auto-grow
         class="sql-textarea"
-        @input="formatSql" />
+        label="输入"
+        @input="formatSql"/>
     </v-col>
     <v-col cols="12" md="6">
       <v-textarea
         v-model="output"
-        label="输出"
-        auto-grow
         :rows="18"
+        auto-grow
         class="sql-textarea output-area"
-        readonly />
+        label="输出"
+        readonly/>
       <div v-if="error" class="error text-error mt-2">{{ error }}</div>
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { sqlPrettyApi } from "@/api/ApiTools";
+import {defineComponent} from 'vue';
+import {sqlPrettyApi} from "@/api/ApiTools";
 
 interface RequestModel {
   sql: string;
@@ -89,7 +89,7 @@ export default defineComponent({
 /* 添加新的样式 */
 .sql-textarea {
   font-family: 'Fira Code', 'Courier New', Courier, monospace;
-  font-weight: bold;  /* 直接加粗 */
+  font-weight: bold; /* 直接加粗 */
 }
 
 /* 调整文本区域的边框和阴影 */

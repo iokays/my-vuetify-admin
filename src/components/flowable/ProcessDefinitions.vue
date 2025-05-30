@@ -34,9 +34,9 @@
 
         <input
           ref="fileInput"
-          type="file"
-          style="display: none"
           accept=".bpmn,.xml,.zip"
+          style="display: none"
+          type="file"
           @change="handleFileUpload"
         >
 
@@ -49,10 +49,11 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
-import { useSnackbarStore } from '@/stores/Snackbar'
+import {reactive, ref} from 'vue';
+import {useSnackbarStore} from '@/stores/Snackbar'
+import {pageProcessDefinitionsApi, uploadProcessDefinitionApi} from '@/api/ApiFlowable';
+
 const snackbar = useSnackbarStore()
-import { pageProcessDefinitionsApi, uploadProcessDefinitionApi } from '@/api/ApiFlowable';
 
 const fileInput = ref<HTMLInputElement | null>(null);
 

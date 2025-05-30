@@ -1,8 +1,9 @@
 <template>
   <!-- 聊天消息列表 -->
-  <v-card class="flex-grow-1 overflow-auto mb-4" rounded="xl" elevation="4">
+  <v-card class="flex-grow-1 overflow-auto mb-4" elevation="4" rounded="xl">
     <v-card-text>
-      <div v-for="(msg, index) in messages" :key="index" class="d-flex mb-3" :class="msg.from === 'user' ? 'justify-end' : 'justify-start'">
+      <div v-for="(msg, index) in messages" :key="index" :class="msg.from === 'user' ? 'justify-end' : 'justify-start'"
+           class="d-flex mb-3">
 
         <!-- 机器人图标 - 添加点击事件 -->
         <v-avatar v-if="msg.from === 'bot'" class="mb-2" @click="openRoleDialog">
@@ -25,11 +26,11 @@
         <!-- 复制按钮 -->
         <v-btn
           v-if="msg.from === 'bot' && renderMarkdown(msg.text) !== ''"
-          variant="plain"
-          size="x-small"
-          icon="mdi-content-copy"
-          @click="copyText(msg.text)"
           class="mb-2"
+          icon="mdi-content-copy"
+          size="x-small"
+          variant="plain"
+          @click="copyText(msg.text)"
         />
 
         <!-- 用户图标 -->
@@ -42,7 +43,7 @@
   </v-card>
 
   <!-- 角色选择对话框 -->
-  <v-dialog v-model="roleDialog" >
+  <v-dialog v-model="roleDialog">
     <v-card>
       <v-card-title class="d-flex justify-space-between align-center">
         <span>选择角色</span>
@@ -52,11 +53,11 @@
       <v-card-text class="pa-4">
         <div class="d-flex flex-wrap gap-2">
           <!-- 当前选中的角色 -->
-          <v-tooltip location="top" :text="currentPrompt.prompt" max-width="600">
+          <v-tooltip :text="currentPrompt.prompt" location="top" max-width="600">
             <template v-slot:activator="{ props }">
               <v-chip
-                v-bind="props"
                 color="primary"
+                v-bind="props"
                 @click="selectPrompt(currentPrompt)"
               >
                 <v-icon start>mdi-check</v-icon>
@@ -69,8 +70,8 @@
           <v-tooltip
             v-for="(prompt, index) in otherPrompts"
             :key="index"
-            location="top"
             :text="prompt.prompt"
+            location="top"
             max-width="600"
           >
             <template v-slot:activator="{ props }">
@@ -91,19 +92,19 @@
   <v-row no-gutters>
     <v-textarea
       v-model="newMessage"
-      variant="solo-filled"
-      density="comfortable"
       auto-grow
-      rows="1.5"
+      density="comfortable"
       no-resize
       rounded="xl"
+      rows="1.5"
+      variant="solo-filled"
       @keydown="handleKeydown"
     >
       <template #append-inner>
         <v-btn
+          color="deep-purple-lighten-1"
           icon="mdi-send-circle"
           variant="text"
-          color="deep-purple-lighten-1"
           @click="sendMessage"
         ></v-btn>
       </template>
@@ -112,12 +113,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue'
-import { aiConversationApi } from "@/api/ApiAi";
-import { marked } from 'marked'
-import { promptsZh } from '@/assets/data/ai/prompts-zh'
+import {computed, onMounted, ref} from 'vue'
+import {aiConversationApi} from "@/api/ApiAi";
+import {marked} from 'marked'
+import {promptsZh} from '@/assets/data/ai/prompts-zh'
 
-const messages = ref<Array<{from: string, text: string}>>([])
+const messages = ref<Array<{ from: string, text: string }>>([])
 const newMessage = ref('')
 const conversationId = ref(typeof crypto !== 'undefined' ? crypto.randomUUID() : '');
 const roleDialog = ref(false);
@@ -179,10 +180,10 @@ function selectPrompt(prompt: typeof promptsZh[0]) {
 function sendMessage() {
   if (newMessage.value.trim() !== '') {
     const text = newMessage.value.trim()
-    messages.value.push({ from: 'user', text: text })
+    messages.value.push({from: 'user', text: text})
 
     // 创建新的bot消息对象（初始为空）
-    const botMessage = { from: 'bot', text: '' };
+    const botMessage = {from: 'bot', text: ''};
     messages.value.push(botMessage);
 
     // 调用API（假设返回Flux<String>）
@@ -195,7 +196,7 @@ function sendMessage() {
       const decoder = new TextDecoder();
 
       function readChunk() {
-        reader?.read().then(({ done, value }) => {
+        reader?.read().then(({done, value}) => {
           if (done) return;
 
           // 解码并处理数据块

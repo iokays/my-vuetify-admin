@@ -20,9 +20,9 @@
             md="2"
           >
             <v-select
-              label="类别"
-              :items="categories"
               v-model="searchPage.category"
+              :items="categories"
+              label="类别"
               variant="solo-filled"
               @update:model-value="searchPage.loadItems"
             ></v-select>

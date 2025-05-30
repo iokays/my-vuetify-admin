@@ -186,8 +186,12 @@
 
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
-import {createClientRegistrationApi, deleteClientRegistrationApi, getClientRegistrationsApi} from '@/api/ApiAuthorization'
-import { useSnackbarStore } from '@/stores/Snackbar'
+import {
+  createClientRegistrationApi,
+  deleteClientRegistrationApi,
+  getClientRegistrationsApi
+} from '@/api/ApiAuthorization'
+import {useSnackbarStore} from '@/stores/Snackbar'
 import {actionDialog} from "@/stores/Dialog";
 
 const snackbar = useSnackbarStore()

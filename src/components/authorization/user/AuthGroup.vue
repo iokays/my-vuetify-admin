@@ -33,7 +33,7 @@ import {ref} from 'vue';
 import {getGroupsApi} from '@/api/ApiAuthorization'
 
 const RealAPI = {
-  async fetch({page, itemsPerPage, sortBy}:  { page: number, itemsPerPage: number, sortBy: never[] }) {
+  async fetch({page, itemsPerPage, sortBy}: { page: number, itemsPerPage: number, sortBy: never[] }) {
     const response = await getGroupsApi()
     console.log('response: ' + response)
     return {items: response.data.content, total: response.data.size};

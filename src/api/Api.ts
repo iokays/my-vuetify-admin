@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useSnackbarStore } from '@/stores/Snackbar'
+import {useSnackbarStore} from '@/stores/Snackbar'
 
 // 由于 axios 不在组件中，要手动创建 pinia 实例（如果你没用 SSR）
 const snackbar = useSnackbarStore()

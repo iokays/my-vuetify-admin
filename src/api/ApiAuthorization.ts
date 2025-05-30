@@ -1,5 +1,5 @@
-import {apiInstance } from "@/api/Api";
-import type { Query } from "@/api/Api";
+import type {Query} from "@/api/Api";
+import {apiInstance} from "@/api/Api";
 
 export const logoutApi = () => {
   return apiInstance.get("/logout", {});

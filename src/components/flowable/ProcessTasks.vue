@@ -29,8 +29,10 @@ const searchPage = reactive({
     {title: '流程实例ID', key: 'processInstanceId', align: 'start'},
     {title: '创建时间', key: 'createTime', align: 'start'},
     {title: '到期时间', key: 'dueDate', align: 'start'},
-    {title: '状态', key: 'isOverdue', align: 'center',
-      formatter: (value: boolean) => value ? '已过期' : '进行中'}
+    {
+      title: '状态', key: 'isOverdue', align: 'center',
+      formatter: (value: boolean) => value ? '已过期' : '进行中'
+    }
   ] as const),
 
   search: '',

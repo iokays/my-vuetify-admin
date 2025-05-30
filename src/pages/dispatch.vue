@@ -9,7 +9,7 @@
     <v-navigation-drawer :width="210">
       <v-row no-gutters style="height: 100%;">
         <v-col cols="4">
-          <app-navigation-drawer-left />
+          <app-navigation-drawer-left/>
         </v-col>
 
         <v-col cols="8">
@@ -93,7 +93,7 @@ const navItems = ref<NavGroup[]>([
   {
     title: '事件消息',
     items: [
-      { title: '领域事件', component: DomainEvents },
+      {title: '领域事件', component: DomainEvents},
     ],
   },
   // 可以添加更多导航组
