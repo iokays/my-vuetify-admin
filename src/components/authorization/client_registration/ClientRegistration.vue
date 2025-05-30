@@ -1,39 +1,37 @@
 <template>
-  <v-container>
-    <v-breadcrumbs :items="['授权管理', '服务端']"/>
-    <v-data-table-server
-      v-model:items-per-page="searchClientRegistrationDetails.itemsPerPage"
-      :headers="searchClientRegistrationDetails.headers"
-      :items="searchClientRegistrationDetails.serverItems"
-      :items-length="searchClientRegistrationDetails.totalItems"
-      :loading="searchClientRegistrationDetails.loading"
-      :search="searchClientRegistrationDetails.search"
-      item-value="name"
-      @update:options="searchClientRegistrationDetails.loadItems"
-    >
-      <template #top>
-        <v-toolbar flat>
-          <v-toolbar-title></v-toolbar-title>
-          <v-btn
-            border
-            class="me-2"
-            prepend-icon="mdi-plus"
-            rounded="lg"
-            text="添加服务方"
-            @click="editRegisteredClientDetails.open()"
-          />
-        </v-toolbar>
-      </template>
+  <v-breadcrumbs :items="['授权管理', '服务端']"/>
+  <v-data-table-server
+    v-model:items-per-page="searchClientRegistrationDetails.itemsPerPage"
+    :headers="searchClientRegistrationDetails.headers"
+    :items="searchClientRegistrationDetails.serverItems"
+    :items-length="searchClientRegistrationDetails.totalItems"
+    :loading="searchClientRegistrationDetails.loading"
+    :search="searchClientRegistrationDetails.search"
+    item-value="name"
+    @update:options="searchClientRegistrationDetails.loadItems"
+  >
+    <template #top>
+      <v-toolbar flat>
+        <v-toolbar-title></v-toolbar-title>
+        <v-btn
+          border
+          class="me-2"
+          prepend-icon="mdi-plus"
+          rounded="lg"
+          text="添加服务方"
+          @click="editRegisteredClientDetails.open()"
+        />
+      </v-toolbar>
+    </template>
 
-      <template #[`item.actions`]="{ item }: {item: {registrationId: string, clientName: string, actions: string[]}}">
-        <div class="d-flex ga-2 justify-end">
-          <v-icon v-if="item.actions.includes('delete')" color="medium-emphasis" icon="mdi-delete" size="small"
-                  @click="removeClientRegistration.confirm(item.registrationId, item.clientName)"/>
-        </div>
-      </template>
+    <template #[`item.actions`]="{ item }: {item: {registrationId: string, clientName: string, actions: string[]}}">
+      <div class="d-flex ga-2 justify-end">
+        <v-icon v-if="item.actions.includes('delete')" color="medium-emphasis" icon="mdi-delete" size="small"
+                @click="removeClientRegistration.confirm(item.registrationId, item.clientName)"/>
+      </div>
+    </template>
 
-    </v-data-table-server>
-  </v-container>
+  </v-data-table-server>
 
   <v-dialog v-model="editRegisteredClientDetails.dialog" max-width="800" persistent>
     <v-card subtitle="创建你想要的客户端" title="添加客户端">

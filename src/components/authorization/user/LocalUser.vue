@@ -1,5 +1,4 @@
 <template>
-  <v-container>
     <v-breadcrumbs :items="['用户', '本地用户']"></v-breadcrumbs>
     <v-data-table-server
       v-model:items-per-page="itemsPerPage"
@@ -19,7 +18,6 @@
       </template>
 
     </v-data-table-server>
-  </v-container>
 </template>
 
 <script lang="ts" setup>

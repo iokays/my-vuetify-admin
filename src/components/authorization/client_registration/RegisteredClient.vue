@@ -1,44 +1,42 @@
 <template>
-  <v-container>
-    <v-breadcrumbs :items="['授权管理', '客户端']"></v-breadcrumbs>
-    <v-data-table-server
-      v-model:items-per-page="searchRegisteredClientDetails.itemsPerPage"
-      :headers="searchRegisteredClientDetails.headers"
-      :items="searchRegisteredClientDetails.serverItems"
-      :items-length="searchRegisteredClientDetails.totalItems"
-      :loading="searchRegisteredClientDetails.loading"
-      :search="searchRegisteredClientDetails.search"
-      item-value="name"
-      @update:options="searchRegisteredClientDetails.loadItems"
-    >
+  <v-breadcrumbs :items="['授权管理', '客户端']"></v-breadcrumbs>
+  <v-data-table-server
+    v-model:items-per-page="searchRegisteredClientDetails.itemsPerPage"
+    :headers="searchRegisteredClientDetails.headers"
+    :items="searchRegisteredClientDetails.serverItems"
+    :items-length="searchRegisteredClientDetails.totalItems"
+    :loading="searchRegisteredClientDetails.loading"
+    :search="searchRegisteredClientDetails.search"
+    item-value="name"
+    @update:options="searchRegisteredClientDetails.loadItems"
+  >
 
-      <template #top>
-        <v-toolbar flat>
-          <v-toolbar-title></v-toolbar-title>
-          <v-btn
-            border
-            class="me-2"
-            prepend-icon="mdi-plus"
-            rounded="lg"
-            text="添加客户端"
-            @click="editRegisteredClientDetails.open()"
-          >
-          </v-btn>
-        </v-toolbar>
-      </template>
-
-
-      <template
-        #[`item.actions`]="{ item }: {item: {registeredClientId: string, clientName: string, actions: string[]}}">
-        <div class="d-flex ga-2 justify-end">
-          <v-icon v-if="item.actions.includes('delete')" color="medium-emphasis" icon="mdi-delete" size="small"
-                  @click="removeRegisteredClient.confirm(item.registeredClientId, item.clientName)"/>
-        </div>
-      </template>
+    <template #top>
+      <v-toolbar flat>
+        <v-toolbar-title></v-toolbar-title>
+        <v-btn
+          border
+          class="me-2"
+          prepend-icon="mdi-plus"
+          rounded="lg"
+          text="添加客户端"
+          @click="editRegisteredClientDetails.open()"
+        >
+        </v-btn>
+      </v-toolbar>
+    </template>
 
 
-    </v-data-table-server>
-  </v-container>
+    <template
+      #[`item.actions`]="{ item }: {item: {registeredClientId: string, clientName: string, actions: string[]}}">
+      <div class="d-flex ga-2 justify-end">
+        <v-icon v-if="item.actions.includes('delete')" color="medium-emphasis" icon="mdi-delete" size="small"
+                @click="removeRegisteredClient.confirm(item.registeredClientId, item.clientName)"/>
+      </div>
+    </template>
+
+
+  </v-data-table-server>
 
   <v-dialog v-model="editRegisteredClientDetails.dialog" max-width="800" persistent>
     <v-card subtitle="创建你想要的客户端"

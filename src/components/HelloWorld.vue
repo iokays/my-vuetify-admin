@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-responsive
       class="align-centerfill-height mx-auto"
       max-width="900"

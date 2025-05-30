@@ -1,20 +1,18 @@
 <template>
-  <v-container>
-    <v-breadcrumbs :items="['工作流', '任务列表']"></v-breadcrumbs>
+  <v-breadcrumbs :items="['工作流', '任务列表']"></v-breadcrumbs>
 
-    <v-data-table-server
-      v-model:items-per-page="searchPage.itemsPerPage"
-      :headers="searchPage.headers"
-      :items="searchPage.serverItems"
-      :items-length="searchPage.totalItems"
-      :loading="searchPage.loading"
-      :search="searchPage.search"
-      item-value="name"
-      @update:options="searchPage.loadItems"
-    >
+  <v-data-table-server
+    v-model:items-per-page="searchPage.itemsPerPage"
+    :headers="searchPage.headers"
+    :items="searchPage.serverItems"
+    :items-length="searchPage.totalItems"
+    :loading="searchPage.loading"
+    :search="searchPage.search"
+    item-value="name"
+    @update:options="searchPage.loadItems"
+  >
 
-    </v-data-table-server>
-  </v-container>
+  </v-data-table-server>
 
 </template>
 

@@ -1,40 +1,38 @@
 <template>
-  <v-container>
-    <v-breadcrumbs :items="['事件消息', '领域事件']"></v-breadcrumbs>
+  <v-breadcrumbs :items="['事件消息', '领域事件']"></v-breadcrumbs>
 
 
-    <v-data-table-server
-      v-model:items-per-page="searchPage.itemsPerPage"
-      :headers="searchPage.headers"
-      :items="searchPage.serverItems"
-      :items-length="searchPage.totalItems"
-      :loading="searchPage.loading"
-      :search="searchPage.search"
-      item-value="name"
-      @update:options="searchPage.loadItems"
-    >
-      <template v-slot:top>
-        <v-container>
-          <v-row>
-            <v-col
-              cols="12"
-              md="2"
-            >
-              <v-select
-                label="类别"
-                :items="categories"
-                v-model="searchPage.category"
-                variant="solo-filled"
-                @update:model-value="searchPage.loadItems"
-              ></v-select>
-            </v-col>
-          </v-row>
-        </v-container>
-      </template>
+  <v-data-table-server
+    v-model:items-per-page="searchPage.itemsPerPage"
+    :headers="searchPage.headers"
+    :items="searchPage.serverItems"
+    :items-length="searchPage.totalItems"
+    :loading="searchPage.loading"
+    :search="searchPage.search"
+    item-value="name"
+    @update:options="searchPage.loadItems"
+  >
+    <template v-slot:top>
+      <v-container>
+        <v-row>
+          <v-col
+            cols="12"
+            md="2"
+          >
+            <v-select
+              label="类别"
+              :items="categories"
+              v-model="searchPage.category"
+              variant="solo-filled"
+              @update:model-value="searchPage.loadItems"
+            ></v-select>
+          </v-col>
+        </v-row>
+      </v-container>
+    </template>
 
 
-    </v-data-table-server>
-  </v-container>
+  </v-data-table-server>
 
 </template>
 

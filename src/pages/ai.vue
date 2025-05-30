@@ -1,31 +1,31 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <!-- 应用栏 -->
     <v-app-bar :elevation="20">
       <v-app-bar-title>AI 智能机器人</v-app-bar-title>
     </v-app-bar>
 
     <!-- 导航栏 -->
-    <v-navigation-drawer :width="210">
+    <v-navigation-drawer :width="70">
       <v-row no-gutters style="height: 100%;">
-        <v-col cols="4">
+        <v-col cols="12">
           <app-navigation-drawer-left />
         </v-col>
 
-        <v-col cols="8">
-          <v-card class="mx-auto">
-            <v-list>
-              <!-- 动态渲染导航项 -->
-              <v-list-item
-                v-for="item in navItems"
-                :key="item.title"
-                :title="item.title"
-                @click="showComponent(item.component)"
-                :class="{ 'v-list-item--active': currentComponent === item.component }"
-              ></v-list-item>
-            </v-list>
-          </v-card>
-        </v-col>
+<!--        <v-col cols="0">-->
+<!--          <v-card class="mx-auto">-->
+<!--            <v-list>-->
+<!--              &lt;!&ndash; 动态渲染导航项 &ndash;&gt;-->
+<!--              <v-list-item-->
+<!--                v-for="item in navItems"-->
+<!--                :key="item.title"-->
+<!--                :title="item.title"-->
+<!--                @click="showComponent(item.component)"-->
+<!--                :class="{ 'v-list-item&#45;&#45;active': currentComponent === item.component }"-->
+<!--              ></v-list-item>-->
+<!--            </v-list>-->
+<!--          </v-card>-->
+<!--        </v-col>-->
       </v-row>
     </v-navigation-drawer>
 
@@ -68,9 +68,9 @@ const navItems = ref<NavItem[]>([
 const currentComponent = shallowRef<Component | null>(null);
 
 // 切换组件的函数
-const showComponent = (component: Component | undefined) => {
-  currentComponent.value = component || null;
-};
+// const showComponent = (component: Component | undefined) => {
+//   currentComponent.value = component || null;
+// };
 
 // 组件挂载时，如果只有一个有效选项卡则自动打开
 onMounted(() => {

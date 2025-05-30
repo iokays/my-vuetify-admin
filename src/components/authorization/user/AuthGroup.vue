@@ -1,33 +1,31 @@
 <template>
-  <v-container>
-    <v-breadcrumbs :items="['用户', '权限群组']"></v-breadcrumbs>
-    <v-data-table-server
-      v-model:items-per-page="itemsPerPage"
-      :headers="headers"
-      :items="serverItems"
-      :items-length="totalItems"
-      :loading="loading"
-      :search="search"
-      item-value="name"
-      @update:options="loadItems"
-    >
+  <v-breadcrumbs :items="['用户', '权限群组']"></v-breadcrumbs>
+  <v-data-table-server
+    v-model:items-per-page="itemsPerPage"
+    :headers="headers"
+    :items="serverItems"
+    :items-length="totalItems"
+    :loading="loading"
+    :search="search"
+    item-value="name"
+    @update:options="loadItems"
+  >
 
-      <template #[`item.authorities`]="{ item }: {item: {authorities: any}}">
-        <div class="authorities-container">
-          <v-chip
-            v-for="(auth, index) in item.authorities"
-            :key="index"
-            class="ma-1"
-            color="primary"
-            small
-          >
-            {{ auth }}
-          </v-chip>
-        </div>
-      </template>
+    <template #[`item.authorities`]="{ item }: {item: {authorities: any}}">
+      <div class="authorities-container">
+        <v-chip
+          v-for="(auth, index) in item.authorities"
+          :key="index"
+          class="ma-1"
+          color="primary"
+          small
+        >
+          {{ auth }}
+        </v-chip>
+      </div>
+    </template>
 
-    </v-data-table-server>
-  </v-container>
+  </v-data-table-server>
 </template>
 
 <script lang="ts" setup>

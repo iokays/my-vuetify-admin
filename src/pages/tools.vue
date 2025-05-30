@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <!-- 应用栏 -->
     <v-app-bar :elevation="20">
       <v-app-bar-title>工具包</v-app-bar-title>

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
 
     <v-app-bar :elevation="20">
       <v-app-bar-title>消息与事件调度平台</v-app-bar-title>

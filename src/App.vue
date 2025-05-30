@@ -17,55 +17,10 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, onMounted} from 'vue'
-import {useRoute, useRouter} from 'vue-router'
+import {onMounted} from 'vue'
 import { useSnackbarStore } from '@/stores/Snackbar'
 
-const router = useRouter()
-const route = useRoute()
 const snackbar = useSnackbarStore()
-
-
-// 检查当前路由是否匹配导航项
-const isActive = (link?: string) => {
-  if (!link) return false
-  return route.path.startsWith(link)
-}
-
-// 处理导航点击
-const handleNavClick = (item: any) => {
-  if (item.action) {
-    item.action()
-  } else if (item.link) {
-    redirect(item.link)
-  }
-}
-
-// 路由跳转
-const redirect = (url: string) => {
-  router.push(url)
-}
-
-// 外部链接方法
-const openGithub = () => {
-  window.open('https://github.com/iokays/hexagonal-architecture-with-java', '_blank')
-}
-
-const openDocs = () => {
-  window.open('https://www.iokays.com/docs/', '_blank')
-}
-
-// 导航项配置
-const navItems = ref([
-  {icon: "mdi-robot-happy", link: "/ai"},
-  {icon: "mdi-security", link: "/authorization"},
-  {icon: "mdi-calendar-clock", link: "/dispatch"},
-  {icon: "mdi-sitemap", link: "/flowable"},
-  {icon: "mdi-tools", link: "/tools"},
-  {icon: "mdi-web", link: "/yellow"},
-  {icon: "mdi-image-album", action: openDocs},
-  {icon: "mdi-github", action: openGithub},
-])
 
 // 初始化时检查当前路由
 onMounted(() => {

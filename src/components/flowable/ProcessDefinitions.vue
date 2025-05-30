@@ -1,53 +1,51 @@
 <template>
-  <v-container>
-    <v-breadcrumbs :items="['工作流', '流程定义']"></v-breadcrumbs>
+  <v-breadcrumbs :items="['工作流', '流程定义']"></v-breadcrumbs>
 
-    <!-- Upload Button -->
-    <v-row class="mb-4">
-      <v-col>
-      </v-col>
-    </v-row>
+  <!-- Upload Button -->
+  <v-row class="mb-4">
+    <v-col>
+    </v-col>
+  </v-row>
 
-    <v-data-table-server
-      v-model:items-per-page="searchPage.itemsPerPage"
-      :headers="searchPage.headers"
-      :items="searchPage.serverItems"
-      :items-length="searchPage.totalItems"
-      :loading="searchPage.loading"
-      :search="searchPage.search"
-      item-value="name"
-      @update:options="searchPage.loadItems"
-    >
+  <v-data-table-server
+    v-model:items-per-page="searchPage.itemsPerPage"
+    :headers="searchPage.headers"
+    :items="searchPage.serverItems"
+    :items-length="searchPage.totalItems"
+    :loading="searchPage.loading"
+    :search="searchPage.search"
+    item-value="name"
+    @update:options="searchPage.loadItems"
+  >
 
-      <template #top>
-        <v-toolbar flat>
-          <v-toolbar-title></v-toolbar-title>
+    <template #top>
+      <v-toolbar flat>
+        <v-toolbar-title></v-toolbar-title>
 
-          <v-btn
-            border
-            class="me-2"
-            prepend-icon="mdi-plus"
-            rounded="lg"
-            text="上传流程定义"
-            @click="triggerFileInput"
-          >
-          </v-btn>
+        <v-btn
+          border
+          class="me-2"
+          prepend-icon="mdi-plus"
+          rounded="lg"
+          text="上传流程定义"
+          @click="triggerFileInput"
+        >
+        </v-btn>
 
-          <input
-            ref="fileInput"
-            type="file"
-            style="display: none"
-            accept=".bpmn,.xml,.zip"
-            @change="handleFileUpload"
-          >
+        <input
+          ref="fileInput"
+          type="file"
+          style="display: none"
+          accept=".bpmn,.xml,.zip"
+          @change="handleFileUpload"
+        >
 
-        </v-toolbar>
-      </template>
+      </v-toolbar>
+    </template>
 
 
-    </v-data-table-server>
+  </v-data-table-server>
 
-  </v-container>
 </template>
 
 <script lang="ts" setup>

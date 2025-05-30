@@ -1,6 +1,7 @@
 export const aiConversationApi = async (model: {
   conversationId?: string;
   message: string;
+  prompt: string;
 }) => {
   const response = await fetch("/api/ai/conversation", {
     method: "POST",

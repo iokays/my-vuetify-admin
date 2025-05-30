@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
 
     <v-app-bar :elevation="20">
       <v-app-bar-title>工作流平台</v-app-bar-title>

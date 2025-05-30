@@ -1,17 +1,15 @@
 <template>
-  <v-container>
-    <v-breadcrumbs :items="['用户', 'Oauth2用户']"></v-breadcrumbs>
-    <v-data-table-server
-      v-model:items-per-page="itemsPerPage"
-      :headers="headers"
-      :items="serverItems"
-      :items-length="totalItems"
-      :loading="loading"
-      :search="search"
-      item-value="name"
-      @update:options="loadItems"
-    ></v-data-table-server>
-  </v-container>
+  <v-breadcrumbs :items="['用户', 'Oauth2用户']"></v-breadcrumbs>
+  <v-data-table-server
+    v-model:items-per-page="itemsPerPage"
+    :headers="headers"
+    :items="serverItems"
+    :items-length="totalItems"
+    :loading="loading"
+    :search="search"
+    item-value="name"
+    @update:options="loadItems"
+  ></v-data-table-server>
 </template>
 
 <script lang="ts" setup>

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
 
     <v-app-bar :elevation="20">
       <v-app-bar-title>授权&鉴权平台</v-app-bar-title>

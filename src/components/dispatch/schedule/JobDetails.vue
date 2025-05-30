@@ -1,41 +1,39 @@
 <template>
-  <v-container>
-    <v-breadcrumbs :items="['任务调度', '任务']"></v-breadcrumbs>
-    <v-data-table-server
-      v-model:items-per-page="searchJobDetails.itemsPerPage"
-      :headers="searchJobDetails.headers"
-      :items="searchJobDetails.serverItems"
-      :items-length="searchJobDetails.totalItems"
-      :loading="searchJobDetails.loading"
-      :search="searchJobDetails.search"
-      item-value="name"
-      @update:options="searchJobDetails.loadItems"
-    >
+  <v-breadcrumbs :items="['任务调度', '任务']"></v-breadcrumbs>
+  <v-data-table-server
+    v-model:items-per-page="searchJobDetails.itemsPerPage"
+    :headers="searchJobDetails.headers"
+    :items="searchJobDetails.serverItems"
+    :items-length="searchJobDetails.totalItems"
+    :loading="searchJobDetails.loading"
+    :search="searchJobDetails.search"
+    item-value="name"
+    @update:options="searchJobDetails.loadItems"
+  >
 
-      <template #top>
-        <v-toolbar flat>
-          <v-toolbar-title></v-toolbar-title>
+    <template #top>
+      <v-toolbar flat>
+        <v-toolbar-title></v-toolbar-title>
 
-          <v-btn
-            border
-            class="me-2"
-            prepend-icon="mdi-plus"
-            rounded="lg"
-            text="添加任务"
-            @click="editJobDetails.open"
-          >
-          </v-btn>
-        </v-toolbar>
-      </template>
+        <v-btn
+          border
+          class="me-2"
+          prepend-icon="mdi-plus"
+          rounded="lg"
+          text="添加任务"
+          @click="editJobDetails.open"
+        >
+        </v-btn>
+      </v-toolbar>
+    </template>
 
-      <template #[`item.actions`]="{ item }: {item: {jobName: string; jobGroup: string, actions: string[]}}">
-        <div class="d-flex ga-2 justify-end">
-          <v-icon v-if="item.actions.includes('delete')" color="medium-emphasis" icon="mdi-delete" size="small"
-                  @click="removeJobDetails.confirm(item.jobName, item.jobGroup)"/>
-        </div>
-      </template>
-    </v-data-table-server>
-  </v-container>
+    <template #[`item.actions`]="{ item }: {item: {jobName: string; jobGroup: string, actions: string[]}}">
+      <div class="d-flex ga-2 justify-end">
+        <v-icon v-if="item.actions.includes('delete')" color="medium-emphasis" icon="mdi-delete" size="small"
+                @click="removeJobDetails.confirm(item.jobName, item.jobGroup)"/>
+      </div>
+    </template>
+  </v-data-table-server>
 
   <v-dialog v-model="actionDialog.visible" max-width="400px">
     <v-card
