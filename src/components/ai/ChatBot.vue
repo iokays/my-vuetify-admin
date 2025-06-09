@@ -46,7 +46,7 @@
   <v-dialog v-model="roleDialog">
     <v-card>
       <v-card-title class="d-flex justify-space-between align-center">
-        <span>选择角色</span>
+        <span>选择机器人角色</span>
         <v-btn icon="mdi-close" variant="text" @click="roleDialog = false"></v-btn>
       </v-card-title>
       <v-divider></v-divider>
@@ -126,16 +126,14 @@ const currentPrompt = ref(promptsZh[0]);
 
 // 初始化欢迎消息
 function initWelcomeMessage() {
-  let welcomeText = `你好，我是你的 "***${currentPrompt.value.act}***"。`;
+  let welcomeText = `你好，我是你的 "***${currentPrompt.value.act}***"，开始我们新的对话吧!`;
 
-  if (currentPrompt.value.act === 'AI机器人') {
+  if (currentPrompt.value.act === 'AI智能机器人') {
     welcomeText += `\n\n*或点击我的头像, 切换不同的AI角色*。`;
   } else {
     // 如果有question字段，添加提示
     if (currentPrompt.value.question) {
-      welcomeText += `你可以这样问我：\n\n*${currentPrompt.value.question}*`;
-    } else {
-      welcomeText += '开始我们新的对话吧!';
+      welcomeText += `\n\n你可以这样问我：\n\n*${currentPrompt.value.question}*`;
     }
   }
 

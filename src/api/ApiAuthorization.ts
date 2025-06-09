@@ -88,3 +88,14 @@ export const createClientRegistrationApi = (data: {
 export const deleteClientRegistrationApi = (clientRegistrationId: string) => {
   return apiInstance.delete(`/api/authorization/client/registrations/${clientRegistrationId}`);
 };
+
+export const getUserGroupsApi = (username: string) => {
+  return apiInstance.get(`/api/authorization/users/groups`, {params: {"username": username}});
+};
+
+export const setUserGroupsApi = (data: {
+                                   username: string,
+                                   groupIds: string[]
+                                 }) => {
+  return apiInstance.post(`/api/authorization/users/groups`, data);
+};
