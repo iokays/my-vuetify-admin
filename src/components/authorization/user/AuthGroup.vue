@@ -44,7 +44,7 @@ const RealAPI = {
 // 定义响应式变量
 const itemsPerPage = ref(5);
 
-const headers = ref<{
+const headers = ref <{
   title: string;
   key: string;
   align?: 'start' | 'center' | 'end';

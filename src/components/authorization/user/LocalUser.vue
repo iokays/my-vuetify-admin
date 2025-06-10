@@ -10,6 +10,22 @@
     item-value="name"
     @update:options="loadItems"
   >
+
+    <template #top>
+      <v-toolbar flat>
+        <v-toolbar-title></v-toolbar-title>
+        <v-btn
+          border
+          class="me-2"
+          prepend-icon="mdi-plus"
+          rounded="lg"
+          text="添加用户"
+          @click="user.dialog=true"
+        />
+      </v-toolbar>
+    </template>
+
+
     <template #[`item.enabled`]="{ item }: { item: { enabled: boolean } }">
       <v-chip :color="item.enabled ? 'success' : 'error'">
         {{ item.enabled ? '启用' : '禁用' }}
@@ -26,6 +42,47 @@
       </v-chip>
     </template>
   </v-data-table-server>
+
+  <v-dialog v-model="user.dialog" max-width="400px" persistent>
+    <v-card>
+      <v-card-title>
+        <span>添加用户</span>
+      </v-card-title>
+
+      <v-divider></v-divider>
+
+      <v-card-text>
+
+        <v-row>
+          <v-text-field
+            v-model="user.usernmae"
+            label="用户名"
+            outlined
+          ></v-text-field>
+        </v-row>
+
+        <v-row>
+          <v-text-field
+            v-model="user.passwoed"
+            label="密码"
+            outlined
+          ></v-text-field>
+        </v-row>
+
+      </v-card-text>
+
+      <v-divider></v-divider>
+
+      <v-card-actions class="bg-surface-light">
+        <v-btn text="取消" variant="plain" @click="user.close"></v-btn>
+        <v-spacer></v-spacer>
+        <v-btn text="保存" @click="user.save"></v-btn>
+      </v-card-actions>
+
+
+    </v-card>
+
+  </v-dialog>
 
   <v-dialog v-model="groupDialog" max-width="400px">
     <v-card>
@@ -59,8 +116,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { getUsersApi, getUserGroupsApi, setUserGroupsApi } from '@/api/ApiAuthorization';
+import {reactive, ref} from 'vue';
+import {getUsersApi, getUserGroupsApi, setUserGroupsApi, saveUserApi} from '@/api/ApiAuthorization';
+import {useSnackbarStore} from "@/stores/Snackbar";
+
+const snackbar = useSnackbarStore()
 
 const RealAPI = {
   async fetch({ page, itemsPerPage, sortBy }: { page: number, itemsPerPage: number, sortBy: never[] }) {
@@ -68,10 +128,14 @@ const RealAPI = {
     return { items: response.data.content, total: response.data.size };
   }
 }
-
 // 表格相关
 const itemsPerPage = ref(5);
-const headers = ref([
+const headers = ref<{
+  title: string;
+  key: string;
+  align?: 'start' | 'center' | 'end';
+  sortable?: boolean;
+}[]>([
   { title: '用户名', key: 'username', align: 'start' },
   { title: '状态', key: 'enabled', sortable: false, align: 'start' },
   { title: '创建时间', key: 'createdDate', align: 'end' },
@@ -81,6 +145,38 @@ const search = ref('');
 const serverItems = ref([]);
 const loading = ref(true);
 const totalItems = ref(0);
+
+const user = reactive({
+  dialog: ref(false),
+
+  usernmae: ref('admin'),
+  passwoed: ref('admin'),
+
+  save() {
+    saveUserApi(
+      {
+        username: user.usernmae,
+        password: user.passwoed
+      }
+    ).then(() => {
+      user.close()
+      //添加后成功刷新数据
+      loadItems({
+        page: 1,  // 你可以选择保持当前页数，或者从第一页开始
+        itemsPerPage: itemsPerPage.value,
+        sortBy: []  // 根据需要可以传递排序参数
+      });
+    }).catch(e => {
+      console.log("添加失败")
+      snackbar.open(user.usernmae + ': 添加失败: ' + e)
+    })
+  },
+  close() {
+    user.dialog = false
+    user.usernmae = ''
+    user.passwoed = ''
+  }
+});
 
 // 权限组对话框相关
 const groupDialog = ref(false);

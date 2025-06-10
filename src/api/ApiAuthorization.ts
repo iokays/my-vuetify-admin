@@ -99,3 +99,11 @@ export const setUserGroupsApi = (data: {
                                  }) => {
   return apiInstance.post(`/api/authorization/users/groups`, data);
 };
+
+
+export const saveUserApi = (data: {
+  username: string,
+  password: string
+}) => {
+  return apiInstance.post(`/api/authorization/users`, data);
+};
