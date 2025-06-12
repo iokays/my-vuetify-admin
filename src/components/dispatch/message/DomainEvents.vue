@@ -13,22 +13,20 @@
     @update:options="searchPage.loadItems"
   >
     <template v-slot:top>
-      <v-container>
-        <v-row>
-          <v-col
-            cols="12"
-            md="2"
-          >
-            <v-select
-              v-model="searchPage.category"
-              :items="categories"
-              label="类别"
-              variant="solo-filled"
-              @update:model-value="searchPage.loadItems"
-            ></v-select>
-          </v-col>
-        </v-row>
-      </v-container>
+      <v-row>
+        <v-col
+          cols="12"
+          md="2"
+        >
+          <v-select
+            v-model="searchPage.category"
+            :items="categories"
+            label="类别"
+            variant="solo-filled"
+            @update:model-value="searchPage.loadItems"
+          ></v-select>
+        </v-col>
+      </v-row>
     </template>
 
 

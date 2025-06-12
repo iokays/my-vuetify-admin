@@ -117,7 +117,12 @@ const RealAPI = {
 
 // 定义响应式变量
 const itemsPerPage = ref(5);
-const headers = ref([
+const headers = ref<{
+  title: string;
+  key: string;
+  align?: 'start' | 'center' | 'end';
+  sortable?: boolean;
+}[]>([
   { title: '群组名', key: 'groupName', sortable: false, align: 'start' },
   { title: '权限列表', key: 'authorities', sortable: false, align: 'start' },
   { title: '创建时间', key: 'createdDate', align: 'end' },
