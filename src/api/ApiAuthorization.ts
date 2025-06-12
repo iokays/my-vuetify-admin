@@ -107,3 +107,17 @@ export const saveUserApi = (data: {
 }) => {
   return apiInstance.post(`/api/authorization/users`, data);
 };
+
+export const saveGroupApi = (data: {
+  groupName: string,
+  authorities?: string[]
+}) => {
+  return apiInstance.post(`/api/authorization/groups`, data);
+};
+
+export const editGroupApi = (data: {
+  groupId: string,
+  authorities?: string[]
+}) => {
+  return apiInstance.put(`/api/authorization/groups`, data);
+};

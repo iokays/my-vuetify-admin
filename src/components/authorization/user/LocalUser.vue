@@ -55,7 +55,7 @@
 
         <v-row>
           <v-text-field
-            v-model="user.usernmae"
+            v-model="user.username"
             label="用户名"
             outlined
           ></v-text-field>
@@ -63,7 +63,7 @@
 
         <v-row>
           <v-text-field
-            v-model="user.passwoed"
+            v-model="user.password"
             label="密码"
             outlined
           ></v-text-field>
@@ -149,14 +149,14 @@ const totalItems = ref(0);
 const user = reactive({
   dialog: ref(false),
 
-  usernmae: ref('admin'),
-  passwoed: ref('admin'),
+  username: ref('管理员'),
+  password: ref(''),
 
   save() {
     saveUserApi(
       {
-        username: user.usernmae,
-        password: user.passwoed
+        username: user.username,
+        password: user.password
       }
     ).then(() => {
       user.close()
@@ -168,13 +168,13 @@ const user = reactive({
       });
     }).catch(e => {
       console.log("添加失败")
-      snackbar.open(user.usernmae + ': 添加失败: ' + e)
+      snackbar.open(user.username + ': 添加失败: ' + e)
     })
   },
   close() {
     user.dialog = false
-    user.usernmae = ''
-    user.passwoed = ''
+    user.username = ''
+    user.password = ''
   }
 });
 
