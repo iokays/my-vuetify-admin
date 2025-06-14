@@ -20,29 +20,27 @@ export const alertDialog = reactive({
   },
 });
 
-export const actionDialog = reactive({
-  visible: false,
-  title: '',
-  text: '',
-  open: () => {
-    actionDialog.visible = true;
-  },
-  close: () => {
-    actionDialog.visible = false
-    // actionDialog.title = ''
-    // actionDialog.text = ''
-    actionDialog.leftAction = () => {
-      actionDialog.close()
-    }
-    actionDialog.rightAction = () => {
-      actionDialog.close()
-    }
+import {defineStore} from "pinia";
+export const useConfirmDialogStore = defineStore('confirmDialog', {
+  state: () => ({
+    visible: false,
+    title: '',
+    text: '',
+  }),
 
-  },
-  leftAction: () => {
-    actionDialog.close()
-  },
-  rightAction: () => {
-    actionDialog.close()
-  },
+  actions: {
+    open() {
+      this.visible = true;
+    },
+    close(){
+      this.visible = false
+      // actionDialog.title = ''
+      // actionDialog.text = ''
+      this.confirm = this.close
+    },
+    confirm() {
+      this.close()
+    }
+  }
+
 });

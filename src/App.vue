@@ -13,14 +13,29 @@
       </template>
     </v-snackbar>
 
+    <v-dialog v-model="confirmDialog.visible" max-width="400px">
+      <v-card
+        :text="confirmDialog.text"
+        :title="confirmDialog.title"
+      >
+        <v-card-actions>
+          <v-btn text="取消" @click="confirmDialog.close"/>
+          <v-btn text="确定" @click="confirmDialog.confirm"/>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+
   </v-app>
 </template>
 
 <script lang="ts" setup>
 import {onMounted} from 'vue'
 import {useSnackbarStore} from '@/stores/Snackbar'
+import {useConfirmDialogStore} from "@/stores/Dialog";
 
 const snackbar = useSnackbarStore()
+const confirmDialog = useConfirmDialogStore()
 
 // 初始化时检查当前路由
 onMounted(() => {

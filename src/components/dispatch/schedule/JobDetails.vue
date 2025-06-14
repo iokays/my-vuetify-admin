@@ -35,18 +35,6 @@
     </template>
   </v-data-table-server>
 
-  <v-dialog v-model="actionDialog.visible" max-width="400px">
-    <v-card
-      :text="actionDialog.text"
-      :title="actionDialog.title"
-    >
-      <v-card-actions>
-        <v-btn text="确定" @click="actionDialog.leftAction"/>
-        <v-btn text="取消" @click="actionDialog.rightAction"/>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
-
   <v-dialog v-model="editJobDetails.dialog" max-width="500" persistent>
     <v-card subtitle="创建你想要的任务"
             title="添加任务"
@@ -98,10 +86,11 @@
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
 import {createJobs, delJobDetails, getJobDetailsApi} from '@/api/ApiDispatch'
-import {actionDialog} from '@/stores/Dialog'
+import {useConfirmDialogStore} from '@/stores/Dialog'
 import {useSnackbarStore} from '@/stores/Snackbar'
 
 const snackbar = useSnackbarStore()
+const confirmDialog = useConfirmDialogStore()
 
 const searchJobDetails = reactive({
   headers: ref([
@@ -196,15 +185,15 @@ const removeJobDetails = reactive({
     removeJobDetails._name = name;
     removeJobDetails._group = group;
 
-    actionDialog.leftAction = () => {
+    confirmDialog.confirm = () => {
       removeJobDetails._remove()
     };
-    actionDialog.title = '删除任务';  // 用于设置对话框标题
-    actionDialog.text = '是否删除任务 ' + name + '?';  // 用于设置对话框内容
-    actionDialog.open()
+    confirmDialog.title = '删除任务';  // 用于设置对话框标题
+    confirmDialog.text = '是否删除任务 ' + name + '?';  // 用于设置对话框内容
+    confirmDialog.open()
   },
   _remove: () => {
-    actionDialog.close()
+    confirmDialog.close()
     delJobDetails(removeJobDetails._name, removeJobDetails._group).then(() => {
       snackbar.open(removeJobDetails._name + ': 已被您成功删除.')
 

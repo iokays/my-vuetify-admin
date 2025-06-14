@@ -141,29 +141,16 @@
     </v-card>
   </v-dialog>
 
-
-  <v-dialog v-model="actionDialog.visible" max-width="400px">
-    <v-card
-      :text="actionDialog.text"
-      :title="actionDialog.title"
-    >
-      <v-card-actions>
-        <v-btn text="确定" @click="actionDialog.leftAction"/>
-        <v-btn text="取消" @click="actionDialog.rightAction"/>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
-
-
 </template>
 
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
 import {createRegisteredClientApi, getRegisteredClientsApi, removeRegisteredClientApi,} from '@/api/ApiAuthorization'
-import {actionDialog} from "@/stores/Dialog";
+import {useConfirmDialogStore} from "@/stores/Dialog";
 import {useSnackbarStore} from '@/stores/Snackbar'
 
 const snackbar = useSnackbarStore()
+const confirmDialog = useConfirmDialogStore()
 
 const searchRegisteredClientDetails = reactive({
   headers: ref([
@@ -260,15 +247,15 @@ const removeRegisteredClient = reactive({
   confirm: (registeredClientId: string, clientName: string) => {
     removeRegisteredClient._registeredClientId = registeredClientId;
     removeRegisteredClient._clientName = clientName;
-    actionDialog.leftAction = () => {
+    confirmDialog.confirm = () => {
       removeRegisteredClient._remove()
     };
-    actionDialog.title = '删除客户端';  // 用于设置对话框标题
-    actionDialog.text = '是否删除客户端 ' + removeRegisteredClient._clientName + '?';  // 用于设置对话框内容
-    actionDialog.open()
+    confirmDialog.title = '删除客户端';  // 用于设置对话框标题
+    confirmDialog.text = '是否删除客户端 ' + removeRegisteredClient._clientName + '?';  // 用于设置对话框内容
+    confirmDialog.open()
   },
   _remove: () => {
-    actionDialog.close()
+    confirmDialog.close()
     removeRegisteredClientApi(removeRegisteredClient._registeredClientId).then(() => {
       snackbar.open(removeRegisteredClient._clientName + ': 已被您成功删除.')
 

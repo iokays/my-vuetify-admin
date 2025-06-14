@@ -109,17 +109,6 @@
     </v-card>
   </v-dialog>
 
-  <v-dialog v-model="actionDialog.visible" max-width="400px">
-    <v-card
-      :text="actionDialog.text"
-      :title="actionDialog.title"
-    >
-      <v-card-actions>
-        <v-btn text="确定" @click="actionDialog.leftAction"/>
-        <v-btn text="取消" @click="actionDialog.rightAction"/>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
 
 </template>
 
@@ -133,9 +122,10 @@ import {
   setUserGroupsApi
 } from '@/api/ApiAuthorization';
 import {useSnackbarStore} from "@/stores/Snackbar";
-import {actionDialog} from "@/stores/Dialog";
+import {useConfirmDialogStore} from "@/stores/Dialog";
 
 const snackbar = useSnackbarStore()
+const confirmDialog = useConfirmDialogStore()
 
 const RealAPI = {
   async fetch({page, itemsPerPage, sortBy}: { page: number, itemsPerPage: number, sortBy: never[] }) {
@@ -253,12 +243,12 @@ const removeUser = reactive({
   username: '',
   confirm: (username: string) => {
     removeUser.username = username;
-    actionDialog.leftAction = () => {
+    confirmDialog.confirm = () => {
       removeUser.remove()
     };
-    actionDialog.title = '删除用户';  // 用于设置对话框标题
-    actionDialog.text = '是否删除用户' + removeUser.username + '?';  // 用于设置对话框内容
-    actionDialog.open()
+    confirmDialog.title = '删除用户';  // 用于设置对话框标题
+    confirmDialog.text = '是否删除用户' + removeUser.username + '?';  // 用于设置对话框内容
+    confirmDialog.open()
   },
   remove: () => {
     try {
@@ -275,7 +265,7 @@ const removeUser = reactive({
         snackbar.open(removeUser.username + ': 删除失败.')
       })
     } finally {
-      actionDialog.close()
+      confirmDialog.close()
     }
   }
 })
