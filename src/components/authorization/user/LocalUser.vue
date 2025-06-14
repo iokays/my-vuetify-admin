@@ -33,13 +33,8 @@
     </template>
 
     <template #[`item.actions`]="{ item }: {item: {username: string}}">
-      <v-chip
-        color="success"
-        @click="openGroupDialog(item.username)"
-        style="cursor: pointer;"
-      >
-        权限
-      </v-chip>
+      <v-icon color="medium-emphasis" icon="mdi-account-edit" size="small" @click="openGroupDialog(item.username)" />
+      <v-icon  color="medium-emphasis" icon="mdi-delete" size="small"/>
     </template>
   </v-data-table-server>
 
@@ -151,6 +146,8 @@ const user = reactive({
 
   username: ref('管理员'),
   password: ref(''),
+
+
 
   save() {
     saveUserApi(

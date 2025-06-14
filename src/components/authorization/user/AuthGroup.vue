@@ -37,13 +37,8 @@
     </template>
 
     <template #[`item.actions`]="{ item }">
-      <v-chip
-        color="success"
-        @click="group.openGroupDialog(item)"
-        style="cursor: pointer;"
-      >
-        编辑
-      </v-chip>
+      <v-icon color="medium-emphasis" icon="mdi-shield-edit" size="small" @click="group.openGroupDialog(item)" />
+      <v-icon  color="medium-emphasis" icon="mdi-delete" size="small"/>
     </template>
   </v-data-table-server>
 
