@@ -34,7 +34,7 @@
 
     <template #[`item.actions`]="{ item }: {item: {username: string}}">
       <v-icon color="medium-emphasis" icon="mdi-account-edit" size="small" @click="openGroupDialog(item.username)"/>
-      <v-icon color="medium-emphasis" icon="mdi-delete" size="small"/>
+      <v-icon color="medium-emphasis" icon="mdi-delete" size="small" @click="removeUser.confirm(item.username)"/>
     </template>
   </v-data-table-server>
 
@@ -108,12 +108,32 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+
+  <v-dialog v-model="actionDialog.visible" max-width="400px">
+    <v-card
+      :text="actionDialog.text"
+      :title="actionDialog.title"
+    >
+      <v-card-actions>
+        <v-btn text="确定" @click="actionDialog.leftAction"/>
+        <v-btn text="取消" @click="actionDialog.rightAction"/>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
 </template>
 
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
-import {getUserGroupsApi, getUsersApi, saveUserApi, setUserGroupsApi} from '@/api/ApiAuthorization';
+import {
+  delUserApi,
+  getUserGroupsApi,
+  getUsersApi,
+  saveUserApi,
+  setUserGroupsApi
+} from '@/api/ApiAuthorization';
 import {useSnackbarStore} from "@/stores/Snackbar";
+import {actionDialog} from "@/stores/Dialog";
 
 const snackbar = useSnackbarStore()
 
@@ -171,7 +191,8 @@ const user = reactive({
     user.dialog = false
     user.username = ''
     user.password = ''
-  }
+  },
+
 });
 
 // 权限组对话框相关
@@ -225,4 +246,38 @@ const saveGroups = async () => {
     // Optional: Show error message
   }
 };
+
+
+
+const removeUser = reactive({
+  username: '',
+  confirm: (username: string) => {
+    removeUser.username = username;
+    actionDialog.leftAction = () => {
+      removeUser.remove()
+    };
+    actionDialog.title = '删除用户';  // 用于设置对话框标题
+    actionDialog.text = '是否删除用户' + removeUser.username + '?';  // 用于设置对话框内容
+    actionDialog.open()
+  },
+  remove: () => {
+    try {
+      delUserApi(removeUser.username).then(() => {
+        snackbar.open(removeUser.username + ': 已被您成功删除.')
+        //成功刷新数据
+        loadItems({
+          page: 1,  // 你可以选择保持当前页数，或者从第一页开始
+          itemsPerPage: itemsPerPage.value,
+          sortBy: []  // 根据需要可以传递排序参数
+        });
+      }).catch(e => {
+        console.log('error', e)
+        snackbar.open(removeUser.username + ': 删除失败.')
+      })
+    } finally {
+      actionDialog.close()
+    }
+  }
+})
+
 </script>

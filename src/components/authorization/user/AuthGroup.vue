@@ -36,9 +36,9 @@
       </v-chip>
     </template>
 
-    <template #[`item.actions`]="{ item }">
+    <template #[`item.actions`]="{ item }: {item: {groupId: string, groupName: string, authorities: string[] }}">
       <v-icon color="medium-emphasis" icon="mdi-shield-edit" size="small" @click="group.openGroupDialog(item)"/>
-      <v-icon color="medium-emphasis" icon="mdi-delete" size="small"/>
+      <v-icon color="medium-emphasis" icon="mdi-delete" size="small" @click="removeGroup.confirm(item.groupId, item.groupName)"/>
     </template>
   </v-data-table-server>
 
@@ -92,13 +92,27 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+
+  <v-dialog v-model="actionDialog.visible" max-width="400px">
+    <v-card
+      :text="actionDialog.text"
+      :title="actionDialog.title"
+    >
+      <v-card-actions>
+        <v-btn text="确定" @click="actionDialog.leftAction"/>
+        <v-btn text="取消" @click="actionDialog.rightAction"/>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
 </template>
 
 <script lang="ts" setup>
 import {onMounted, reactive, ref} from 'vue';
-import {editGroupApi, getGroupsApi, saveGroupApi} from '@/api/ApiAuthorization';
+import {delGroupApi, editGroupApi, getGroupsApi, saveGroupApi} from '@/api/ApiAuthorization';
 import {useSnackbarStore} from "@/stores/Snackbar";
 import {allAuthorities} from "@/assets/data/authorization/authorities";
+import {actionDialog} from "@/stores/Dialog";
 
 const snackbar = useSnackbarStore();
 
@@ -227,6 +241,41 @@ const getAuthorityTitle = (id: string) => {
   return authorityMap.get(id) || id; // 如果找不到则返回ID本身
 };
 
+
+const removeGroup = reactive({
+  groupId: '',
+  groupName: '',
+  confirm: (groupId: string, groupName: string) => {
+    removeGroup.groupId = groupId;
+    removeGroup.groupName = groupName;
+    actionDialog.leftAction = () => {
+      removeGroup.remove()
+    };
+    actionDialog.title = '删除权限组';  // 用于设置对话框标题
+    actionDialog.text = '是否删除权限组' + removeGroup.groupName + '?';  // 用于设置对话框内容
+    actionDialog.open()
+  },
+  remove: () => {
+    try {
+      delGroupApi(removeGroup.groupId).then(() => {
+        snackbar.open(removeGroup.groupName + ': 已被您成功删除.')
+        //成功刷新数据
+        loadItems({
+          page: 1,  // 你可以选择保持当前页数，或者从第一页开始
+          itemsPerPage: itemsPerPage.value,
+          sortBy: []  // 根据需要可以传递排序参数
+        });
+      }).catch(e => {
+        console.log('error', e)
+        snackbar.open(removeGroup.groupName + ': 删除失败.')
+      })
+    } finally {
+      actionDialog.close()
+    }
+  }
+
+})
+
 // 初始化加载数据
 onMounted(() => {
   loadItems({
@@ -235,6 +284,10 @@ onMounted(() => {
     sortBy: []
   });
 });
+
+
+
+
 </script>
 
 <style scoped>

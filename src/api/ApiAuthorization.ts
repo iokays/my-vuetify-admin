@@ -108,6 +108,11 @@ export const saveUserApi = (data: {
   return apiInstance.post(`/api/authorization/users`, data);
 };
 
+
+export const delUserApi = (username: string) => {
+  return apiInstance.delete(`/api/authorization/users/${username}`);
+};
+
 export const saveGroupApi = (data: {
   groupName: string,
   authorities?: string[]
@@ -121,3 +126,9 @@ export const editGroupApi = (data: {
 }) => {
   return apiInstance.put(`/api/authorization/groups`, data);
 };
+
+export const delGroupApi = (groupId: string) => {
+  return apiInstance.delete(`/api/authorization/groups/${groupId}`);
+};
+
+
