@@ -33,8 +33,8 @@
     </template>
 
     <template #[`item.actions`]="{ item }: {item: {username: string}}">
-      <v-icon color="medium-emphasis" icon="mdi-account-edit" size="small" @click="openGroupDialog(item.username)" />
-      <v-icon  color="medium-emphasis" icon="mdi-delete" size="small"/>
+      <v-icon color="medium-emphasis" icon="mdi-account-edit" size="small" @click="openGroupDialog(item.username)"/>
+      <v-icon color="medium-emphasis" icon="mdi-delete" size="small"/>
     </template>
   </v-data-table-server>
 
@@ -91,11 +91,11 @@
         <v-chip
           v-for="group in userGroups"
           :key="group.groupId"
-          class="ma-1"
           :color="group.authorized ? 'primary' : 'info'"
           :variant="group.authorized ? 'flat' : 'outlined'"
-          @click="toggleGroup(group)"
+          class="ma-1"
           style="cursor: pointer;"
+          @click="toggleGroup(group)"
         >
           {{ group.groupName }}
         </v-chip>
@@ -112,15 +112,15 @@
 
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
-import {getUsersApi, getUserGroupsApi, setUserGroupsApi, saveUserApi} from '@/api/ApiAuthorization';
+import {getUserGroupsApi, getUsersApi, saveUserApi, setUserGroupsApi} from '@/api/ApiAuthorization';
 import {useSnackbarStore} from "@/stores/Snackbar";
 
 const snackbar = useSnackbarStore()
 
 const RealAPI = {
-  async fetch({ page, itemsPerPage, sortBy }: { page: number, itemsPerPage: number, sortBy: never[] }) {
+  async fetch({page, itemsPerPage, sortBy}: { page: number, itemsPerPage: number, sortBy: never[] }) {
     const response = await getUsersApi();
-    return { items: response.data.content, total: response.data.size };
+    return {items: response.data.content, total: response.data.size};
   }
 }
 // 表格相关
@@ -131,10 +131,10 @@ const headers = ref<{
   align?: 'start' | 'center' | 'end';
   sortable?: boolean;
 }[]>([
-  { title: '用户名', key: 'username', align: 'start' },
-  { title: '状态', key: 'enabled', sortable: false, align: 'start' },
-  { title: '创建时间', key: 'createdDate', align: 'end' },
-  { title: '操作', key: 'actions', align: 'end' },
+  {title: '用户名', key: 'username', align: 'start'},
+  {title: '状态', key: 'enabled', sortable: false, align: 'start'},
+  {title: '创建时间', key: 'createdDate', align: 'end'},
+  {title: '操作', key: 'actions', align: 'end'},
 ]);
 const search = ref('');
 const serverItems = ref([]);
@@ -146,7 +146,6 @@ const user = reactive({
 
   username: ref('管理员'),
   password: ref(''),
-
 
 
   save() {
@@ -184,9 +183,9 @@ const userGroups = ref<Array<{
   authorized: boolean
 }>>([]);
 
-const loadItems = async ({ page, itemsPerPage, sortBy }: { page: number, itemsPerPage: number, sortBy: never[] }) => {
+const loadItems = async ({page, itemsPerPage, sortBy}: { page: number, itemsPerPage: number, sortBy: never[] }) => {
   loading.value = true;
-  const { items = [], total = 0 } = await RealAPI.fetch({ page, itemsPerPage, sortBy }) || {};
+  const {items = [], total = 0} = await RealAPI.fetch({page, itemsPerPage, sortBy}) || {};
   serverItems.value = items;
   totalItems.value = total;
   loading.value = false;

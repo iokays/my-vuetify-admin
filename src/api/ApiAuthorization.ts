@@ -94,9 +94,9 @@ export const getUserGroupsApi = (username: string) => {
 };
 
 export const setUserGroupsApi = (data: {
-                                   username: string,
-                                   groupIds: string[]
-                                 }) => {
+  username: string,
+  groupIds: string[]
+}) => {
   return apiInstance.post(`/api/authorization/users/groups`, data);
 };
 

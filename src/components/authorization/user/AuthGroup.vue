@@ -37,8 +37,8 @@
     </template>
 
     <template #[`item.actions`]="{ item }">
-      <v-icon color="medium-emphasis" icon="mdi-shield-edit" size="small" @click="group.openGroupDialog(item)" />
-      <v-icon  color="medium-emphasis" icon="mdi-delete" size="small"/>
+      <v-icon color="medium-emphasis" icon="mdi-shield-edit" size="small" @click="group.openGroupDialog(item)"/>
+      <v-icon color="medium-emphasis" icon="mdi-delete" size="small"/>
     </template>
   </v-data-table-server>
 
@@ -55,9 +55,9 @@
           <v-col cols="12">
             <v-text-field
               v-model="group.groupName"
+              clearable
               label="权限群组名"
               outlined
-              clearable
             ></v-text-field>
           </v-col>
 
@@ -67,14 +67,14 @@
               <v-divider></v-divider>
               <v-chip-group v-model="group.selectedAuthorities" column multiple>
                 <v-card-text v-for="item in allAuthorities" :key="item.title" class="pa-4">
-                  <h3 class="text-h6 mb-2">{{item.title}}</h3>
+                  <h3 class="text-h6 mb-2">{{ item.title }}</h3>
                   <v-chip
                     v-for="child in item.children"
                     :key="child.id"
                     :value="child.id"
                     filter
                   >
-                    {{child.title}}
+                    {{ child.title }}
                   </v-chip>
                 </v-card-text>
               </v-chip-group>
@@ -88,25 +88,25 @@
       <v-card-actions class="bg-surface-light">
         <v-btn text="取消" variant="plain" @click="group.close"></v-btn>
         <v-spacer></v-spacer>
-        <v-btn text="保存" @click="group.save" :loading="group.saving"></v-btn>
+        <v-btn :loading="group.saving" text="保存" @click="group.save"></v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, onMounted } from 'vue';
-import { editGroupApi, getGroupsApi, saveGroupApi } from '@/api/ApiAuthorization';
-import { useSnackbarStore } from "@/stores/Snackbar";
-import { allAuthorities } from "@/assets/data/authorization/authorities";
+import {onMounted, reactive, ref} from 'vue';
+import {editGroupApi, getGroupsApi, saveGroupApi} from '@/api/ApiAuthorization';
+import {useSnackbarStore} from "@/stores/Snackbar";
+import {allAuthorities} from "@/assets/data/authorization/authorities";
 
 const snackbar = useSnackbarStore();
 
 const RealAPI = {
-  async fetch({ page, itemsPerPage, sortBy }: { page: number, itemsPerPage: number, sortBy: never[] }) {
+  async fetch({page, itemsPerPage, sortBy}: { page: number, itemsPerPage: number, sortBy: never[] }) {
     const response = await getGroupsApi();
     console.log('response: ', response);
-    return { items: response.data.content, total: response.data.size };
+    return {items: response.data.content, total: response.data.size};
   }
 };
 
@@ -118,10 +118,10 @@ const headers = ref<{
   align?: 'start' | 'center' | 'end';
   sortable?: boolean;
 }[]>([
-  { title: '群组名', key: 'groupName', sortable: false, align: 'start' },
-  { title: '权限列表', key: 'authorities', sortable: false, align: 'start' },
-  { title: '创建时间', key: 'createdDate', align: 'end' },
-  { title: '操作', key: 'actions', align: 'end' },
+  {title: '群组名', key: 'groupName', sortable: false, align: 'start'},
+  {title: '权限列表', key: 'authorities', sortable: false, align: 'start'},
+  {title: '创建时间', key: 'createdDate', align: 'end'},
+  {title: '操作', key: 'actions', align: 'end'},
 ]);
 const search = ref('');
 const serverItems = ref([]);
@@ -197,10 +197,10 @@ const group = reactive({
 });
 
 // 定义方法
-const loadItems = async ({ page, itemsPerPage, sortBy }: { page: number, itemsPerPage: number, sortBy: never[] }) => {
+const loadItems = async ({page, itemsPerPage, sortBy}: { page: number, itemsPerPage: number, sortBy: never[] }) => {
   loading.value = true;
   try {
-    const { items = [], total = 0 } = await RealAPI.fetch({ page, itemsPerPage, sortBy }) || {};
+    const {items = [], total = 0} = await RealAPI.fetch({page, itemsPerPage, sortBy}) || {};
     serverItems.value = items;
     totalItems.value = total;
   } catch (e) {
