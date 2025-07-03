@@ -1,4 +1,5 @@
 import {reactive} from 'vue';
+import {defineStore} from "pinia";
 
 export const alertDialog = reactive({
   visible: false,
@@ -20,7 +21,6 @@ export const alertDialog = reactive({
   },
 });
 
-import {defineStore} from "pinia";
 export const useConfirmDialogStore = defineStore('confirmDialog', {
   state: () => ({
     visible: false,
@@ -29,10 +29,12 @@ export const useConfirmDialogStore = defineStore('confirmDialog', {
   }),
 
   actions: {
-    open() {
+    open(title: string, text: string) {
       this.visible = true;
+      this.title = title
+      this.text = text
     },
-    close(){
+    close() {
       this.visible = false
       // actionDialog.title = ''
       // actionDialog.text = ''

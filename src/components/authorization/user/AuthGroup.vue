@@ -38,7 +38,8 @@
 
     <template #[`item.actions`]="{ item }: {item: {groupId: string, groupName: string, authorities: string[] }}">
       <v-icon color="medium-emphasis" icon="mdi-shield-edit" size="small" @click="group.openGroupDialog(item)"/>
-      <v-icon color="medium-emphasis" icon="mdi-delete" size="small" @click="removeGroup.confirm(item.groupId, item.groupName)"/>
+      <v-icon color="medium-emphasis" icon="mdi-delete" size="small"
+              @click="removeGroup.confirm(item.groupId, item.groupName)"/>
     </template>
   </v-data-table-server>
 
@@ -240,9 +241,7 @@ const removeGroup = reactive({
     confirmDialog.confirm = () => {
       removeGroup.remove()
     };
-    confirmDialog.title = '删除权限组';  // 用于设置对话框标题
-    confirmDialog.text = '是否删除权限组' + removeGroup.groupName + '?';  // 用于设置对话框内容
-    confirmDialog.open()
+    confirmDialog.open('删除权限组', '是否删除权限组' + removeGroup.groupName + '?')
   },
   remove: () => {
     try {
@@ -273,8 +272,6 @@ onMounted(() => {
     sortBy: []
   });
 });
-
-
 
 
 </script>

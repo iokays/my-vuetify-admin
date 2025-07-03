@@ -35,35 +35,45 @@
     </template>
   </v-data-table-server>
 
-  <v-dialog v-model="editJobDetails.dialog" max-width="500" persistent>
+  <v-dialog v-model="editJobDetails.dialog" max-width="800" persistent>
     <v-card subtitle="创建你想要的任务"
             title="添加任务"
     >
       <template v-slot:text>
         <v-row>
 
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="4">
             <v-text-field v-model="editJobDetails.jobName" label="任务名称"></v-text-field>
           </v-col>
 
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="4">
             <v-text-field v-model="editJobDetails.jobGroup" label="所属群组"></v-text-field>
           </v-col>
 
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="4">
             <v-text-field v-model="editJobDetails.jobClass" label="任务类型"></v-text-field>
           </v-col>
 
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="4">
             <v-text-field v-model="editJobDetails.cronExpression" label="cron表达式"></v-text-field>
           </v-col>
 
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="4">
             <v-text-field v-model="editJobDetails.startAt" label="开始时间"></v-text-field>
           </v-col>
 
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="4">
             <v-text-field v-model="editJobDetails.endAt" label="结束时间"></v-text-field>
+          </v-col>
+
+          <v-col cols="12" md="12">
+            <v-textarea
+              v-model="editJobDetails.input"
+              variant="solo-filled"
+              label="任务输入"
+            >
+            </v-textarea>
+
           </v-col>
 
 
@@ -138,14 +148,23 @@ const formatDate = (date: Date): string => {
 }
 
 const editJobDetails = reactive({
-  jobName: '这是一个的简单任务',
+  jobName: '这是一个简单的HTTP请求任务',
   jobGroup: '每分钟运行群组',
-  jobClass: 'SAMPLE',
+  jobClass: 'REST_CLIENT',
   // 当前本地时间
   startAt: formatDate(new Date()),
   // 当前时间加上一分钟
   endAt: formatDate(new Date(new Date().getTime() + 60000)),
   cronExpression: '0 0/1 * * * ?',
+  input: '{\n' +
+    '    "url": "https://www.iokays.com/api/authorization/users",\n' +
+    '    "method": "get",\n' +
+    '    "headers": {\n' +
+    '      "Content-Type": "application/form-urlencoded"\n' +
+    '    },\n' +
+    '    "body": "",\n' +
+    '    "params": null\n' +
+    '}',
   dialog: false,
   open: () => {
     editJobDetails.dialog = true
@@ -161,6 +180,7 @@ const editJobDetails = reactive({
       cronExpression: editJobDetails.cronExpression,
       startAt: editJobDetails.startAt,
       endAt: editJobDetails.endAt,
+      input: JSON.parse(editJobDetails.input)
     }).then(() => {
       editJobDetails.close()
       snackbar.open(editJobDetails.jobName + ': 已被成功添加')
@@ -188,9 +208,7 @@ const removeJobDetails = reactive({
     confirmDialog.confirm = () => {
       removeJobDetails._remove()
     };
-    confirmDialog.title = '删除任务';  // 用于设置对话框标题
-    confirmDialog.text = '是否删除任务 ' + name + '?';  // 用于设置对话框内容
-    confirmDialog.open()
+    confirmDialog.open('删除任务', '是否删除任务 ' + name + '?')
   },
   _remove: () => {
     confirmDialog.close()

@@ -16,6 +16,7 @@ interface CreateJobs {
   cronExpression: string;
   startAt: string;
   endAt: string;
+  input: object;
 }
 
 export const createJobs = (data: CreateJobs) => {

@@ -250,9 +250,7 @@ const removeRegisteredClient = reactive({
     confirmDialog.confirm = () => {
       removeRegisteredClient._remove()
     };
-    confirmDialog.title = '删除客户端';  // 用于设置对话框标题
-    confirmDialog.text = '是否删除客户端 ' + removeRegisteredClient._clientName + '?';  // 用于设置对话框内容
-    confirmDialog.open()
+    confirmDialog.open('删除客户端', '是否删除客户端 ' + removeRegisteredClient._clientName + '?')
   },
   _remove: () => {
     confirmDialog.close()

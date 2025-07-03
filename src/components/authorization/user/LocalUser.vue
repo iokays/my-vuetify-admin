@@ -114,13 +114,7 @@
 
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
-import {
-  delUserApi,
-  getUserGroupsApi,
-  getUsersApi,
-  saveUserApi,
-  setUserGroupsApi
-} from '@/api/ApiAuthorization';
+import {delUserApi, getUserGroupsApi, getUsersApi, saveUserApi, setUserGroupsApi} from '@/api/ApiAuthorization';
 import {useSnackbarStore} from "@/stores/Snackbar";
 import {useConfirmDialogStore} from "@/stores/Dialog";
 
@@ -238,7 +232,6 @@ const saveGroups = async () => {
 };
 
 
-
 const removeUser = reactive({
   username: '',
   confirm: (username: string) => {
@@ -246,9 +239,7 @@ const removeUser = reactive({
     confirmDialog.confirm = () => {
       removeUser.remove()
     };
-    confirmDialog.title = '删除用户';  // 用于设置对话框标题
-    confirmDialog.text = '是否删除用户' + removeUser.username + '?';  // 用于设置对话框内容
-    confirmDialog.open()
+    confirmDialog.open('删除用户', '是否删除用户' + removeUser.username + '?')
   },
   remove: () => {
     try {
