@@ -25,6 +25,8 @@ export const createJobs = (data: CreateJobs) => {
 
 
 export interface QueryMessageModel {
+  page: number | 0;
+  size: number | 10;
   category: string | null;
 }
 

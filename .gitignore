@@ -163,4 +163,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-/nginx/ssl/
+/iokays-nginx/ssl/

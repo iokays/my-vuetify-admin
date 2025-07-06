@@ -44,7 +44,6 @@ const searchPage = reactive({
   category: null,
   headers: ref([
     {title: '消息ID', key: 'messageId', align: 'start'},
-    {title: '消息类型', key: 'messageType', align: 'start'},
     {title: '消息内容', key: 'content', align: 'start'},
     {title: '创建时间', key: 'createdDate', align: 'start'},
   ] as const),
@@ -66,6 +65,8 @@ const searchPage = reactive({
   _RealAPI: async () => {
     console.log('searchPage.category: ' + searchPage.category)
     const response = await getMessagesApi({
+      page: 0,
+      size: searchPage.itemsPerPage,
       category: searchPage.category
     })
     console.log('response: ' + response)
