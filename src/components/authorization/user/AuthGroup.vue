@@ -108,9 +108,12 @@ const confirmDialog = useConfirmDialogStore()
 
 const RealAPI = {
   async fetch({page, itemsPerPage, sortBy}: { page: number, itemsPerPage: number, sortBy: never[] }) {
-    const response = await getGroupsApi();
+    const response = await getGroupsApi({
+      page: page - 1,
+      size: itemsPerPage,
+    });
     console.log('response: ', response);
-    return {items: response.data.content, total: response.data.size};
+    return {items: response.data.content, total: response.data.totalElements};
   }
 };
 

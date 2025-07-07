@@ -13,6 +13,9 @@ const authTargetUrl = "http://127.0.0.1:8888"
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    outDir: 'iokays-dist',
+  },
   plugins: [
     VueRouter(),
     Vue({

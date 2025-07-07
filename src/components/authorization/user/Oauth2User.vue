@@ -18,7 +18,10 @@ import {getOauthUsersApi} from '@/api/ApiAuthorization'
 
 const RealAPI = {
   async fetch({page, itemsPerPage, sortBy}: { page: number, itemsPerPage: number, sortBy: never[] }) {
-    const response = await getOauthUsersApi()
+    const response = await getOauthUsersApi({
+      page: page - 1,
+      size: itemsPerPage
+    })
     console.log('response: ' + response)
     return {items: response.data.content, total: response.data.size};
     return

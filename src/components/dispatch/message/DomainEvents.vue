@@ -3,6 +3,7 @@
 
 
   <v-data-table-server
+    v-model:page="searchPage.currentPage"
     v-model:items-per-page="searchPage.itemsPerPage"
     :headers="searchPage.headers"
     :items="searchPage.serverItems"
@@ -29,6 +30,13 @@
       </v-row>
     </template>
 
+    <template #[`item.status`]="{ item }: { item: { status: number } }">
+      <v-chip :color="item.status == 1 ? 'info': 'success'">
+        {{ item.status == 1 ? '待发送': '已发送' }}
+      </v-chip>
+    </template>
+
+
 
   </v-data-table-server>
 
@@ -44,11 +52,17 @@ const searchPage = reactive({
   category: null,
   headers: ref([
     {title: '消息ID', key: 'messageId', align: 'start'},
-    {title: '消息内容', key: 'content', align: 'start'},
+    {title: '分组', key: 'groupKey', align: 'start'},
+    {title: '区域', key: 'region', align: 'start'},
+    {title: '优先级', key: 'messagePriority', align: 'start'},
+    {title: '顺序', key: 'messageSequence', align: 'start'},
     {title: '创建时间', key: 'createdDate', align: 'start'},
+    {title: '状态', key: 'status', align: 'start'},
+    {title: '消息内容', key: 'content', align: 'start'},
   ] as const),
 
   search: '',
+  currentPage: 1,
   itemsPerPage: 10,
   serverItems: [],
   loading: true,
@@ -65,12 +79,12 @@ const searchPage = reactive({
   _RealAPI: async () => {
     console.log('searchPage.category: ' + searchPage.category)
     const response = await getMessagesApi({
-      page: 0,
+      page: searchPage.currentPage - 1,
       size: searchPage.itemsPerPage,
       category: searchPage.category
     })
     console.log('response: ' + response)
-    return {items: response.data.content, total: response.data.size};
+    return {items: response.data.content, total: response.data.totalElements};
   }
 });
 

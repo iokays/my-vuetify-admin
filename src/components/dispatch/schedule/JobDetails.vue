@@ -1,6 +1,7 @@
 <template>
   <v-breadcrumbs :items="['任务调度', '任务']"></v-breadcrumbs>
   <v-data-table-server
+    v-model:page="searchJobDetails.currentPage"
     v-model:items-per-page="searchJobDetails.itemsPerPage"
     :headers="searchJobDetails.headers"
     :items="searchJobDetails.serverItems"
@@ -114,13 +115,14 @@ const searchJobDetails = reactive({
     {title: '操作', key: 'actions', align: 'end'}
   ] as const),
 
+  currentPage: 1,
   itemsPerPage: 5,
   search: '',
   serverItems: [],
   loading: true,
   totalItems: 0,
 
-  loadItems: async ({page, itemsPerPage, sortBy}: { page: number, itemsPerPage: number, sortBy: never[] }) => {
+  loadItems: async () => {
     searchJobDetails.loading = true;
     const {items, total} = await searchJobDetails._RealAPI();
     searchJobDetails.serverItems = items;
@@ -129,7 +131,10 @@ const searchJobDetails = reactive({
   },
 
   _RealAPI: async () => {
-    const response = await getJobDetailsApi()
+    const response = await getJobDetailsApi({
+      page: searchJobDetails.currentPage -1,
+      size: searchJobDetails.itemsPerPage
+    })
     console.log('response: ' + response)
     return {items: response.data.content, total: response.data.size};
   }
@@ -186,11 +191,7 @@ const editJobDetails = reactive({
       snackbar.open(editJobDetails.jobName + ': 已被成功添加')
 
       //添加后成功刷新数据
-      searchJobDetails.loadItems({
-        page: 1,  // 你可以选择保持当前页数，或者从第一页开始
-        itemsPerPage: searchJobDetails.itemsPerPage,
-        sortBy: []  // 根据需要可以传递排序参数
-      });
+      searchJobDetails.loadItems();
     }).catch(e => {
       snackbar.open(editJobDetails.jobName + ': 添加失败: ' + e)
     })
@@ -215,11 +216,7 @@ const removeJobDetails = reactive({
     delJobDetails(removeJobDetails._name, removeJobDetails._group).then(() => {
       snackbar.open(removeJobDetails._name + ': 已被您成功删除.')
 
-      searchJobDetails.loadItems({
-        page: 1,  // 你可以选择保持当前页数，或者从第一页开始
-        itemsPerPage: searchJobDetails.itemsPerPage,
-        sortBy: []  // 根据需要可以传递排序参数
-      });
+      searchJobDetails.loadItems();
 
     }).catch(e => {
       console.log('error', e)

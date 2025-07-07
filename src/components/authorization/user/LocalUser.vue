@@ -123,8 +123,11 @@ const confirmDialog = useConfirmDialogStore()
 
 const RealAPI = {
   async fetch({page, itemsPerPage, sortBy}: { page: number, itemsPerPage: number, sortBy: never[] }) {
-    const response = await getUsersApi();
-    return {items: response.data.content, total: response.data.size};
+    const response = await getUsersApi({
+      page: page - 1,
+      size: itemsPerPage,
+    });
+    return {items: response.data.content, total: response.data.totalElements};
   }
 }
 // 表格相关

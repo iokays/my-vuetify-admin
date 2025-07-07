@@ -2,6 +2,7 @@
   <v-breadcrumbs :items="['工作流', '流程实例']"></v-breadcrumbs>
 
   <v-data-table-server
+    v-model:page="searchPage.currentPage"
     v-model:items-per-page="searchPage.itemsPerPage"
     :headers="searchPage.headers"
     :items="searchPage.serverItems"
@@ -33,6 +34,7 @@ const searchPage = reactive({
   ] as const),
 
   search: '',
+  currentPage: 1,
   itemsPerPage: 10,
   serverItems: [],
   loading: true,
@@ -47,7 +49,10 @@ const searchPage = reactive({
   },
 
   _RealAPI: async () => {
-    const response = await pageProcessInstancesApi({})
+    const response = await pageProcessInstancesApi({
+      page: searchPage.currentPage - 1,
+      size: searchPage.itemsPerPage
+    })
     console.log('response: ' + response)
     return {items: response.data.content, total: response.data.size};
   }

@@ -44,5 +44,5 @@ apiInstance.interceptors.response.use(
 
 export interface Query {
   page?: number;
-  per_page?: number;
+  size?: number;
 }
